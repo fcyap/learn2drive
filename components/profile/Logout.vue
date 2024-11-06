@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { useAuthStore } from "~/stores/UseAuth";
+import { useLocalStorage } from '@vueuse/core';
+
+const userId = useLocalStorage('userId', null); // 'userId' is the key, and `null` is the default value
 
 
-const authStore = useAuthStore();
 
 const logout = async () => {
     console.log("Logging out");
     // Add logout logic here
-    authStore.clearUserId();
+    userId.value = null;
     await navigateTo("/");
 };
 </script>

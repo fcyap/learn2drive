@@ -4,7 +4,8 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useAuthStore } from '~/stores/UseAuth'
+import { useLocalStorage } from '@vueuse/core';
+
 interface Profile {
   last_name: string;
   first_name: string;
@@ -13,10 +14,8 @@ interface Profile {
 }
 
 const supabase = useSupabaseClient<Profile>();
-const authStore = useAuthStore()
 // To get the current user ID
-console.log(authStore.userId)
-const id = authStore.userId
+const id = useLocalStorage('userId', null); // 'userId' is the key, and `null` is the default value
 
 const updateProfile = async () => {
 

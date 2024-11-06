@@ -86,14 +86,12 @@ import { ref, computed, onMounted } from 'vue'
 // Initialize Supabase client
 const client = useSupabaseClient()
 
-import { useAuthStore } from '~/stores/UseAuth'
+import { useLocalStorage } from '@vueuse/core';
 
-const authStore = useAuthStore()
 
 // To get the current user ID
-const userId = authStore.userId;
-console.log(authStore.userId)
-
+const userId = useLocalStorage('userId', null).value;
+console.log(userId)
 
 
 // Reactive references for data

@@ -160,18 +160,12 @@ definePageMeta({
 });
 
 import { ref, computed, onMounted } from 'vue';
+import { useLocalStorage } from '@vueuse/core';
 
-import { useAuthStore } from '~/stores/UseAuth'
-
-const authStore = useAuthStore()
-
-
-// To check if the user is authenticated
-console.log(authStore.isAuthenticated)
 
 // To get the current user ID
-const userId = authStore.userId;
-console.log(authStore.userId)
+const userId = useLocalStorage('userId', null).value;
+console.log(userId)
 
 
 

@@ -397,7 +397,7 @@
   </div>
 </template>
 <script setup>
-import { useAuthStore } from '~/stores/UseAuth'
+import { useLocalStorage } from '@vueuse/core';
 import { ref, onMounted, onUnmounted, computed } from "vue";
 import { Card, CardContent } from "@/components/ui/card";
 import { useRouter } from 'vue-router';
@@ -599,11 +599,12 @@ const getNextId = async (userType) => {
   }
 };
 const handleSubmit = async () => {
-  const authStore = useAuthStore();
   error.value = null;
+  const userId = useLocalStorage('userId', null); // Use localStorage to store userId
+
   try {
     if (isLogin.value) {
-      // Login
+      // Login Flow
       console.log("Attempting to log in with:", { email: email.value });
       const { data, error: loginError } = await supabase
         .from('profiles_duplicate')
@@ -611,6 +612,7 @@ const handleSubmit = async () => {
         .eq('email', email.value)
         .eq('password', password.value)
         .single();
+
       if (loginError) {
         console.error("Login error:", loginError);
         throw new Error("Invalid email or password");
@@ -619,17 +621,21 @@ const handleSubmit = async () => {
         throw new Error("User not found");
       }
       console.log("Login successful, user data:", data);
-      authStore.setUserId(data.id);
-      console.log(authStore.userId);
+
+      // Store userId in localStorage
+      userId.value = data.id; // Store userId
+
+
       if (data.user_type === 'student') {
         await navigateTo(`/student/homepage`);
       } else if (data.user_type === 'instructor') {
         await navigateTo(`/instructor/homepage`);
       }
     } else {
-      // Sign Up
+      // Sign Up Flow
       console.log("Attempting to sign up with:", { email: email.value, name: name.value, userType: userType.value });
       const nextId = await getNextId(userType.value);
+
       const { data, error: signUpError } = await supabase
         .from('profiles_duplicate')
         .insert({
@@ -640,14 +646,18 @@ const handleSubmit = async () => {
           user_type: userType.value,
         })
         .select();
+
       if (signUpError) {
         console.error("Sign up error:", signUpError);
         throw signUpError;
       }
       console.log("Sign up successful, user data:", data);
-      authStore.setUserId(nextId)
+
+      // Store userId in localStorage
+      userId.value = nextId; // Store userId
+
+
       if (data && data.length > 0) {
-        authStore.setUserId(data[0].id);
         if (userType.value === 'student') {
           await navigateTo(`/student/homepage?id=${data[0].id}`);
         } else if (userType.value === 'instructor') {
@@ -663,6 +673,7 @@ const handleSubmit = async () => {
     error.value = err instanceof Error ? err.message : "An unexpected error occurred";
   }
 };
+
 </script>
 <style>
 @keyframes fadeInOpenUp {
