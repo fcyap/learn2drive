@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instructor View - Students</title>
+    <!-- Include Vue.js via CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- Add basic styling -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        /* Scrollable container for student cards */
+        .student-cards-container {
+            display: flex;
+            gap: 20px;
+            max-width: 100%;
+            overflow-x: auto;
+            /* Enable horizontal scrolling */
+            white-space: nowrap;
+            /* Prevent wrapping of cards */
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Student card styling */
+        .student-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 200px;
+            text-align: center;
+            display: inline-block;
+            opacity: 0;
+            /* Initially invisible for animation */
+            transform: translateX(100%);
+            /* Start off to the right */
+            animation: slideIn 0.5s forwards;
+            /* Slide-in animation */
+        }
+
+        /* Image styling */
+        .student-card img {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        /* Text styling */
+        .student-card h2 {
+            font-size: 18px;
+            margin: 0;
+            color: #333;
+        }
+
+        /* Phone number styling */
+        .student-card p {
+            font-size: 14px;
+            color: #555;
+            margin-top: 8px;
+        }
+
+        /* Keyframe for sliding the cards in from the right */
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Hide scrollbar for better design (optional) */
+        .student-cards-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .student-cards-container {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app">
+        <!-- Page Title -->
+        <h1>Instructor's Students</h1>
+
+        <!-- Scrollable container for student cards -->
+        <div class="student-cards-container">
+            <!-- Loop through each student and display their card -->
+            <div class="student-card" v-for="student in students" :key="student.id"
+                :style="{animationDelay: `${0.1 * student.id}s`}">
+                <img :src="student.picture" alt="Student Picture">
+                <h2>{{ student.name }}</h2>
+                <p>{{ student.phone }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vue.js Application Script -->
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    // Array of students with name, picture, and phone number
+                    students: [
+                        { id: 1, name: 'John Doe', picture: 'https://via.placeholder.com/150', phone: '123-456-7890' },
+                        { id: 2, name: 'Jane Smith', picture: 'https://via.placeholder.com/150', phone: '987-654-3210' },
+                        { id: 3, name: 'Sam Tan', picture: 'https://via.placeholder.com/150', phone: '456-789-0123' },
+                        { id: 4, name: 'Linda Lee', picture: 'https://via.placeholder.com/150', phone: '654-321-0987' },
+                        { id: 5, name: 'Emily Clark', picture: 'https://via.placeholder.com/150', phone: '345-678-9012' },
+                        { id: 6, name: 'Alex Kim', picture: 'https://via.placeholder.com/150', phone: '789-012-3456' },
+                        { id: 7, name: 'Chris Wong', picture: 'https://via.placeholder.com/150', phone: '234-567-8901' },
+                        { id: 8, name: 'Sara White', picture: 'https://via.placeholder.com/150', phone: '567-890-1234' },
+                        { id: 9, name: 'David Black', picture: 'https://via.placeholder.com/150', phone: '890-123-4567' },
+                        { id: 10, name: 'Nancy Green', picture: 'https://via.placeholder.com/150', phone: '345-890-1234' },
+                        { id: 11, name: 'Peter Brown', picture: 'https://via.placeholder.com/150', phone: '234-678-9012' }
+                    ]
+                };
+            }
+        });
+
+        // Mount the Vue instance to the #app div
+        app.mount('#app');
+    </script>
+
+</body>
+
+</html>
