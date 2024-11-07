@@ -8,36 +8,56 @@ import { useRoute } from 'vue-router';
 import { ref, onMounted } from 'vue'; // Ensure you import ref and onMounted
 import { Card } from '@/components/ui/card';
 const client = useSupabaseClient();
-const route = useRoute();
-
-// Log the entire route query to debug
-console.log('Route Query:', route.query);
+import { useLocalStorage } from '@vueuse/core';
+const router = useRouter();
 
 // Initialize results and handle JSON parsing
-
-interface Result {
+interface ResultEntry {
   qid: number;
   aid: number;
 }
 
-interface Results {
-  results: Result[];
+interface TestResults {
+  id: number;
+  uid: number;
+  results: ResultEntry[];
   currentTopic: string;
 }
-let results: Results = { results: [], currentTopic: 'BTT' };
-try {
-  if (route.query.results) {
-    results = JSON.parse(route.query.results as string);
-  } else {
-    results = { results: [], currentTopic: 'BTT' };
-  }
-} catch (error) {
-  console.error('Error parsing results:', error);
-  results = { results: [], currentTopic: 'BTT' }; // Fallback to defaults
-}
 
-// Log the parsed results to verify structure
-console.log('Parsed Results:', results);
+let results: TestResults = { id: 0, uid: 0, results: [], currentTopic: 'BTT' };
+const userId = useLocalStorage('userId', null); // Ensure `userId` is set in local storage
+
+onMounted(async () => {
+  if (!userId.value) {
+    console.error('User ID is not set');
+    return;
+  }
+
+  // Fetch the latest result for the current user
+  const { data: resultData, error: resultError } = await client
+    .from('test_results')
+    .select('*')
+    .eq('uid', userId.value)
+    .order('id', { ascending: false })
+    .limit(1);
+
+  if (resultError) {
+    console.error('Error fetching student results:', resultError);
+    return;
+  }
+
+  if (resultData && resultData.length > 0) {
+    const latestResult = resultData[0] as TestResults;;
+    results = {
+      id: latestResult.id,
+      uid: latestResult.uid,
+      results: JSON.parse(latestResult.results),
+      currentTopic: latestResult.currentTopic,
+    };
+
+  } else {console.log('No results found for this user');
+  }
+});
 
 // Extract currentTopic from the parsed results
 const currentTopic = ref<'BTT' | 'FTT'>(results.currentTopic as 'BTT' | 'FTT'); // Use type assertion
@@ -121,6 +141,10 @@ const calculateScore = () => {
   isScoreLoading.value = false; // Set loading to false after calculation
 };
 
+function navigateToTest() {
+        localStorage.setItem('currentType.value', 'test');
+        router.push({ name: '/Student/resourceFiles/questionsPage' });
+}
 </script>
 
 
@@ -180,6 +204,7 @@ const calculateScore = () => {
   </div>
     
     <div v-if="results.results.length === 0" class="mt-4 text-gray-500">
-      No results to display.
+      No results to display yet.<br>Try our mock test now!<br>
+      <Button @click="navigateToTest()">Take test</Button>
     </div>
 </template>
