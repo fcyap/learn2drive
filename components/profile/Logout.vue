@@ -1,22 +1,21 @@
 <script setup lang="ts">
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { useLocalStorage } from '@vueuse/core';
+import { useRouter } from 'vue-router';
 
-const userId = useLocalStorage('userId', null); // 'userId' is the key, and `null` is the default value
-
-
+const userId = useLocalStorage('userId', null);
+const router = useRouter();
 
 const logout = async () => {
     console.log("Logging out");
-    // Add logout logic here
     userId.value = null;
-    await navigateTo("/");
+    await router.push("/");
 };
 </script>
 
 <template>
   <Card>
-    <Button variant="destructive" class="w-full" onClick="logout()">Logout</Button>
+    <Button variant="destructive" class="w-full" @click="logout">Logout</Button>
   </Card>
 </template>

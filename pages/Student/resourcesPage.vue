@@ -27,7 +27,7 @@ import { Button } from "@/components/ui/button";
       <Card class="relative h-64 p-2 hover:drop-shadow-xl hover:text-blue-600 bg-slate-100">
         <CardHeader>
           <CardTitle>BTT/FTT Resources</CardTitle>
-          <CardDescription>Access the latest syllabus and curriculum notes to prepare for your Basic and Final Theory Test.</CardDescription>
+          <CardDescription>Access the latest syllabus and curriculum notes for your Theory tests.</CardDescription>
         </CardHeader>
         
           <div class="absolute bottom-5 right-5">
