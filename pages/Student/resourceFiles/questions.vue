@@ -3,11 +3,7 @@ definePageMeta({
   layout: "studentview",
 });
 
-import { useAuthStore } from '~/stores/UseAuth'
-
-const authStore = useAuthStore();
-// To get the current user ID
-const userId = authStore.userId;
+import { useLocalStorage } from '@vueuse/core';
 
 
 // Define the complete TestResult interface including the id
@@ -23,10 +19,10 @@ interface TestResult {
 // type InsertableTestResult = Omit<TestResult, 'id'>;
 
 const uploadTestResults = async (results: any[], currentTopic: string) => {
-  const userId = authStore.userId;
+  const userId = useLocalStorage('userId', null);
 
   // Prepare individual constants
-  const uid: number = userId || 0; // Ensure userId is not null or undefined
+  const uid: number = userId.value || 0; // Ensure userId is not null or undefined
   const resultsString: string = JSON.stringify(results); // Convert results array to JSON string
   const topic: string = currentTopic;
 
