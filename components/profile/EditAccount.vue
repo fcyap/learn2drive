@@ -16,28 +16,50 @@ interface Profile {
 const supabase = useSupabaseClient<Profile>();
 // To get the current user ID
 const id = useLocalStorage('userId', null); // 'userId' is the key, and `null` is the default value
+const lastName = ref('');
+const firstName = ref('');
+const email = ref('');
+const phoneNumber = ref('');
+
+// get current information
+if(id.value){
+const { data, error} = await supabase
+  .from('profiles_duplicates')
+  .select('*')
+  .eq('id', id.value)
+  .single()
+
+  if(error || !data) {
+    console.error(error)
+  } else {
+
+  email.value = data.email
+  lastName.value = data.name.split(' ')[1];
+  firstName.value = data.name.split(' ')[0]
+  phoneNumber.value = data.phone_number
+  }
+}
 
 const updateProfile = async () => {
 
-  const lname = document.getElementById('lname')?.textContent || "";
-  const fname = document.getElementById('fname')?.textContent || "";
-  const email = document.getElementById('email')?.textContent || "";
-  const phonenumber = document.getElementById('phonenumber')?.textContent || "";
-
-
-  if (id) {
+  if (id.value) {
+    const fullName = `${firstName.value} ${lastName.value}`;
     const { error } = await supabase
-        .from('profiles_duplicates')
-        .update({
-            last_name: lname,
-            first_name: fname,
-            email: email,
-            phone_number: phonenumber
-        })
-        .eq('id', id);
+      .from('profiles_duplicates')
+      .update({
+        name: fullName,
+        email: email.value,
+        phone_number: phoneNumber.value
+      })
+      .eq('id', id.value);
     
+    if (error) {
+        console.error('Error updating profile:', error);
+    } else {
+        console.log('Profile updated successfully');
+    }
   } else {
-    console.error("User ID is null");
+    console.error('User ID is null');
   }
 }
 
@@ -76,22 +98,22 @@ const updateProfile = async () => {
       <div class="grid grid-cols-2 gap-6">
         <div class="col-span-1 gap-2">
           <Label for="lname">Last Name</Label>
-          <Input id="lname" type="text" placeholder="" />
+            <Input id="lname" type="text" v-model="lastName" :placeholder="lastName" />
         </div>
         <div class="col-span-1 gap-2">
           <Label for="fname">First Name</Label>
-          <Input id="fname" type="text" placeholder="" />
+          <Input id="fname" type="text" v-model="firstName" :placeholder="firstName" />
         </div>
       </div>
 
       <div class="grid grid-cols-2 gap-6">
         <div class="gap-2">
           <Label for="email" class="col-span-2">Email</Label>
-          <Input id="email" type="email" placeholder="Email" />
+          <Input id="email" type="email" v-model="email" :placeholder="email" />
         </div>
         <div class="gap-2">
           <Label for="number" class="col-span-2">Phone Number</Label>
-          <Input id="phonenumber" type="number" placeholder="Phone number" />
+          <Input id="phonenumber" type="number" :placeholder="phoneNumber" v-model="phoneNumber"/>
         </div>
       </div>
       <div style="margin-top: 4%; text-align: center;">
