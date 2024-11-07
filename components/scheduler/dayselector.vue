@@ -99,10 +99,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useLocalStorage } from '@vueuse/core';
 
 // Configure Supabase client
 const client = useSupabaseClient();
-const instructorId = 1; // FOR SESSION
+const instructorId = useLocalStorage('userId', null);
+
 
 // Define the next 7 days from tomorrow
 const generateNext7Days = async () => {
