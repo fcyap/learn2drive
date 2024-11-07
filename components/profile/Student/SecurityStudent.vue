@@ -7,6 +7,7 @@ import { Separator } from '@/components/ui/separator';
 import { useLocalStorage } from '@vueuse/core';
 
 
+
 interface Profile {
   password: string;
 }

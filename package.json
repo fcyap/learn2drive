@@ -29,6 +29,7 @@
     "embla-carousel-vue": "^8.3.1",
     "googleapi": "^1.0.2",
     "googleapis": "^144.0.0",
+    "gsap": "^3.12.5",
     "nuxt": "^3.14.0",
     "pinia": "^2.2.6",
     "pinia-plugin-persistedstate": "^4.1.2",
