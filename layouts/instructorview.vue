@@ -32,7 +32,7 @@
       <div class="flex flex-col h-full py-8 px-6">
         <!-- Project Title -->
         <div class="mb-10 flex justify-center">
-          <NuxtLink to="/" class="text-3xl font-bold tracking-tight">
+          <NuxtLink to="/Instructor/Homepage" class="text-3xl font-bold tracking-tight">
             Learn2Drive
           </NuxtLink>
         </div>

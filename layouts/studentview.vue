@@ -1,5 +1,5 @@
 <template>
-  <div class="side-navbar-container flex flex-col min-h-screen">
+  <div class="side-navbar-container flex flex-col min-h-screen h-screen">
     <!-- Hamburger menu button for mobile view using ShadCN Button -->
     <Button variant="ghost" size="lg" class="md:hidden p-4 fixed top-2.5 left-0 z-50 bg-white rounded-full shadow-lg"
       @click="toggleMenu">
@@ -11,12 +11,17 @@
     </Button>
 
     <!-- Sidebar Navigation -->
-    <nav :class="menuOpen ? 'translate-x-0' : '-translate-x-full'"
-      class="side-navbar fixed top-0 left-0 h-full w-60 z-40 md:translate-x-0 transition-transform duration-300 ease-in-out border border-solid text-white bg-slate-900">
+    <nav
+  :class="[
+    menuOpen ? 'translate-x-0' : '-translate-x-full',
+    'side-navbar fixed top-0 left-0 h-full w-60 z-40 transition-transform duration-300 ease-in-out border border-solid text-white bg-slate-900',
+    'md:translate-x-0 md:block'  // Visible on medium screens and up
+  ]"
+>
       <div class="flex flex-col h-full py-8 px-6">
         <!-- Project Title -->
         <div class="mb-10 flex justify-center">
-          <NuxtLink to="/" class="text-3xl font-bold tracking-tight">
+          <NuxtLink to="/Student/homePage" class="text-3xl font-bold tracking-tight">
             Learn2Drive
           </NuxtLink>
         </div>
@@ -65,4 +70,9 @@ const toggleMenu = () => {
 };
 </script>
 
-<style></style>
+<style>
+/* Ensures the sidebar takes up the full height of the screen */
+.side-navbar-container, .side-navbar {
+  height: 100%;
+}
+</style>
