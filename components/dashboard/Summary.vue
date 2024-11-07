@@ -23,7 +23,9 @@ interface Lessons {
 }
 
 // Define the instructor ID and current/previous month & year
-const instructorId = 1; // Replace with session id or other identifier
+import { useLocalStorage } from '@vueuse/core';
+const instructorId = Number(useLocalStorage('userId', null).value);
+// const instructorId = 1; // Replace with session id or other identifier
 const previousMonth  = new Date().getMonth()
 const currentMonth = previousMonth + 1; // JavaScript months are 0-based, so add 1
 const currentYear = new Date().getFullYear();

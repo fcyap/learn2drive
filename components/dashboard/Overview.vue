@@ -19,7 +19,10 @@ const { data: instructor_earnings } = await useAsyncData<Earning[]>(
   }
 );
 
-const instructorId = 1; // replace with session id
+import { useLocalStorage } from '@vueuse/core';
+const instructorId = Number(useLocalStorage('userId', null).value);
+
+// const instructorId = 1; // replace with session id
 
 function getInstructorEarning(instructorId: number){
   return (
