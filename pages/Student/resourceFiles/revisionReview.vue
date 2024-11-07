@@ -9,6 +9,7 @@ import { Card } from '@/components/ui/card';
 const client = useSupabaseClient();
 import { useLocalStorage } from '@vueuse/core';
 const router = useRouter();
+import {Button} from '@/components/ui/button';
 
 // Initialize results and handle JSON parsing
 interface ResultEntry {
