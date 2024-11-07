@@ -75,7 +75,7 @@ import { Button } from "@/components/ui/button";
         <Card class="relative h-64 p-2 hover:drop-shadow-xl hover:text-blue-600 bg-slate-100">
           <CardHeader>
             <CardTitle>Review Corner</CardTitle>
-            <CardDescription>A personalised section for the questions and topics you most frequently get wrong.</CardDescription>
+            <CardDescription>Review your most recent mock test results.</CardDescription>
           </CardHeader>
         
           <div class="absolute bottom-5 right-5">
