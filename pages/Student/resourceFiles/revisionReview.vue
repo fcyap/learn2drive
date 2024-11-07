@@ -4,7 +4,6 @@ definePageMeta({
   layout: "studentview",
 });
 
-import { useRoute } from 'vue-router';
 import { ref, onMounted } from 'vue'; // Ensure you import ref and onMounted
 import { Card } from '@/components/ui/card';
 const client = useSupabaseClient();
@@ -23,6 +22,9 @@ interface TestResults {
   results: ResultEntry[];
   currentTopic: string;
 }
+
+
+
 
 let results: TestResults = { id: 0, uid: 0, results: [], currentTopic: 'BTT' };
 const userId = useLocalStorage('userId', null); // Ensure `userId` is set in local storage
@@ -64,6 +66,8 @@ const currentTopic = ref<'BTT' | 'FTT'>(results.currentTopic as 'BTT' | 'FTT'); 
 
 const questions = ref<any[]>([]);
 const answers = ref<any[]>([]);
+const incorrectByTopic = ref<Record<string, number>>({});
+
 
 interface CorrectAnswer {
   qid: number; // Use the appropriate type for your qid
@@ -98,6 +102,69 @@ onMounted(async () => {
 
   populateCorrectAnswers();
   calculateScore();
+  countIncorrectByTopic();
+
+});
+
+const countIncorrectByTopic = () => {
+  incorrectByTopic.value = results.results.reduce((acc, result) => {
+    const isCorrect = correctAnswers.value.some(
+      (correctAnswer) => correctAnswer.qid === result.qid && correctAnswer.aid === result.aid
+    );
+
+    if (!isCorrect) {
+      const question = questions.value.find(q => q.qid === result.qid);
+      if (question) {
+        acc[question.topic] = (acc[question.topic] || 0) + 1;
+      }
+    }
+
+    return acc;
+  }, {} as Record<string, number>);
+
+  console.log('incorrectByTopic.value:', incorrectByTopic.value); // Log after updating
+
+  // Now call fetchTopicTips after the incorrectByTopic is updated
+  Object.keys(incorrectByTopic.value).forEach((topic) => {
+    fetchTopicTips(topic); // Fetch tips for each topic
+  });
+};
+
+watch(incorrectByTopic, (newVal) => {
+  // Watch for changes in the incorrectByTopic object and fetch tips
+  Object.keys(newVal).forEach((topic) => {
+    fetchTopicTips(topic);
+  });
+}, { immediate: true });
+
+console.log('incorrectByTopic.value:', incorrectByTopic.value);
+
+const topicTips = ref<any[]>([]);
+
+async function fetchTopicTips(topic: string) {
+  console.log(`Fetching tips for topic: ${topic}`);
+  const { data, error } = await client
+    .from('theory_tips')
+    .select('topic_tips')
+    .eq('topic', topic)
+    .single(); // Fetch a single row for this topic
+
+  if (error) {
+    console.error(`Error fetching tips for topic "${topic}":`, error);
+    return;
+  }
+
+  if (data) {
+    // Parse the JSON string of tips and store them in topicTips
+    topicTips.value = data.topic_tips; // Store tips for the current topic
+    console.log("topicTips.value updated:", topicTips.value); // Log updated tips for this topic
+  }
+}
+
+onMounted(() => {
+  Object.keys(incorrectByTopic.value).forEach((topic) => {
+    fetchTopicTips(topic);
+  });
 });
 
 // Log the current topic after extraction
@@ -156,7 +223,7 @@ function navigateToTest() {
       </svg> 
       <h1 class="text-lg">Back to Resources</h1>
     </a>
- 
+ <div v-if="results.results.length !== 0">
   <section
         class="min-h-screen flex items-center justify-center relative overflow-hidden animation-delay-300"
       >
@@ -173,7 +240,20 @@ function navigateToTest() {
         </div>
       </section>  
     </div> 
-
+    <h1 style="font-weight: bold; font-size:35px; margin:30px 0px;" class="text-blue-900">Areas for Improvement</h1>
+    <div class="container mx-auto p-4">
+      <div class="grid grid-cols-1 gap-4">
+        <Card v-for="(count, topic) in incorrectByTopic" :key="topic" class="p-4 shadow-md" :class="{ 'bg-blue-400': count > 2, 'bg-blue-200': count <= 2 }">
+          <h1 class="text-xl"><strong>{{ topic }}:</strong> {{ count }} incorrect answers</h1>
+          <h1 class="underline">Tips to help your learning:</h1>
+          <ul v-if="topicTips && topicTips.length > 0" class="list-disc list-inside">
+            <li v-for="(tip, index) in topicTips" :key="index">{{ tip }}</li>
+          </ul>
+      <p v-else>Loading tips...</p>
+          <p v-else>Loading tips...</p>
+    </Card>
+      </div>
+    </div>
   <h1 style="font-weight: bold; font-size:35px; margin:30px 0px;" class="text-blue-900">Review Your Results</h1>
   <div class="mt-4">
     <div v-for="(resultPair, idx) in results.results" :key="idx" class="mb-2">
@@ -202,9 +282,9 @@ function navigateToTest() {
         <br />
     </div>
   </div>
-    
-    <div v-if="results.results.length === 0" class="mt-4 text-gray-500">
-      No results to display yet.<br>Try our mock test now!<br>
-      <Button @click="navigateToTest()">Take test</Button>
+</div>
+    <div v-if="results.results.length === 0" class="mt-4 text-gray-500 text-center">
+      <h1 class="text-5xl font-bold mb-4 text-blue-800 animate-fade-in-up">No results to display yet.<br>Try our mock test now!<br></h1>
+      <Button @click="navigateToTest()" class="animate-fade-in-up size-8">Take test</Button>
     </div>
 </template>
