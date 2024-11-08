@@ -17,10 +17,12 @@ import { Button } from "@/components/ui/button";
 </script>
 
 <template>
-  <div class="flex flex-col ">
-    <h1 class="text-3xl font-bold tracking-tight ">Resources</h1>
-    <p class="text-muted-foreground">Everything you need to pass</p>
-    <br>
+    <div class="container mx-auto p-6 min-h-screen">
+        <div class="space-y-2 mb-10">
+            <h1 class="text-3xl font-bold tracking-tight text-slate-700">Resources</h1>
+            <p class="text-lg text-gray-600">Everything you need to pass</p>
+        </div>
+      
   
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 ">
       <a href="/Student/resourceFiles/officialResources">
