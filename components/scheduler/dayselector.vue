@@ -1,21 +1,21 @@
 <template>
   <div class="w-full">
     <div class="mt-4">
-      <div class="flex justify-center space-x-4">
+      <!-- Changed from flex to grid layout -->
+      <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-4 justify-center">
         <div v-for="(day, index) in days" :key="index" class="text-center">
           <div 
-  class="p-6 rounded-lg cursor-pointer" 
-  :class="{
-    'selected': selectedDay === day,
-    'no-slots-selected': day.noSlots,
-    'availability-set': groupedAvailability[day.fullDate]
-  }"
-  @click="selectDay(day)"
->
-  <div :class="day.noSlots ? 'text-white' : 'text-gray-500'">{{ day.label }}</div>
-  <div class="text-lg font-bold" :class="day.noSlots ? 'text-white' : ''">{{ day.date }}</div>
-</div>
-
+            class="p-4 sm:p-6 rounded-lg cursor-pointer" 
+            :class="{
+              'selected': selectedDay === day,
+              'no-slots-selected': day.noSlots,
+              'availability-set': groupedAvailability[day.fullDate]
+            }"
+            @click="selectDay(day)"
+          >
+            <div :class="day.noSlots ? 'text-white' : 'text-gray-500'">{{ day.label }}</div>
+            <div class="text-lg font-bold" :class="day.noSlots ? 'text-white' : ''">{{ day.date }}</div>
+          </div>
         </div>
       </div>
 

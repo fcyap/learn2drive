@@ -51,6 +51,8 @@ import { Button } from '@/components/ui/button';
 const client = useSupabaseClient();
 const route = useRoute();
 const router = useRouter();
+const loading = ref(false); // Add loading state
+
 
 // Define reactive variables for your data
 const currentTopic = ref<'BTT' | 'FTT'>(route.query.topic as 'BTT' | 'FTT');
@@ -86,37 +88,41 @@ interface CorrectAnswer {
 // Declare your reactive arrays with explicit types
 const selectedAnswersForTest = ref<number[]>(new Array(shuffledQuestions.value.length).fill(null)); // To store user's selected answers
 const correctAnswers = ref<CorrectAnswer[]>([]);
-  const evaluateAnswers = () => {
-    const results = shuffledQuestions.value.map((question, index) => {
-        const selectedAid = selectedAnswersForTest.value[index]; // Get the selected aid based on the index
-        const correctAnswer = correctAnswers.value.find(answer => answer.qid === question.qid);
-        
-        return {
-            qid: question.qid,
-            aid: selectedAid !== null && selectedAid !== undefined ? selectedAid : 0, // Use '0' if no selection
-            isCorrect: correctAnswer && correctAnswer.aid === selectedAid // Determine if the selected answer is correct
-        };
-    });
+  const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-    // Call your function to upload test results
-    uploadTestResults(results, currentTopic.value);
+  const evaluateAnswers = async () => {
+  loading.value = true; // Show loading state immediately after the submit button is clicked
+  
+  const results = shuffledQuestions.value.map((question, index) => {
+    const selectedAid = selectedAnswersForTest.value[index];
+    const correctAnswer = correctAnswers.value.find(answer => answer.qid === question.qid);
 
-    // Return the results along with the currentTopic
-    const evaluationResults = {
-        results,
-        currentTopic: currentTopic.value // Include currentTopic separately
+    return {
+      qid: question.qid,
+      aid: selectedAid !== null && selectedAid !== undefined ? selectedAid : 0, // Use '0' if no selection
+      isCorrect: correctAnswer && correctAnswer.aid === selectedAid,
     };
+  });
 
-    // Navigate to the review page with evaluation results
-    navigateToReviewPage();
+  try {
+    // Wait for the upload to complete
+    await uploadTestResults(results, currentTopic.value);
+    
+    // Introduce a small delay (e.g., 1 second) to ensure Supabase data is fully available
+    await delay(1000);
+  } catch (error) {
+    console.error("Error uploading test results:", error);
+  } finally {
+    loading.value = false; // Remove loading state before navigating
+  }
+
+  // Now navigate to the review page
+  navigateToReviewPage();
 };
 
-// The navigateToReviewPage function remains the same
 const navigateToReviewPage = () => {
-    router.push('/Student/resourceFiles/revisionReview');
+  router.push('/Student/resourceFiles/revisionReview');
 };
-
-
 
     const timeRemaining = ref(900);
     const interval = ref<number | null>(null);
