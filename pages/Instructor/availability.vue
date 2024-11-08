@@ -4,17 +4,13 @@
       Availability
     </h2>
     <p class="text-muted-foreground">
-      Select the days and timeslots
+      Indicate your availablity by days and timeslots!
     </p>
   </div>
-  <div class="p-6 mx-auto w-full max-w-screen-lg"> 
+  <div class="p-4 sm:p-6 mx-auto w-full max-w-screen-lg">
     <DaySelector />
-    <TimeSlots />
   </div>
-
-
 </template>
-
 
 <script setup lang="ts">
 definePageMeta({
