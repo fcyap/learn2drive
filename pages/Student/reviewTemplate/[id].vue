@@ -179,29 +179,25 @@ const sortedReviews = computed(() => {
     </div>
 
     <br>
-  <div class="grid grid-cols-1 gap-5 lg:grid-cols-3" style="height:300px" v-if="reviews.length > 0">
-    <Card id="app" class="review bg-slate-100" v-for="(review, idx) in sortedReviews" :key="idx">
-        <!-- Name and rating in the center -->
-        <div class="flex-grow inline-flex items-center mb-2">
-          <div class="font-bold" style="font-size: 23px">{{students[review.student_id] || "Unknown Student"}}</div>
-          <div class="flex ml-4">
-            <Stars :rating="review.rating" />
-          </div>
-        </div>
-        <div>
-          <div class="text-sm mb-2" style="color:gray">
-          {{ new Date(review.date_posted).toLocaleDateString() }}
-          </div>
-        <!-- <div class="text-sm mb-2" style="font-style: italic" v-for="badge in review.badges">
-            {{ badge }}
-        </div> -->
-        </div>
-        <hr>
-        <p class="py-2">{{review.comment}}</p>
+    <div class="grid grid-cols-1 gap-5 lg:grid-cols-3" style="height:300px" v-if="reviews.length > 0">
+  <Card id="app" class="review bg-slate-100 max-w-full p-4" v-for="(review, idx) in sortedReviews" :key="idx">
+    <!-- Name and rating in the center -->
+    <div class="flex-grow flex items-center mb-2">
+      <div class="font-bold text-lg truncate">{{ students[review.student_id] || "Unknown Student" }}</div>
+      <div class="flex ml-4 flex-wrap">
+        <Stars :rating="review.rating" />
+      </div>
+    </div>
+    <div>
+      <div class="text-sm mb-2 text-gray-500">
+        {{ new Date(review.date_posted).toLocaleDateString() }}
+      </div>
+    </div>
+    <hr>
+    <p class="py-2 break-words">{{ review.comment }}</p>
+  </Card>
+</div>
 
-
-    </Card>
-  </div>
   <div v-else class="text-2xl">No reviews yet.</div>
   </div>  
 </template>
