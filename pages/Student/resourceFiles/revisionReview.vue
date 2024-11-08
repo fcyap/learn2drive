@@ -223,6 +223,7 @@ function navigateToTest() {
       </svg> 
       <h1 class="text-lg">Back to Resources</h1>
     </a>
+    <div v-if="results.results.length !== 0" >
       <section
         class="min-h-screen flex items-center justify-center relative overflow-hidden animation-delay-300">
         <div class="container mx-auto px-6 text-center">
@@ -286,11 +287,12 @@ function navigateToTest() {
     </div>   
   </div>
 </div>
-
-    <div v-if="results.results.length === 0" class="mt-4 text-gray-500 text-center">
-      <h1 class="text-5xl font-bold mb-4 text-blue-800 animate-fade-in-up">No results to display yet.<br>Try our mock test now!<br></h1>
-      <Button @click="navigateToTest()" class="animate-fade-in-up checkAnswer">Take test</Button>
-    </div>
+</div>
+    <section v-if="results.results.length === 0" class="min-h-screen flex flex-col items-center justify-center relative overflow-hidden animation-delay-300">
+      <h1 class="text-5xl font-bold mb-4 text-blue-800">No results to display yet.</h1>
+      <h1 class="text-5xl font-bold mb-4 text-blue-800">Try our mock test now!</h1>
+      <Button @click="navigateToTest()" class="mt-5 checkAnswer">Take test</Button>
+    </section>
 </template>
 <style>
 .checkAnswer {
