@@ -140,7 +140,7 @@ watch(incorrectByTopic, (newVal) => {
 
 console.log('incorrectByTopic.value:', incorrectByTopic.value);
 
-const topicTips = ref<any[]>([]);
+const topicTips = ref<Record<string, string[]>>({}); // Store tips per topic
 
 async function fetchTopicTips(topic: string) {
   console.log(`Fetching tips for topic: ${topic}`);
@@ -156,9 +156,9 @@ async function fetchTopicTips(topic: string) {
   }
 
   if (data) {
-    // Parse the JSON string of tips and store them in topicTips
-    topicTips.value = data.topic_tips; // Store tips for the current topic
-    console.log("topicTips.value updated:", topicTips.value); // Log updated tips for this topic
+    // Store the tips for the current topic in the topicTips object
+    topicTips.value[topic] = data.topic_tips; // Use topic as the key
+    console.log(`Updated topicTips for ${topic}:`, topicTips.value[topic]); // Log updated tips for this topic
   }
 }
 
@@ -210,8 +210,7 @@ const calculateScore = () => {
 };
 
 function navigateToTest() {
-        localStorage.setItem('currentType.value', 'test');
-        router.push({ name: '/Student/resourceFiles/questionsPage' });
+        router.push('/Student/resourceFiles/questionsPage');
 }
 </script>
 
@@ -224,10 +223,8 @@ function navigateToTest() {
       </svg> 
       <h1 class="text-lg">Back to Resources</h1>
     </a>
- <div v-if="results.results.length !== 0">
-  <section
-        class="min-h-screen flex items-center justify-center relative overflow-hidden animation-delay-300"
-      >
+      <section
+        class="min-h-screen flex items-center justify-center relative overflow-hidden animation-delay-300">
         <div class="container mx-auto px-6 text-center">
           <h2 class="text-5xl font-bold mb-4 text-blue-800 animate-fade-in-up">
             Good job on completing the test!
@@ -237,55 +234,72 @@ function navigateToTest() {
               Your Score is: {{score}}/15
             </span>
           </div>
-        
         </div>
       </section>  
-    </div> 
     <h1 style="font-weight: bold; font-size:35px; margin:30px 0px;" class="text-blue-900">Areas for Improvement</h1>
     <div class="container mx-auto p-4">
       <div class="grid grid-cols-1 gap-4">
         <Card v-for="(count, topic) in incorrectByTopic" :key="topic" class="p-4 shadow-md" :class="{ 'bg-blue-400': count > 2, 'bg-blue-200': count <= 2 }">
-          <h1 class="text-xl"><strong>{{ topic }}:</strong> {{ count }} incorrect answers</h1>
-          <h1 class="underline">Tips to help your learning:</h1>
-          <ul v-if="topicTips && topicTips.length > 0" class="list-disc list-inside">
-            <li v-for="(tip, index) in topicTips" :key="index">{{ tip }}</li>
+          <h1 class="text-xl pb-3"><strong>{{ topic }}:</strong> {{ count }} incorrect answers</h1>
+          <hr style="border-color: darkblue">
+          <ul v-if="topicTips[topic] && topicTips[topic].length > 0" class="list-disc list-inside pt-3">
+            <li v-for="(tip, index) in topicTips[topic]" :key="index">{{ tip }}</li>
           </ul>
-      <p v-else>Loading tips...</p>
           <p v-else>Loading tips...</p>
-    </Card>
+        </Card>
       </div>
     </div>
   <h1 style="font-weight: bold; font-size:35px; margin:30px 0px;" class="text-blue-900">Review Your Results</h1>
   <div class="mt-4">
-    <div v-for="(resultPair, idx) in results.results" :key="idx" class="mb-2">
+    <div v-for="(resultPair, idx) in results.results" :key="idx" class="m-5">
+      <div class="my-2">
         <strong style="font-size: 20px;">{{idx+1}}.
         {{ getQuestion(resultPair.qid) }}
         </strong> 
+      </div>
         <br />
-        <div class="inline-flex items-center justify-center">
-          <h2 style="margin-right:30px;">Your answer:</h2>
-          <Card v-if="resultPair.aid !== 0" :style="{backgroundColor: (getAnswer(resultPair.aid)?.is_correct === true) ? '#72c472' : '#d25757'}">
-          <div class="text-white" style="padding: 10px 16px">{{ getAnswer(resultPair.aid)?.option_text }}</div>
+        <div class="inline-flex items-center justify-center w-full my-1 drop-shadow-md">
+          <div style="width: 10%;"> 
+            <h2>Your answer:</h2>
+          </div>
+          <Card v-if="resultPair.aid !== 0" class="flex-grow w-full" :style="{backgroundColor: (getAnswer(resultPair.aid)?.is_correct === true) ? '#bcf6b8' : '#f3bdbd'}">
+          <div style="padding: 10px 16px;">{{ getAnswer(resultPair.aid)?.option_text }}</div>
           </Card>
-          <div v-else>No answer selected.</div>
+          <Card v-else class="flex-grow w-full">
+          <div style="padding: 10px 16px;">No answer selected.</div>
+          </Card>
         </div>
-        <div v-if="(getAnswer(resultPair.aid)?.is_correct === true)">
+        <div v-if="(getAnswer(resultPair.aid)?.is_correct === true)" class="my-4">
           <strong class="text-blue-500 mt-6">You got it correct!</strong>
         </div>
         <div v-else>
-          <div class="inline-flex items-center justify-center">
-          <h2 style="margin-right:10px;">Correct answer:</h2>
-          <Card style="background-color: #72c472">
-          <div class="text-white" style="padding: 10px 16px">{{ getCorrectAnswer(resultPair.qid)?.option_text }}</div>
+          <div class="inline-flex items-center justify-center w-full my-1 drop-shadow-lg">
+            <div style="width: 10%"> 
+            <h2>Correct answer:</h2>
+          </div>
+          <Card style="background-color: #bcf6b8" class="w-full">
+          <div class="text-green" style="padding: 10px 16px">{{ getCorrectAnswer(resultPair.qid)?.option_text }}</div>
           </Card>
           </div>
         </div>
         <br />
-    </div>
+    </div>   
   </div>
 </div>
+
     <div v-if="results.results.length === 0" class="mt-4 text-gray-500 text-center">
       <h1 class="text-5xl font-bold mb-4 text-blue-800 animate-fade-in-up">No results to display yet.<br>Try our mock test now!<br></h1>
-      <Button @click="navigateToTest()" class="animate-fade-in-up size-8">Take test</Button>
+      <Button @click="navigateToTest()" class="animate-fade-in-up checkAnswer">Take test</Button>
     </div>
 </template>
+<style>
+.checkAnswer {
+  display: inline-flex;      /* Keeps the button size based on content */
+  padding: 20px;        /* Padding for the button */
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;            /* Change cursor to pointer on hover */
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+</style>
