@@ -56,7 +56,8 @@ onMounted(() => {
       v-if="flashcards.length > 0" 
       :dataLength="flashcards.length" 
       :currentIndex="currentIndex"
-      @update:index="(index) => currentIndex = index">
+      @update:index="(index) => currentIndex = index"
+      class="m-auto md:mr-3">
         <template #front>
           <div>
             <img :src="flashcards[currentIndex].image_url" style="object-fit: contain; max-width: 100%; max-height: 100%; display: block">
