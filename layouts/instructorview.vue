@@ -16,34 +16,29 @@
       <div class="flex flex-col h-full py-8 px-6">
         <!-- Project Title -->
         <div class="mb-10 flex justify-center">
-          <NuxtLink to="/Instructor/Homepage" class="text-3xl font-bold tracking-tight">
+          <NuxtLink to="/Instructor/Homepage" @click="closeMenu" class="text-3xl font-bold tracking-tight">
             Learn2Drive
           </NuxtLink>
         </div>
         <div class="flex-grow flex flex-col space-y-4">
-          <NuxtLink to="/Instructor/homePage" class="text-slate-200 hover:text-white text-lg flex items-center">
+          <NuxtLink to="/Instructor/homePage" @click="closeMenu" class="text-slate-200 hover:text-white text-lg flex items-center">
             <HomeIcon class="mr-3 h-5 w-5" />
             Home
           </NuxtLink>
-          <NuxtLink to="/Instructor/Availability" class="text-slate-200 hover:text-white text-lg flex items-center">
+          <NuxtLink to="/Instructor/Availability" @click="closeMenu" class="text-slate-200 hover:text-white text-lg flex items-center">
             <CalendarIcon class="mr-3 h-5 w-5" />
             Availability
           </NuxtLink>
-          <NuxtLink to="/Instructor/StudentAnalysis" class="text-slate-200 hover:text-white text-lg flex items-center">
+          <NuxtLink to="/Instructor/StudentAnalysis" @click="closeMenu" class="text-slate-200 hover:text-white text-lg flex items-center">
             <ClipboardIcon class="mr-3 h-5 w-5" />
             Student Analysis
           </NuxtLink>
-
-
-          <!-- <NuxtLink to="/Instructor/archives/add" class="nav-link"> add </NuxtLink>
-          <NuxtLink to="/Instructor/archives/get" class="nav-link"> get </NuxtLink>
-          <NuxtLink to="/Instructor/testpage" class="nav-link"> test </NuxtLink> -->
         </div>
 
         <!-- Profile link flushed to the bottom -->
         <div class="flex justify-center mt-auto">
           <Button variant="ghost">
-            <NuxtLink to="/Instructor/profile" class="text-slate-200 hover:text-white text-lg flex items-center">
+            <NuxtLink to="/Instructor/profile" @click="closeMenu" class="text-slate-200 hover:text-white text-lg flex items-center">
               <UserIcon class="mr-3 h-5 w-5" />
               Profile
             </NuxtLink>
@@ -78,14 +73,54 @@ import {
   User as UserIcon
 } from 'lucide-vue-next'
 
-import { ref } from "vue";
+import { ref, watch, onMounted, onUnmounted } from "vue";
+import { useRoute } from "vue-router";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils"; // Assuming you have a classnames utility function in your project
+import { cn } from "@/lib/utils";
 
 const menuOpen = ref(false);
+const route = useRoute();
+
 const toggleMenu = () => {
   menuOpen.value = !menuOpen.value;
 };
+
+const closeMenu = () => {
+  if (window.innerWidth < 768) {
+    menuOpen.value = false;
+  }
+};
+
+// Watch for route changes
+watch(
+  () => route.fullPath,
+  () => {
+    closeMenu();
+  }
+);
+
+// Close menu on resize if screen becomes larger than md breakpoint
+const handleResize = () => {
+  if (window.innerWidth >= 768) {
+    menuOpen.value = false;
+  }
+};
+
+// Add resize event listener when component is mounted
+onMounted(() => {
+  window.addEventListener('resize', handleResize);
+});
+
+// Remove resize event listener when component is unmounted
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize);
+});
 </script>
 
-<style></style>
+<style>
+/* Ensures the sidebar takes up the full height of the screen */
+.side-navbar-container,
+.side-navbar {
+  height: 100%;
+}
+</style>
