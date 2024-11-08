@@ -4,16 +4,16 @@
       class="fixed top-0 left-0 right-0 bg-white bg-opacity-90 shadow-md z-50 transition-all duration-300"
       :class="{ 'py-2': scrollY > 50, 'py-4': scrollY <= 50 }"
     >
-      <nav class="container mx-auto px-6 flex justify-between items-center">
+      <nav class="container mx-auto px-4 sm:px-6 flex justify-between items-center">
         <h1
-          class="text-2xl font-bold text-slate-600 transition-all duration-300"
-          :class="{ 'text-xl': scrollY > 50 }"
+          class="text-xl sm:text-2xl font-bold text-slate-600 transition-all duration-300"
+          :class="{ 'text-lg sm:text-xl': scrollY > 50 }"
         >
           Learn2Drive
         </h1>
         <button
           @click="showAuthModal = true"
-          class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-slate-700 transition-all duration-300"
+          class="px-3 py-1 sm:px-4 sm:py-2 bg-blue-600 text-white rounded text-sm sm:text-base hover:bg-slate-700 transition-all duration-300"
         >
           Sign Up / Login
         </button>
@@ -22,37 +22,37 @@
     <main>
       <!-- Hero Section -->
       <section
-        class="min-h-screen flex items-center justify-center relative overflow-hidden animation-delay-300"
+        class="min-h-screen flex items-center justify-center relative overflow-hidden animation-delay-300 px-4 sm:px-6"
       >
-        <div class="container mx-auto px-6 text-center">
-          <h2 class="text-5xl font-bold mb-4 text-blue-800 animate-fade-in-up">
+        <div class="container mx-auto text-center">
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-blue-800 animate-fade-in-up">
             Driving with Learn2Drive
           </h2>
-          <p class="text-xl mb-8 text-gray-600 animate-fade-in-up">
+          <p class="text-lg sm:text-xl mb-8 text-gray-600 animate-fade-in-up">
             Your One-Stop Platform for Instructors and Students
           </p>
           <button
             @click="showAuthModal = true"
-            class="px-6 py-3 bg-blue-600 text-white rounded-full text-lg font-semibold hover:bg-slate-700 transition-all transform hover:scale-105 animate-fade-in-up"
+            class="px-4 py-2 sm:px-6 sm:py-3 bg-blue-600 text-white rounded-full text-base sm:text-lg font-semibold hover:bg-slate-700 transition-all transform hover:scale-105 animate-fade-in-up"
           >
             Get Started
             <span class="ml-2">→</span>
           </button>
           <div
-            class="absolute bottom-0 left-[25vw] transform animate-fade-in-up"
+            class="absolute bottom-0 left-[25vw] transform animate-fade-in-up hidden sm:block"
             :style="{
               transform: `translateX(${((scrollY % 1000) / 1000) * 50}vw)`,
             }"
           >
-            <div class="w-32 h-16 bg-blue-500 bottom-2 rounded-t-full relative">
+            <div class="w-24 sm:w-32 h-12 sm:h-16 bg-blue-500 bottom-2 rounded-t-full relative">
               <div
-                class="absolute top-2 left-2 right-2 h-6 bg-slate-400 rounded-t-full"
+                class="absolute top-2 left-2 right-2 h-4 sm:h-6 bg-slate-400 rounded-t-full"
               ></div>
               <div
-                class="absolute -bottom-6 left-4 w-6 h-6 bg-gray-800 rounded-full"
+                class="absolute -bottom-4 sm:-bottom-6 left-3 sm:left-4 w-4 sm:w-6 h-4 sm:h-6 bg-gray-800 rounded-full"
               ></div>
               <div
-                class="absolute -bottom-6 right-4 w-6 h-6 bg-gray-800 rounded-full"
+                class="absolute -bottom-4 sm:-bottom-6 right-3 sm:right-4 w-4 sm:w-6 h-4 sm:h-6 bg-gray-800 rounded-full"
               ></div>
             </div>
           </div>
@@ -60,227 +60,226 @@
       </section>
       <!-- User Section -->
       <section
-        class="min-h-screen flex items-center justify-center py-20 bg-gray-50"
+        class="py-12 sm:py-20 bg-gray-50"
       >
-        <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12">
+        <div class="container mx-auto px-4 sm:px-6">
           <h2
-            class="text-4xl font-bold mb-12 text-center text-blue-800 md:col-span-2"
+            class="text-3xl sm:text-4xl font-bold mb-8 sm:mb-12 text-center text-blue-800"
           >
             Our Users
           </h2>
-          <!-- Students Card -->
-          <div @click="showAuthModal = true"
-            class="bg-white rounded-xl shadow-lg p-6 relative overflow-hidden hover:-translate-y-2 transition-transform duration-300 ease-in-out"
-          >
-            <div class="absolute top-6 right-6">
-              <button class="text-gray-400 hover:text-gray-600">
+          <div class="grid md:grid-cols-2 gap-8 sm:gap-12">
+            <!-- Students Card -->
+            <div @click="showAuthModal = true"
+              class="bg-white rounded-xl shadow-lg p-4 sm:p-6 relative overflow-hidden hover:-translate-y-2 transition-transform duration-300 ease-in-out"
+            >
+              <div class="absolute top-4 sm:top-6 right-4 sm:right-6">
+                <button class="text-gray-400 hover:text-gray-600">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6 sm:w-8 sm:h-8"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M17.25 6.75L6.75 17.25M6.75 6.75l10.5 10.5"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <h3 class="text-2xl sm:text-3xl font-semibold text-slate-700 mb-3 sm:mb-4">Students</h3>
+              <p class="text-gray-600 mb-4 sm:mb-6">
+                A platform for learners to manage their driving lessons, track
+                progress, and connect with instructors.
+              </p>
+              <div
+                class="rounded-lg overflow-hidden shadow-lg border bg-white p-3 sm:p-4"
+              >
+                <div class="flex space-x-2 sm:space-x-4">
+                  <img
+                    src="../public/externalFiles/images/Student Dashboard.jpg"
+                    alt="Students Snapshot 1"
+                    class="w-1/2 h-32 sm:h-40 object-contain object-center"
+                  />
+                  <img
+                    src="../public/externalFiles/images/Instructor Dashboard.jpg"
+                    alt="Students Snapshot 2"
+                    class="w-1/2 h-32 sm:h-40 object-contain object-center"
+                  />
+                </div>
+                <div class="pt-3 sm:pt-4">
+                  <h4 class="font-semibold text-gray-700">Lesson Schedule</h4>
+                  <p class="text-xs sm:text-sm text-gray-500">
+                    Easily view and manage your upcoming driving lessons with a
+                    streamlined calendar interface.
+                  </p>
+                </div>
+              </div>
+              <button @click="showAuthModal = true"
+                class="absolute top-4 sm:top-6 right-4 sm:right-6 bg-white text-blue-600 rounded-full p-2 sm:p-3 shadow-lg"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke-width="1.5"
                   stroke="currentColor"
-                  class="w-8 h-8"
+                  class="w-5 h-5 sm:w-6 sm:h-6"
                 >
                   <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                    d="M17.25 6.75L6.75 17.25M6.75 6.75l10.5 10.5"
+                    d="M13.5 4.5L19.5 10.5m-6 0L7.5 16.5m6-6h6M7.5 10.5h6"
                   />
                 </svg>
               </button>
             </div>
-            <h3 class="text-3xl font-semibold text-slate-700 mb-4">Students</h3>
-            <p class="text-gray-600 mb-6">
-              A platform for learners to manage their driving lessons, track
-              progress, and connect with instructors.
-            </p>
-            <div
-              class="rounded-lg overflow-hidden shadow-lg border bg-white p-4"
+            <!-- Instructors Card -->
+            <div @click="showAuthModal = true"
+              class="bg-white rounded-xl shadow-lg p-4 sm:p-6 relative overflow-hidden hover:-translate-y-2 transition-transform duration-300 ease-in-out"
             >
-              <div class="flex space-x-4">
-                <img
-                src="../public/externalFiles/images/Student Dashboard.jpg"
-                alt="Students Snapshot 1"
-                  class="w-1/2 h-40 object-contain object-center"
-                />
-                <img
-                src="../public/externalFiles/images/Instructor Dashboard.jpg"
-                alt="Students Snapshot 2"
-                  class="w-1/2 h-40 object-contain object-center"
-                />
+              <div class="absolute top-4 sm:top-6 right-4 sm:right-6">
+                <button class="text-gray-400 hover:text-gray-600">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6 sm:w-8 sm:h-8"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M17.25 6.75L6.75 17.25M6.75 6.75l10.5 10.5"
+                    />
+                  </svg>
+                </button>
               </div>
-              <div class="pt-4">
-                <h4 class="font-semibold text-gray-700">Lesson Schedule</h4>
-                <p class="text-sm text-gray-500">
-                  Easily view and manage your upcoming driving lessons with a
-                  streamlined calendar interface.
-                </p>
-              </div>
-            </div>
-            <button @click="showAuthModal = true"
-              class="absolute top-6 right-6 bg-white text-blue-600 rounded-full p-3 shadow-lg"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-6 h-6"
+              <h3 class="text-2xl sm:text-3xl font-semibold text-slate-700 mb-3 sm:mb-4">
+                Instructors
+              </h3>
+              <p class="text-gray-600 mb-4 sm:mb-6">
+                A tool for driving instructors to manage schedules, track student
+                progress, and optimize lesson plans.
+              </p>
+              <div
+                class="rounded-lg overflow-hidden shadow-lg border bg-white p-3 sm:p-4"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M13.5 4.5L19.5 10.5m-6 0L7.5 16.5m6-6h6M7.5 10.5h6"
-                />
-              </svg>
-            </button>
-          </div>
-          <!-- Instructors Card -->
-          <div @click="showAuthModal = true"
-            class="bg-white rounded-xl shadow-lg p-6 relative overflow-hidden hover:-translate-y-2 transition-transform duration-300 ease-in-out"
-          >
-            <div class="absolute top-6 right-6">
-              <button class="text-gray-400 hover:text-gray-600">
+                <div class="flex space-x-2 sm:space-x-4">
+                  <img
+                    src="../public/externalFiles/images/Student Dashboard.jpg"
+                    alt="Students Snapshot 1"
+                    class="w-1/2 h-32 sm:h-40 object-contain object-center"
+                  />
+                  <img
+                    src="../public/externalFiles/images/Instructor Dashboard.jpg"
+                    alt="Students Snapshot 2"
+                    class="w-1/2 h-32 sm:h-40 object-contain object-center"
+                  />
+                </div>
+                <div class="pt-3 sm:pt-4">
+                  <h4 class="font-semibold text-gray-700">Lesson Schedule</h4>
+                  <p class="text-xs sm:text-sm text-gray-500">
+                    Easily view and manage your upcoming driving lessons with a
+                    streamlined calendar interface.
+                  </p>
+                </div>
+              </div>
+              <button
+                class="absolute top-4 sm:top-6 right-4 sm:right-6 bg-white text-orange-600 rounded-full p-2 sm:p-3 shadow-lg"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke-width="1.5"
                   stroke="currentColor"
-                  class="w-8 h-8"
+                  class="w-5 h-5 sm:w-6 sm:h-6"
                 >
                   <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                    d="M17.25 6.75L6.75 17.25M6.75 6.75l10.5 10.5"
+                    d="M13.5 4.5L19.5 10.5m-6 0L7.5 16.5m6-6h6M7.5 10.5h6"
                   />
                 </svg>
               </button>
             </div>
-            <h3 class="text-3xl font-semibold text-slate-700 mb-4">
-              Instructors
-            </h3>
-            <p class="text-gray-600 mb-6">
-              A tool for driving instructors to manage schedules, track student
-              progress, and optimize lesson plans.
-            </p>
-            <div
-              class="rounded-lg overflow-hidden shadow-lg border bg-white p-4"
-            >
-              <div class="flex space-x-4">
-                <img
-                  src="../public/externalFiles/images/Student Dashboard.jpg"
-                  alt="Students Snapshot 1"
-                  class="w-1/2 h-40 object-contain object-center"
-                />
-                <img
-                  src="../public/externalFiles/images/Instructor Dashboard.jpg"
-                  alt="Students Snapshot 2"
-                  class="w-1/2 h-40 object-contain object-center"
-                />
-              </div>
-              <div class="pt-4">
-                <h4 class="font-semibold text-gray-700">Lesson Schedule</h4>
-                <p class="text-sm text-gray-500">
-                  Easily view and manage your upcoming driving lessons with a
-                  streamlined calendar interface.
-                </p>
-              </div>
-            </div>
-            <button
-            class="absolute top-6 right-6 bg-white text-orange-600 rounded-full p-3 shadow-lg"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-6 h-6"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M13.5 4.5L19.5 10.5m-6 0L7.5 16.5m6-6h6M7.5 10.5h6"
-                />
-              </svg>
-            </button>
           </div>
         </div>
       </section>
       <section
-        class="min-h-screen grid grid-cols-1 md:grid-cols-2 items-center justify-center relative overflow-hidden px-10 bg-gradient-to-b from-blue-50 to-white"
+        class="py-12 sm:py-20 px-4 sm:px-10 bg-gradient-to-b from-blue-50 to-white"
       >
-        <!-- Carousel Section on the Left -->
-        <div class="flex justify-center w-full px-4 py-8 order-2 md:order-1">
-          <Carousel class="relative w-full max-w-l" :plugins="[plugin]">
-            <CarouselContent>
-              <CarouselItem
-                v-for="(card, index) in cards"
-                :key="index"
-                class="pl-1 md:basis-full lg:basis-2/5"
-              >
-                <div class="p-4">
-                  <Card
-                    :class="[card.bgColor, 'w-fit h-96 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-2 transition-transform duration-300 ease-in-out']"
-                  >
-                    <CardContent
-                      class="flex flex-col items-center justify-center p-6"
+        <div class="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <!-- Carousel Section -->
+          <div class="w-full order-2 md:order-1">
+            <Carousel class="relative w-full max-w-xl mx-auto" :plugins="[plugin]">
+              <CarouselContent>
+                <CarouselItem
+                  v-for="(card, index) in cards"
+                  :key="index"
+                  class="pl-1 md:basis-full lg:basis-2/5"
+                >
+                  <div class="p-2 sm:p-4">
+                    <Card
+                      :class="[card.bgColor, 'w-full h-80 sm:h-96 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-2 transition-transform duration-300 ease-in-out']"
                     >
-                    <div v-html="card.icon"></div>
-                      <h2 class="text-xl font-bold mt-4 text-center">
-                        {{ card.title }}
-                      </h2>
-
-                      <p
-                        v-if="card.highlight"
-                        class="text-5xl font-extrabold mt-2"
+                      <CardContent
+                        class="flex flex-col items-center justify-center p-4 sm:p-6"
                       >
-                        {{ card.highlight }}
-                      </p>
-
-                      <p class="text-sm mt-2 text-center">
-                        {{ card.description }}
-                      </p>
-
-                      <!-- Conditional Divider -->
-                      <div v-if="card.showDivider" class="w-full my-4">
-                        <hr class="border-t border-gray-300" />
+                        <div v-html="card.icon"></div>
+                        <h2 class="text-lg sm:text-xl font-bold mt-3 sm:mt-4 text-center">
+                          {{ card.title }}
+                        </h2>
                         <p
-                          v-if="card.dividerText"
-                          class="text-xs mt-2 text-center text-gray-500"
+                          v-if="card.highlight"
+                          class="text-3xl sm:text-5xl font-extrabold mt-2"
                         >
-                          {{ card.dividerText }}
+                          {{ card.highlight }}
                         </p>
-                      </div>
+                        <p class="text-xs sm:text-sm mt-2 text-center">
+                          {{ card.description }}
+                        </p>
+                        <!-- Conditional Divider -->
+                        <div v-if="card.showDivider" class="w-full my-3 sm:my-4">
+                          <hr class="border-t border-gray-300" />
+                          <p
+                            v-if="card.dividerText"
+                            class="text-xs mt-2 text-center text-gray-500"
+                          >
+                            {{ card.dividerText }}
+                          </p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </CarouselItem>
+              </CarouselContent>
+              <CarouselPrevious />
+              <CarouselNext />
+            </Carousel>
+          </div>
 
-                      <div class="mt-4"></div>
-                    </CardContent>
-                  </Card>
-                </div>
-              </CarouselItem>
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
-        </div>
-
-        <!-- Text Section on the Right -->
-        <div class="container mx-auto px-6 text-center md:text-right order-1 md:order-2">
-          <h2 class="text-3xl md:text-5xl mb-4 text-blue-800 animate-fade-in-up">
-            Providing better experiences,
-            <br />connecting both <br />learners and instructors
-          </h2>
-          <p class="text-xl mb-8 text-gray-600 animate-fade-in-up">
-            Communities run better with Learn2Drive.
-          </p>
+          <!-- Text Section -->
+          <div class="text-center md:text-right order-1 md:order-2">
+            <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-4 text-blue-800 animate-fade-in-up">
+              Providing better experiences,
+              <br />connecting both <br />learners and instructors
+            </h2>
+            <p class="text-lg sm:text-xl mb-8 text-gray-600 animate-fade-in-up">
+              Communities run better with Learn2Drive.
+            </p>
+          </div>
         </div>
       </section>
     </main>
-    <footer class="bg-slate-800 text-white py-8">
-      <div class="container mx-auto px-6 text-center">
+    <footer class="bg-slate-800 text-white py-6 sm:py-8">
+      <div class="container mx-auto px-4 sm:px-6 text-center">
         <p>&copy; {{ currentYear }} Learn2Drive. All rights reserved.</p>
       </div>
     </footer>
@@ -289,11 +288,11 @@
       <Teleport to="body">
         <div
           v-if="showAuthModal"
-          class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 px-4 sm:px-0"
         >
-          <div class="bg-white rounded-lg p-8 max-w-md w-full">
-            <div class="flex justify-between items-center mb-6">
-              <h2 class="text-2xl font-bold text-slate-800">
+          <div class="bg-white rounded-lg p-6 sm:p-8 w-full max-w-md">
+            <div class="flex justify-between items-center mb-4 sm:mb-6">
+              <h2 class="text-xl sm:text-2xl font-bold text-slate-800">
                 {{ isLogin ? "Login" : "Sign Up" }}
               </h2>
               <button
@@ -301,7 +300,7 @@
                 class="text-gray-500 hover:text-gray-700"
               >
                 <svg
-                  class="w-6 h-6"
+                  class="w-5 h-5 sm:w-6 sm:h-6"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
