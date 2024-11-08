@@ -1,13 +1,14 @@
 <template>
-  <div class="flex flex-col">
-    <div class="inline-flex w-full items-start mb-4">
-    <!-- Flex column for "Reviews" and "View the instructor reviews" stacked vertically -->
-    <div class="flex flex-col">
-      <h1 class="text-3xl font-bold tracking-tight">Reviews</h1>
-      <p class="text-muted-foreground">View the instructor reviews</p>
+  <div class="flex container mx-auto p-6">
+    <div class="flex items-center justify-between mb-6 sm:mb-10">
+      <!-- Header section with revised styling -->
+      <div class="flex flex-col">
+        <h1 class="text-3xl font-bold tracking-tight text-slate-700">Reviews</h1>
+        <p class="text-lg text-gray-600">View the instructor reviews</p>
+      </div>
     </div>
     
-    <div class="ml-auto flex-end" style="cursor:pointer;">
+    <div class="ml-auto mt-3 mr-3 flex-end" style="cursor:pointer;">
       <DropdownMenu>
         <DropdownMenuTrigger as-child>
           <Button variant="outline">
@@ -36,7 +37,7 @@
               height="100px" 
               width="100px" 
               :src="instructor.image"
-              alt="Instructor Uncle" 
+              alt="Instructor" 
               class="rounded-full"
             />
             <img v-else
@@ -138,7 +139,7 @@
         </Card>
       </NuxtLink>
     </div>
-  </div>
+  
 </template>
 
 

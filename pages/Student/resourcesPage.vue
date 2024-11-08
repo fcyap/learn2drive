@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 
 <template>
     <div class="container mx-auto p-6 min-h-screen">
-        <div class="space-y-2 mb-10">
+        <div class="space-y-2 mb-6 sm:mb-10">
             <h1 class="text-3xl font-bold tracking-tight text-slate-700">Resources</h1>
             <p class="text-lg text-gray-600">Everything you need to pass</p>
         </div>

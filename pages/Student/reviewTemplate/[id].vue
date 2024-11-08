@@ -151,8 +151,8 @@ const sortedReviews = computed(() => {
       <h1 class="text-lg">Back to Reviews</h1>
     </NuxtLink>
     <br>
-    <div class="inline-flex">
-      <h1 v-if="instructor" class="text-3xl font-bold tracking-tight">{{ instructor.name }}'s Reviews</h1>
+    <div class="inline-flex p-6">
+      <h1 v-if="instructor" class="text-3xl font-bold tracking-tight text-slate-700">{{ instructor.name }}'s Reviews</h1>
       <p v-else class="text-gray-500">Loading instructor reviews...</p>
     <div class="ml-auto flex-end" style="cursor:pointer;">
       <DropdownMenu>
