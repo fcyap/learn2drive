@@ -11,13 +11,11 @@
     </Button>
 
     <!-- Sidebar Navigation -->
-    <nav
-  :class="[
-    menuOpen ? 'translate-x-0' : '-translate-x-full',
-    'side-navbar fixed top-0 left-0 h-full w-60 z-40 transition-transform duration-300 ease-in-out border border-solid text-white bg-slate-900',
-    'md:translate-x-0 md:block'  // Visible on medium screens and up
-  ]"
->
+    <nav :class="[
+      menuOpen ? 'translate-x-0' : '-translate-x-full',
+      'side-navbar fixed top-0 left-0 h-full w-60 z-40 transition-transform duration-300 ease-in-out border border-solid text-white bg-slate-900',
+      'md:translate-x-0 md:block'  // Visible on medium screens and up
+    ]">
       <div class="flex flex-col h-full py-8 px-6">
         <!-- Project Title -->
         <div class="mb-10 flex justify-center">
@@ -28,16 +26,32 @@
 
         <!-- Navigation Links -->
         <div class="flex-grow flex flex-col space-y-6">
-          <NuxtLink to="/Student/homePage" class="nav-link">🏠 Home</NuxtLink>
-          <NuxtLink to="/Student/bookingPage" class="nav-link">📅 Booking</NuxtLink>
-          <NuxtLink to="/Student/resourcesPage" class="nav-link">📚 Resources</NuxtLink>
-          <NuxtLink to="/Student/instructorReview" class="nav-link">📝 Instructor Review</NuxtLink>
+          <NuxtLink to="/Student/homePage" class="text-slate-200 hover:text-white text-lg flex items-center">
+            <HomeIcon class="mr-3 h-5 w-5" />
+            Home
+          </NuxtLink>
+          <NuxtLink to="/Student/bookingPage" class="text-slate-200 hover:text-white text-lg flex items-center">
+            <CalendarIcon class="mr-3 h-5 w-5" />
+            Booking
+          </NuxtLink>
+          <NuxtLink to="/Student/resourcesPage" class="text-slate-200 hover:text-white text-lg flex items-center">
+            <BookOpenIcon class="mr-3 h-5 w-5" />
+            Resources
+          </NuxtLink>
+          <NuxtLink to="/Student/instructorReview" class="text-slate-200 hover:text-white text-lg flex items-center">
+            <ClipboardIcon class="mr-3 h-5 w-5" />
+            Instructor Review
+          </NuxtLink>
+
         </div>
 
         <!-- Profile link flushed to the bottom -->
         <div class="flex justify-center mt-auto">
           <Button variant="ghost">
-            <NuxtLink to="/Student/profile" class="nav-link">👤 Profile</NuxtLink>
+            <NuxtLink to="/Student/profile" class="text-slate-200 hover:text-white text-lg flex items-center">
+              <UserIcon class="mr-3 h-5 w-5" />
+              Profile
+            </NuxtLink>
           </Button>
         </div>
       </div>
@@ -61,6 +75,15 @@
 </template>
 
 <script setup lang="ts">
+
+import {
+  BookOpen as BookOpenIcon,
+  Calendar as CalendarIcon,
+  Clipboard as ClipboardIcon,
+  Home as HomeIcon,
+  User as UserIcon
+} from 'lucide-vue-next'
+
 import { ref } from "vue";
 import { Button } from "@/components/ui/button";
 
@@ -72,7 +95,8 @@ const toggleMenu = () => {
 
 <style>
 /* Ensures the sidebar takes up the full height of the screen */
-.side-navbar-container, .side-navbar {
+.side-navbar-container,
+.side-navbar {
   height: 100%;
 }
 </style>
