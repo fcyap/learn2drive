@@ -49,6 +49,7 @@ onMounted(() => {
       <h1 class="text-lg">Back to Resources</h1>
     </a>
 
+    <div class="mt-5">
     <div v-if="loading">Loading flashcards...</div>
     <div v-else-if="flashcards.length > 0">
       <Flashcard 
@@ -67,6 +68,7 @@ onMounted(() => {
         </Flashcard>
     </div>
     <div v-else>No flashcards available.</div>
+    </div>
   </div>
 </template>
 
