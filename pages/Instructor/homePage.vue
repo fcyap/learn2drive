@@ -99,7 +99,6 @@ definePageMeta({
 });
 
 import Overview from "@/components/dashboard/Overview.vue";
-import RecentSales from "@/components/dashboard/RecentSales.vue";
 import {
   Card,
   CardContent,

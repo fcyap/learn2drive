@@ -73,8 +73,9 @@ const { data: studentview } = await useAsyncData<Student[]>(
 );
 
 import { useLocalStorage } from '@vueuse/core';
-const instructorId = useLocalStorage('userId', null).value;
-// const instructorId = 1;
+const instructorId = Number(useLocalStorage('userId', null).value);
+
+console.log(instructorId)
 
 const { data: lessons } = await useAsyncData<Lesson[]>("lessons", async () => {
   const { data } = await client.from("lessons").select();

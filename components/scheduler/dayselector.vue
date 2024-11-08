@@ -102,6 +102,7 @@ import {
 
 // Configure Supabase client
 const client = useSupabaseClient();
+
 const instructorId = 1; // FOR SESSION
 
 // Define the next 7 days from tomorrow
