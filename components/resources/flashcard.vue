@@ -91,7 +91,7 @@ function prevCard() {
     background-color: transparent;
     margin: auto;
     width: 1000px;
-    height: 600px;
+    height: 550px;
     perspective: 1000px; /* Adds the 3D effect */
     overflow: hidden;
     display: flex;
