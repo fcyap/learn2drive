@@ -1,11 +1,11 @@
 <template>
-    <div class="container mx-auto p-6 min-h-screen">
-        <div class="space-y-2 mb-10">
-            <h1 class="text-3xl font-bold tracking-tight text-slate-700">Booking</h1>
-            <p class="text-lg text-gray-600">Select the instructor, location, date, and timeslot</p>
+    <div class="container mx-auto p-4 sm:p-6 min-h-screen">
+        <div class="space-y-2 mb-6 sm:mb-10">
+            <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-700">Booking</h1>
+            <p class="text-base sm:text-lg text-gray-600">Select the instructor, location, date, and timeslot</p>
         </div>
 
-        <div class="p-8 max-w-2xl mx-auto bg-slate-100 rounded-lg shadow-2xl">
+        <div class="p-4 sm:p-8 max-w-2xl mx-auto bg-slate-100 rounded-lg shadow-2xl">
             <div v-if="isLoading" class="text-center py-8">
                 <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto"></div>
                 <p class="mt-4 text-gray-600">Loading instructor data...</p>
@@ -17,31 +17,32 @@
                     Retry
                 </button>
             </div>
-            <form v-else @submit.prevent="confirmBooking" class="space-y-6">
+            <form v-else @submit.prevent="confirmBooking" class="space-y-4 sm:space-y-6">
                 <div class="space-y-2">
-                    <label for="location" class="block text-xl font-medium text-slate-700">Select Location</label>
+                    <label for="location" class="block text-lg sm:text-xl font-medium text-slate-700">Select
+                        Location</label>
                     <select v-model="selectedLocation" id="location"
-                        class="mt-1 block w-full pl-4 pr-10 py-3 text-base border-gray-300 focus:outline-none focus:ring-slate-500 focus:border-slate-500 rounded-md">
+                        class="mt-1 block w-full pl-4 pr-10 py-2 sm:py-3 text-sm sm:text-base border-gray-300 focus:outline-none focus:ring-slate-500 focus:border-slate-500 rounded-md">
                         <option value="">Choose a location</option>
-                        <option v-for="location in locations">{{
-                            location['location'] }}</option>
+                        <option v-for="location in locations">{{ location['location'] }}</option>
                     </select>
                 </div>
 
                 <div v-if="selectedLocation" class="space-y-2">
                     <label for="instructor" class="block text-lg font-medium text-slate-700">Select Instructor</label>
                     <select v-model="selectedInstructor" id="instructor"
-                        class="mt-1 block w-full pl-4 pr-10 py-3 text-base border-gray-300 focus:outline-none focus:ring-slate-500 focus:border-slate-500 rounded-md">
+                        class="mt-1 block w-full pl-4 pr-10 py-2 sm:py-3 text-sm sm:text-base border-gray-300 focus:outline-none focus:ring-slate-500 focus:border-slate-500 rounded-md">
                         <option value="">Choose an instructor</option>
-                        <option v-for="instructor in filteredInstructors" :key="instructor['id']" :value="instructor">{{
-                            instructor['name'] }}</option>
+                        <option v-for="instructor in filteredInstructors" :key="instructor['id']" :value="instructor">
+                            {{ instructor['name'] }}
+                        </option>
                     </select>
                 </div>
 
                 <div v-if="selectedInstructor" class="space-y-2">
-                    <label for="date" class="block text-xl font-medium text-slate-700">Select Date</label>
+                    <label for="date" class="block text-lg sm:text-xl font-medium text-slate-700">Select Date</label>
                     <select v-model="selectedDate" id="date"
-                        class="mt-1 block w-full pl-4 pr-10 py-3 text-base border-gray-300 focus:outline-none focus:ring-slate-500 focus:border-slate-500 rounded-md"
+                        class="mt-1 block w-full pl-4 pr-10 py-2 sm:py-3 text-sm sm:text-base border-gray-300 focus:outline-none focus:ring-slate-500 focus:border-slate-500 rounded-md"
                         @change="fetchAvailableSlots">
                         <option value="">Choose a date</option>
                         <option v-for="date in availableDates" :key="date" :value="date">{{ date }}</option>
@@ -49,24 +50,23 @@
                 </div>
 
                 <div v-if="selectedDate" class="space-y-2">
-                    <label class="block text-xl font-medium text-slate-700">Select Time Slot</label>
-                    <div class="grid grid-cols-3 gap-3">
+                    <label class="block text-lg sm:text-xl font-medium text-slate-700">Select Time Slot</label>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
                         <button v-for="slot in availableSlots" :key="slot['time']" type="button"
                             :disabled="!slot['available']"
-                            :class="['p-3 text-base font-medium rounded-md', slot['available'] ? 'bg-purple-200 text-purple-700 hover:bg-purple-300' : 'bg-gray-200 text-gray-400 cursor-not-allowed', selectedSlot === slot ? 'ring-2 ring-purple-500' : '']"
+                            :class="['p-2 sm:p-3 text-sm sm:text-base font-medium rounded-md', slot['available'] ? 'bg-purple-200 text-purple-700 hover:bg-purple-300' : 'bg-gray-200 text-gray-400 cursor-not-allowed', selectedSlot === slot ? 'ring-2 ring-purple-500' : '']"
                             @click="selectSlot(slot)">
                             {{ slot['time'] }}
                         </button>
                     </div>
 
-                    <!-- Added div to inform users of the 2-hour slot duration -->
-                    <div class="mt-2 text-sm text-gray-500">
+                    <div class="mt-2 text-xs sm:text-sm text-gray-500">
                         Note: All slots are 2-hour sessions.
                     </div>
                 </div>
 
                 <button type="submit"
-                    class="w-full px-6 py-3 text-base font-medium text-white bg-slate-500 rounded-md hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
+                    class="w-full px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-medium text-white bg-slate-500 rounded-md hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
                     :disabled="!selectedInstructor || !selectedDate || !selectedSlot">
                     Confirm Booking
                 </button>
@@ -171,13 +171,16 @@ async function fetchAvailableSlots() {
 
         // Sort the available slots by the time field
         availableSlots.value = data ? data.sort((a, b) => {
-            // Assuming time is in 'HH:mm' format
+            // Assuming time is in 'HH:mm:ss' format
             const timeA = a.time.split(':');
             const timeB = b.time.split(':');
 
             // Compare hours and minutes
             return timeA[0] - timeB[0] || timeA[1] - timeB[1];
-        }) : [];
+        }).map(slot => ({
+            ...slot,
+            time: slot.time.substring(0, 5) // Keep only the first 5 characters (HH:mm)
+        })) : [];
     } catch (err) {
         error.value = `Error fetching available slots: ${err.message}`;
         console.error('Error fetching available slots:', err);
@@ -215,22 +218,22 @@ async function confirmBooking() {
             startDateTime: formattedDate,
             instructorId: selectedInstructor.value.id,
             studentId: userId,
-            location:selectedLocation.value,
+            location: selectedLocation.value,
         }
 
-        const eventId = ref(''); 
+        const eventId = ref('');
 
         const addEvent = async () => {
-      try {
-        // Send POST request to API endpoint with form inputs
-        const response = await $fetch<{ success: boolean; eventId?: string }>('/api/addEvents', {
-          method: 'POST',
-          body: eventData
+            try {
+                // Send POST request to API endpoint with form inputs
+                const response = await $fetch<{ success: boolean; eventId?: string }>('/api/addEvents', {
+                    method: 'POST',
+                    body: eventData
 
-        });
+                });
 
 
-        if (response.success) {
+                if (response.success) {
                     eventId.value = response.eventId || '';
                     console.log('Event added to Google Calendar with ID:', eventId.value);
                 } else {
