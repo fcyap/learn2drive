@@ -17,21 +17,21 @@ import Logout from "~/components/profile/Logout.vue";
   </div>
 
   <div
-    class="items-start justify-center gap-6 rounded-lg p-8 md:grid lg:grid-cols-2 xl:grid-cols-4"
+    class="items-start justify-center gap-5 rounded-lg p-8 md:grid lg:grid-cols-2 xl:grid-cols-4"
   >
     <div class="col-span-2 grid items-start gap-6 lg:col-span-3">
       <Container>
         <EditAccount />
       </Container>
     </div>
-    <div class="grid items-start gap-6 lg:col-span-2">
-      <div class="col-span-2">
+    <div class="grid items-start gap-6 lg:col-span-2 width:100% col-span-3">
+      <div class="col-span-2 ">
         <Container>
           <SecurityStudent />
         </Container>
       </div>
     </div>
-    <div class="col-span-2 grid items-start gap-6 lg:col-span-1">
+    <div class="col-span-2 grid items-start gap-6 lg:col-span-1 col-span-3">
       <Container>
         <NotificationsStudent />
       </Container>

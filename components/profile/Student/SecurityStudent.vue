@@ -76,7 +76,7 @@ const changePW = async () => {
       </CardDescription>
     </CardHeader>
     <CardContent class="grid gap-6">
-      <div class="grid grid-cols-2 gap-6">
+      <div>
         <form>
         <div class="col-span-1 gap-2">
           <Label for="lname">Password</Label>
@@ -86,8 +86,8 @@ const changePW = async () => {
           <Label for="fname">Confirm Password</Label>
           <Input id="fname" type="text" placeholder="" />
         </div>
-        <div style="margin-top: 4%">
-          <Button type="submit" id="submit" @click="changePW" class="btn btn-primary">Change Password</Button>
+        <div style="margin-top: 4%; text-align:center;">
+          <Button type="submit" id="submit" @click="changePW" class="btn btn-primary" >Change Password</Button>
         </div>
         </form>
       </div>
