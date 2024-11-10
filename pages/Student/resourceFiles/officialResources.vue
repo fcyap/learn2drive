@@ -33,10 +33,11 @@ function toggleTopic() {
   </div>
 
   <!-- PDF Viewer -->
-  <div>
+  <div class="wrapper">
     <iframe
       :src="currentTopic === 'FTT' ? '/externalFiles/FTT.pdf' : '/externalFiles/BTT.pdf'"
-      class="pdfViewer"
+      
+      loading="lazy"
     ></iframe>
   </div>
 </template>
@@ -53,6 +54,7 @@ function toggleTopic() {
     display: flex;
     align-items: center;
     margin: 20px auto; /* Center the switch horizontally */
+    max-width: 90%;
   }
 
   .toggleButton {
@@ -81,15 +83,17 @@ function toggleTopic() {
   }
 
   /* PDF Viewer */
-  .pdfViewer {
-    width: 100%; /* Full width */
-    height: 100vh; /* Responsive height */
-    border: none; /* No border */
-  }
-
-  /* Center the PDF Viewer header */
-  h1 {
-    text-align: center;
-    margin-bottom: 10px;
-  }
+  .wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    padding-top: 25px;
+    height: 0;
+}
+.wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
 </style>
