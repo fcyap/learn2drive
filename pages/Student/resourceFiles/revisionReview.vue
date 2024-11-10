@@ -24,7 +24,7 @@ interface TestResults {
   currentTopic: string;
 }
 
-
+const loading = ref(true);
 
 
 let results: TestResults = { id: 0, uid: 0, results: [], currentTopic: 'BTT' };
@@ -58,6 +58,8 @@ onMounted(async () => {
       currentTopic: latestResult.currentTopic,
     };
 
+    console.log(results.results.length);
+
   } else {console.log('No results found for this user');
   }
 });
@@ -77,6 +79,7 @@ interface CorrectAnswer {
 
 // Declare your reactive arrays with explicit types
 const correctAnswers = ref<CorrectAnswer[]>([]);
+
 
 onMounted(async () => {
   console.log('Current Topic:', currentTopic.value); // Log the currentTopic before making requests
@@ -108,6 +111,7 @@ onMounted(async () => {
 });
 
 const countIncorrectByTopic = () => {
+  if (loading.value) return;
   incorrectByTopic.value = results.results.reduce((acc, result) => {
     const isCorrect = correctAnswers.value.some(
       (correctAnswer) => correctAnswer.qid === result.qid && correctAnswer.aid === result.aid
@@ -166,6 +170,10 @@ onMounted(() => {
   Object.keys(incorrectByTopic.value).forEach((topic) => {
     fetchTopicTips(topic);
   });
+
+  setTimeout(() => {
+    loading.value = false;
+  }, 2000);
 });
 
 // Log the current topic after extraction
@@ -223,12 +231,11 @@ function navigateToTest() {
       </svg> 
       <h1 class="text-lg">Back to Resources</h1>
     </a>
-    <section v-if="results.results.length === 0" class="min-h-screen flex flex-col items-center justify-center relative overflow-hidden animation-delay-300">
-      <h1 class="text-5xl font-bold mb-4 text-blue-800">No results to display yet.</h1>
-      <h1 class="text-5xl font-bold mb-4 text-blue-800">Try our mock test now!</h1>
-      <Button @click="navigateToTest()" class="mt-5 checkAnswer">Take test</Button>
-    </section>
+    <div v-if="loading" class="text-center py-8">
+      <p>Loading...</p>
+    </div>
     <div v-else>
+    <div v-if="results && results.results && results.results.length > 0">
       <section
         class="min-h-screen flex items-center justify-center relative overflow-hidden animation-delay-300">
         <div class="container mx-auto px-6 text-center">
@@ -292,7 +299,12 @@ function navigateToTest() {
     </div>   
   </div>
 </div>
-
+<section v-else class="min-h-screen flex flex-col items-center justify-center relative overflow-hidden animation-delay-300">
+      <h1 class="text-5xl font-bold mb-4 text-blue-800">No results to display yet.</h1>
+      <h1 class="text-5xl font-bold mb-4 text-blue-800">Try our mock test now!</h1>
+      <Button @click="navigateToTest()" class="mt-5 checkAnswer">Take test</Button>
+    </section>
+</div>
     
 </template>
 <style>
