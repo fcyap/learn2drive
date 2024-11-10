@@ -78,17 +78,18 @@ const selectedQuestions = ref<number | null>(null); // Reactive reference for th
     </a>
   </div>
   
-    <h1 class="text-xl font-bold">What would you like to do today?</h1>
+    <h1 class="text-xl font-bold pt-4 text-center">What would you like to do today?</h1>
     <div class="buttonsDiv">
-      <Card class="testButton" @click="changeToBTT()" :style="{ backgroundColor: currentTopic === 'BTT' ? '#90CAF9' : '' }">
+      <Card class="testButton btt" @click="changeToBTT()" :style="{ backgroundColor: currentTopic === 'BTT' ? '#90CAF9' : '' }">
         BTT
       </Card>
-      <Card class="testButton" @click="changeToFTT()" :style="{ backgroundColor: currentTopic === 'FTT' ? '#90CAF9' : '' }">
+      <Card class="testButton ftt" @click="changeToFTT()" :style="{ backgroundColor: currentTopic === 'FTT' ? '#90CAF9' : '' }">
         FTT
       </Card>
     </div>
-    <div class="optionDiv">
-      <Card class="optionButton" @click="changeToPractise()" :style="{ backgroundColor: currentType === 'practise' ? '#66B2FF' : '' }">Practice Questions</Card>
+    <div class="optionDiv items-center">
+      <Card class="optionButton" @click="changeToPractise()" :style="{ backgroundColor: currentType === 'practise' ? '#66B2FF' : '' }">Practice Questions
+      </Card>
       <div v-if="currentType === 'practise'" style="text-align: center; margin-top: 10px;">
         <DropdownMenu>
           <DropdownMenuTrigger as-child>
@@ -128,30 +129,63 @@ const selectedQuestions = ref<number | null>(null); // Reactive reference for th
 </template>
 <style>
 .testButton {
-  font-size: 30px;
-  padding: 15px 50px;
-  margin: 40px;
+  font-size: 2rem;
+  padding: 15px 30px;
+  margin: 20px;
   cursor: pointer;
   font-weight: bold;
   box-shadow: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;  /* Ensures the text inside is centered */
+  min-width: 200px;  /* Ensures the card has a minimum width */
+  width: auto;  /* Allows the card to expand based on content */
 }
 
-.optionButton{
-  font-size: 17px;
+.optionButton {
+  font-size: 1.25rem;
   text-align: center;
   margin: 20px;
   padding: 13px 20px;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;  /* Vertically centers the text */
+  word-wrap: break-word;  /* Prevents text overflow */
+  min-width: 200px;  /* Ensures the card has a minimum width */
+  width: auto;  /* Allows the card to expand based on content */
 }
+
 .buttonsDiv {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;  /* Allows buttons to wrap on smaller screens */
+  width: 100%;
 }
 
 .optionDiv {
-  max-width: 40%; /* Limit to 2/3 of the available width */
-  margin: 0 auto; /* Center the container within the page */
+  max-width: 40%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .testButton {
+    font-size: 1.75rem;  /* Adjust font size for smaller screens */
+    padding: 12px 25px;  /* Adjust padding for smaller screens */
+    margin: 10px;
+  }
+
+  .optionButton {
+    font-size: 1.15rem;  /* Adjust font size for smaller screens */
+    padding: 10px 18px;  /* Adjust padding for smaller screens */
+  }
+
+  .optionDiv {
+    max-width: 90%;  /* Use more screen width on small screens */
+  }
 }
 
 .dropdown {
