@@ -90,8 +90,8 @@ function prevCard() {
   .flip-card {
     background-color: transparent;
     margin: auto;
-    width: 1000px;
-    height: 575px;
+    width: 60vw;
+    height: 70vh;
     perspective: 1000px; /* Adds the 3D effect */
     overflow: hidden;
     display: flex;

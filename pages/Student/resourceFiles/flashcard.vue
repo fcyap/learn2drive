@@ -59,8 +59,8 @@ onMounted(() => {
       @update:index="(index) => currentIndex = index"
       class="m-auto md:mr-3">
         <template #front>
-          <div>
-            <img :src="flashcards[currentIndex].image_url" style="object-fit: contain; max-width: 100%; max-height: 100%; display: block">
+          <div class='p-3'>
+            <img :src="flashcards[currentIndex].image_url" style="object-fit: contain; max-width: 100%; max-height: 90%; display: block;">
           </div>
         </template>
         <template #back>
