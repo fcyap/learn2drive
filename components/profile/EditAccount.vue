@@ -95,7 +95,7 @@ const updateProfile = async () => {
         </div> -->
       </div>
 
-      <div class="grid grid-cols-2 gap-6">
+      <div class="grid md:grid-cols-2 gap-6 grid-cols-1 ">
         <div class="col-span-1 gap-2">
           <Label for="lname">Last Name</Label>
             <Input id="lname" type="text" v-model="lastName" :placeholder="lastName" />
@@ -106,12 +106,12 @@ const updateProfile = async () => {
         </div>
       </div>
 
-      <div class="grid grid-cols-2 gap-6">
-        <div class="gap-2">
+      <div class="grid md:grid-cols-2 gap-6 grid-cols-1">
+        <div class="col-span-1 gap-2">
           <Label for="email" class="col-span-2">Email</Label>
           <Input id="email" type="email" v-model="email" :placeholder="email" />
         </div>
-        <div class="gap-2">
+        <div class="col-span-1 gap-2">
           <Label for="number" class="col-span-2">Phone Number</Label>
           <Input id="phonenumber" type="number" :placeholder="phoneNumber" v-model="phoneNumber"/>
         </div>
