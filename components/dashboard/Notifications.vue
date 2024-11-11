@@ -62,6 +62,9 @@ interface StudentTestRouteProgress {
   done: boolean;
 }
 
+import { useLocalStorage } from '@vueuse/core';
+const instructorId = Number(useLocalStorage('userId', null).value);
+
 export default defineComponent({
   emits: ["updateEventCount"],
   setup(_, { emit }) {
@@ -74,11 +77,21 @@ export default defineComponent({
     const checkedModules = ref([]);
     const studentTestRoute = ref<StudentTestRouteProgress[]>([]);
     const checkedTestRoutes = ref<string[]>([]);
+    const eventCount = ref(0);
+  
 
     const getEvents = async () => {
       try {
-        const response = await $fetch<FetchResponse>("/api/getEventsBefore");
-        if (response.success && response.data) events.value = response.data;
+    const response = await $fetch<FetchResponse>("/api/getEventsBefore", {
+      params: {
+        instructorId, // pass the instructor ID as a query parameter
+      },
+    });
+    if (response.success && response.data) {
+      events.value = response.data;
+      eventCount.value = events.value.length;
+      console.log("Number of events retrieved in notifications:", eventCount.value);
+    }
         else
           errorMessage.value = response.message || "Failed to retrieve events";
       } catch (error) {

@@ -3,17 +3,16 @@ import { google } from 'googleapis';
 export default defineEventHandler(async (event) => {
   try {
     const query = getQuery(event);
-    const { timeMin } = query;
+    const { timeMin,instructorId} = query;
 
-    const instructorId = "1"; // Replace with the actual ID
+        // const instructorId = "1";
 
     const validTimeMin = typeof timeMin === 'string' ? timeMin : new Date().toISOString();
 
-    // Authenticate using environment variables
     const auth = new google.auth.GoogleAuth({
       credentials: {
         client_email: process.env.GOOGLE_CLIENT_EMAIL,
-        private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'), // Correctly format newline characters
+        private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
       },
       scopes: ['https://www.googleapis.com/auth/calendar'],
     });
@@ -28,7 +27,9 @@ export default defineEventHandler(async (event) => {
     });
 
     const events = (response.data.items || []).filter((event) => {
-      return event.extendedProperties?.private?.instructor_id === instructorId;
+      return instructorId
+        ? event.extendedProperties?.private?.instructor_id === instructorId
+        : true;
     });
 
     return {

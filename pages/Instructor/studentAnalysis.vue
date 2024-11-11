@@ -85,10 +85,12 @@ const { data: lessons } = await useAsyncData<Lesson[]>("lessons", async () => {
 const futureLessons = computed(() => {
   const now = new Date();
   return (
-    lessons.value?.filter(
-      (lesson) =>
-        lesson.instructor_id === instructorId && new Date(lesson.date) > now
-    ) ?? []
+    lessons.value?.filter((lesson) => {
+      const lessonDateTime = new Date(`${lesson.date}T${lesson.time}`);
+      return (
+        lesson.instructor_id === instructorId && lessonDateTime > now
+      );
+    }) ?? []
   );
 });
 
@@ -96,7 +98,6 @@ const studentIdsWithLessons = computed(() => {
   return new Set(futureLessons.value.map((lesson) => lesson.student_id));
 });
 
-// Filter student data to include only those with future lessons with the instructor
 const studentsWithLessons = computed(() => {
   return (
     studentview.value?.filter((student) =>
@@ -148,21 +149,33 @@ function getNearestUpcomingLessonDate(studentId: number): Date | null {
   const now = new Date();
 
   const upcomingLessons = lessons.value
-    ?.filter(
-      (lesson) =>
+    ?.filter((lesson) => {
+      const lessonDateTime = new Date(`${lesson.date}T${lesson.time}`);
+      return (
         lesson.student_id === studentId &&
-        new Date(lesson.date).getTime() > now.getTime() // Check if the lesson is in the future
-    )
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()); // Sort by date ascending
+        lessonDateTime > now
+      );
+    })
+    .sort((a, b) => {
+      const lessonDateTimeA = new Date(`${a.date}T${a.time}`).getTime();
+      const lessonDateTimeB = new Date(`${b.date}T${b.time}`).getTime();
+      return lessonDateTimeA - lessonDateTimeB;
+    });
 
-  return upcomingLessons?.[0]?.date || null; // Return the date of the nearest upcoming lesson or null if none found
+  return upcomingLessons?.[0]?.date || null;
 }
 
 function getProfilePhotoUrl(studentId: string) {
   const supabaseUrl = "https://tzklhzyswqmorhokvgmw.supabase.co";
-  const bucketPath = "new_profile_photos"; // Ensure this matches your bucket and folder structure
+  const bucketPath = "new_profile_photos";
   return `${supabaseUrl}/storage/v1/object/public/${bucketPath}/${studentId}.jpg`;
 }
+
+console.log("Instructor ID:", instructorId);
+console.log("All Lessons:", lessons.value);
+console.log("Future Lessons:", futureLessons.value);
+console.log("Student IDs with Future Lessons:", Array.from(studentIdsWithLessons.value));
+console.log("Students With Lessons:", studentsWithLessons.value);
 </script>
 
 <template>
@@ -173,7 +186,6 @@ function getProfilePhotoUrl(studentId: string) {
 
   <div class="grid lg:grid-cols-5 gap-2">
     <ScrollArea class="lg:col-span-5 overflow-auto">
-      <!-- Apply gap-4 directly to the flex container and set it to wrap -->
       <div v-if="studentsWithLessons.length > 0" class="flex flex-wrap gap-4 p-4 justify-start">
         <div
           v-for="student in studentsWithLessons"
@@ -257,7 +269,6 @@ function getProfilePhotoUrl(studentId: string) {
                               </div>
 
                               <div class="grid grid-cols-2 gap-2">
-                                <!-- Increased gap to 4 -->
                                 <div
                                   class="col-span-1 flex flex-col items-center justify-center"
                                 >
@@ -267,7 +278,6 @@ function getProfilePhotoUrl(studentId: string) {
                                         <Card
                                           class="h-16 w-24 flex flex-col items-center justify-center m-1"
                                         >
-                                          <!-- Added margin 1 -->
                                           <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             fill="none"
@@ -344,7 +354,6 @@ function getProfilePhotoUrl(studentId: string) {
                               <CardContent>
                                 <div class="grid grid-cols-2 gap-4">
                                   <div class="col-1">
-                                    <!-- Completed modules with scrollable area -->
                                     <p>Completed Modules:</p>
                                     <ScrollArea class="h-36 overflow-y-auto">
                                       <ul>
@@ -360,7 +369,6 @@ function getProfilePhotoUrl(studentId: string) {
                                     </ScrollArea>
                                   </div>
                                   <div class="col-1">
-                                    <!-- Uncompleted modules with scrollable area -->
                                     <p>Uncompleted Modules:</p>
                                     <ScrollArea class="h-36 overflow-y-auto">
                                       <ul>
@@ -390,9 +398,7 @@ function getProfilePhotoUrl(studentId: string) {
                               <CardTitle>Test Route Completion</CardTitle>
                             </CardHeader>
                             <CardContent>
-                              <!-- Define a grid with 4 columns -->
                               <div class="grid grid-cols-4 gap-4">
-                                <!-- Loop through test routes -->
                                 <div
                                   v-for="testroute in getStudentTestRoutes(
                                     student.id

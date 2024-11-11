@@ -2,12 +2,10 @@
 import { computed } from 'vue';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-// Supabase client
 const client = useSupabaseClient();
 
-// Define types for earnings data
 interface Earning {
-  month: number; // Now uses numbers 1-12 for months
+  month: number;
   instructorId: number;
   year: number;
   amount: number;
@@ -22,12 +20,28 @@ interface Lessons {
   instructor_id: number;
 }
 
-// Define the instructor ID and current/previous month & year
+interface CalendarEvent {
+  id: string;
+  summary: string;
+  description?: string;
+  start: {
+    dateTime?: string;
+    date?: string;
+  };
+  extendedProperties?: {
+    private?: {
+      location_detail?: string;
+      instructor_id?: string;
+      student_id?: string;
+    };
+  };
+}
+
 import { useLocalStorage } from '@vueuse/core';
 const instructorId = Number(useLocalStorage('userId', null).value);
 // const instructorId = 1; // Replace with session id or other identifier
 const previousMonth  = new Date().getMonth()
-const currentMonth = previousMonth + 1; // JavaScript months are 0-based, so add 1
+const currentMonth = previousMonth + 1;
 const currentYear = new Date().getFullYear();
 
 const { data: lessons } = await useAsyncData<Lessons[]>(
@@ -52,11 +66,6 @@ function getUniqueStudents(instructorId: number) {
     lessons.value?.filter(lesson => lesson.instructor_id === instructorId).map(lesson => lesson.student_id)
   );
   return uniqueStudentIds.size;
-}
-
-// Function to get total lessons
-function getTotalLessons(instructorId: number) {
-  return lessons.value?.filter(lesson => lesson.instructor_id === instructorId).length ?? 0;
 }
 
 // Function to get earnings for a specific instructor and month/year
@@ -86,63 +95,55 @@ const totalEarningBefore = computed(() => {
 
 // Percentage change from the previous month to the current month
 const percentageChange = computed(() => {
-
-  return ((totalEarning.value - totalEarningBefore.value) / totalEarningBefore.value) * 100;
-})
+  return totalEarningBefore.value
+    ? ((totalEarning.value - totalEarningBefore.value) / totalEarningBefore.value) * 100
+    : 0;
+});
 
 const uniqueStudentsCount = computed(() => getUniqueStudents(instructorId));
-const totalLessonsCount = computed(() => getTotalLessons(instructorId));
 
-interface CalendarEvent {
-  id: string;
-  summary: string;
-  start: {
-    dateTime?: string;
-    date?: string;
-  };
-  extendedProperties?: {
-    private?: {
-      instructor_id?: string;
-      student_id?: string;
-    };
-  };
+
+
+const events = ref<CalendarEvent[]>([]);
+const errorMessage = ref("");
+const eventCount = ref(0);
+const totalLessonsCount = computed(() => eventCount.value);
+
+interface FetchResponse {
+  success: boolean;
+  data?: CalendarEvent[];
+  message?: string;
 }
 
-const eventsFromToday = ref<CalendarEvent[]>([]);
-const errorMessage = ref("");
-const eventCount = computed(() => eventsFromToday.value.length); 
-
-const fetchEventsFromToday = async (instructorId: string) => {
-  errorMessage.value = ""; // Clear previous error message
+const getEventsAfter = async () => {
   try {
-    // Fetch the data from the API with timeMin set to the current date/time (today onward)
-    const { data, error } = await useFetch<{
-      success: boolean;
-      data?: CalendarEvent[];
-    }>("/api/getEventsAfter", {
-      params: { timeMin: new Date().toISOString(), instructorId }, // timeMin is now from today onwards
+    const response = await $fetch<FetchResponse>("/api/getEventsAfter", {
+      params: { timeMin: new Date().toISOString(), instructorId },
     });
-
-    // Log the response data for debugging purposes
-    console.log("API Response:", data.value);
-
-    if (error.value) {
-      throw new Error(error.value.message || "Failed to fetch events");
-    }
-
-    // Check if the API returned success and events
-    if (data.value?.success && data.value.data) {
-      eventsFromToday.value = data.value.data;
+    
+    if (response.success && response.data) {
+      events.value = response.data;
+      eventCount.value = events.value.length; // Update with the count of future events
+      console.log("Number of events retrieved after current time:", eventCount.value);
     } else {
-      eventsFromToday.value = [];
-      errorMessage.value = "No events found or API request failed.";
+      errorMessage.value = response.message || "Failed to retrieve events";
+      eventCount.value = 0;
+      console.log("Failed to retrieve events or no events found.");
     }
-  } catch (err) {
-    console.error("Error fetching events:", err);
-    errorMessage.value = err instanceof Error ? err.message : String(err);
-    eventsFromToday.value = [];
+  } catch (error) {
+    errorMessage.value = "API call failed: " + (error as Error).message;
+    eventCount.value = 0;
+    console.log("Error in getEventsAfter:", error);
   }
+
+  // Return only the count
+  return eventCount.value;
 };
+
+// Call getPastEvents on component mount
+onMounted(() => {
+  getEventsAfter();
+});
 
 </script>
 
@@ -202,7 +203,7 @@ const fetchEventsFromToday = async (instructorId: string) => {
           <NuxtLink to="/Instructor/studentAnalysis">
             Student Analysis
           </NuxtLink>
-          for more information
+          for more information on current students
         </p>
       </CardContent>
     </Card>
@@ -226,7 +227,7 @@ const fetchEventsFromToday = async (instructorId: string) => {
         </svg>
       </CardHeader>
       <CardContent>
-        <div class="text-2xl font-bold">{{ eventCount }}</div>
+        <div class="text-2xl font-bold">{{ totalLessonsCount }}</div>
         <p class="text-xs text-muted-foreground">See Calendar for more!</p>
       </CardContent>
     </Card>

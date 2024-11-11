@@ -6,6 +6,8 @@ import { Separator } from "@/components/ui/separator";
 import { ref, onMounted } from "vue";
 import { Skeleton } from '@/components/ui/skeleton'
 import { useFetch } from "#app";
+import { useLocalStorage } from '@vueuse/core';
+const instructorId = useLocalStorage('userId', null).value;
 
 interface CalendarEvent {
   id: string;
@@ -39,30 +41,26 @@ const isLoading = ref(false); // Loading state
 const errorMessage = ref(""); // Error message for debugging
 const client = useSupabaseClient();
 const students = ref<Student[]>([]);
+const eventCount = ref(0);
 
 // Function to fetch events from today onwards
-const fetchEventsFromToday = async (instructorId: string) => {
+const fetchEventsFromToday = async () => {
   isLoading.value = true;
-  errorMessage.value = ""; // Clear previous error message
+  errorMessage.value = "";
   try {
-    // Fetch the data from the API with timeMin set to the current date/time (today onward)
     const { data, error } = await useFetch<{
       success: boolean;
       data?: CalendarEvent[];
     }>("/api/getEventsAfter", {
-      params: { timeMin: new Date().toISOString(), instructorId }, // timeMin is now from today onwards
+      params: { timeMin: new Date().toISOString(), instructorId },
     });
 
-    // Log the response data for debugging purposes
-    console.log("API Response:", data.value);
+    if (error.value) throw new Error(error.value.message || "Failed to fetch events");
 
-    if (error.value) {
-      throw new Error(error.value.message || "Failed to fetch events");
-    }
-
-    // Check if the API returned success and events
     if (data.value?.success && data.value.data) {
       eventsFromToday.value = data.value.data;
+      eventCount.value = eventsFromToday.value.length;
+      console.log("Number of events retrieved in calendar:", eventCount.value);
       groupEventsByDate();
     } else {
       eventsFromToday.value = [];
@@ -79,23 +77,19 @@ const fetchEventsFromToday = async (instructorId: string) => {
   }
 };
 
-// Function to group events by date
+// Group Events by Date
 const groupEventsByDate = () => {
   groupedEvents.value = eventsFromToday.value.reduce((acc, event) => {
-    const eventDate =
-      event.start?.dateTime?.split("T")[0] || event.start?.date || "Unknown";
-    if (!acc[eventDate]) {
-      acc[eventDate] = [];
-    }
+    const eventDate = event.start?.dateTime?.split("T")[0] || event.start?.date || "Unknown";
+    if (!acc[eventDate]) acc[eventDate] = [];
     acc[eventDate].push(event);
     return acc;
   }, {} as Record<string, CalendarEvent[]>);
 };
 
-
+// Handle Event Deletion
 const handleEventDeleted = async () => {
-  // Refetch events after deletion
-  await fetchEventsFromToday("101"); // Replace "1" with the actual instructorId as needed
+  await fetchEventsFromToday();
 };
 
 const getStudents = async () => {
@@ -123,8 +117,8 @@ const getStudents = async () => {
     }
 
 onMounted(() => {
-  const instructorId = "1"; // hardcoded - replace with session ID
-  fetchEventsFromToday(instructorId);
+  console.log(instructorId);
+  fetchEventsFromToday();
   getStudents();
 });
 

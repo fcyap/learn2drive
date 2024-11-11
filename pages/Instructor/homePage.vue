@@ -144,13 +144,20 @@ interface FetchResponse {
   data?: CalendarEvent[];
   message?: string;
 }
+import { useLocalStorage } from '@vueuse/core';
+const instructorId = Number(useLocalStorage('userId', null).value);
 
 const getPastEvents = async () => {
   try {
-    const response = await $fetch<FetchResponse>("/api/getEventsBefore");
+    const response = await $fetch<FetchResponse>("/api/getEventsBefore", {
+      params: {
+        instructorId, // pass the instructor ID as a query parameter
+      },
+    });
     if (response.success && response.data) {
       events.value = response.data;
       eventCount.value = events.value.length;
+      console.log("Number of events retrieved in homepage:", eventCount.value);
     } else {
       errorMessage.value = response.message || "Failed to retrieve events";
       eventCount.value = 0;
