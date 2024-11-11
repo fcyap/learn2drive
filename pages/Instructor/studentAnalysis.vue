@@ -174,7 +174,7 @@ function getProfilePhotoUrl(studentId: string) {
   <div class="grid lg:grid-cols-5 gap-2">
     <ScrollArea class="lg:col-span-5 overflow-auto">
       <!-- Apply gap-4 directly to the flex container and set it to wrap -->
-      <div class="flex flex-wrap gap-4 p-4 justify-start">
+      <div v-if="studentsWithLessons.length > 0" class="flex flex-wrap gap-4 p-4 justify-start">
         <div
           v-for="student in studentsWithLessons"
           :key="student.id"
@@ -468,6 +468,9 @@ function getProfilePhotoUrl(studentId: string) {
             </Card>
           </div>
         </div>
+      </div>
+      <div v-else class="p-4 text-center">
+        <p class="text-xl text-muted-foreground">No students currently</p>
       </div>
       <ScrollBar orientation="horizontal" />
     </ScrollArea>
