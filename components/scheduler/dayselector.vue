@@ -62,9 +62,6 @@
             <DialogFooter>
             <DialogFooter>
               <Button type='button' @click="confirmAvailability()">Confirm</Button>
-              <DialogClose asChild>
-                <Button type='button'>Cancel</Button>
-              </DialogClose>
             </DialogFooter>
             </DialogFooter>
           </DialogContent>
@@ -118,7 +115,7 @@ const generateNext7Days = async () => {
     const { data } = await client
       .from('availability')
       .select('time')
-      .eq("instructor_id", instructorId)
+      .eq("instructor_id", instructorId.value)
       .eq('date', date)
       .eq('available', true);
 
@@ -178,7 +175,7 @@ const fetchDisabledSlots = async (date) => {
     const { data, error } = await client
       .from('availability')
       .select('time')
-      .eq("instructor_id", instructorId)
+      .eq("instructor_id", instructorId.value)
       .eq('date', date)
       .eq('available', true);
 
@@ -211,7 +208,7 @@ const confirmAvailability = async () => {
   if (!selectedDay.value || selectedSlots.value.length === 0) return;
 
   const availabilityData = selectedSlots.value.map((start) => ({
-    instructor_id: instructorId,
+    instructor_id: instructorId.value,
     date: selectedDay.value.fullDate,
     time: start,
     available: true,
@@ -248,7 +245,7 @@ const fetchUpcomingAvailability = async () => {
     const { data, error } = await client
       .from('availability')
       .select('date, time')
-      .eq("instructor_id",instructorId)
+      .eq("instructor_id",instructorId.value)
       .eq("available",true)
       .gte('date', today)
       .order('date', { ascending: true })
