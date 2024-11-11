@@ -60,7 +60,7 @@
       </section>
       <!-- User Section -->
       <section
-        class="py-12 sm:py-20 bg-gray-50"
+        class="min-h-screen py-12 sm:py-20 bg-gray-50"
       >
         <div class="container mx-auto px-4 sm:px-6">
           <h2
@@ -213,7 +213,7 @@
       <section
         class="py-12 sm:py-20 px-4 sm:px-10 bg-gradient-to-b from-blue-50 to-white"
       >
-        <div class="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <div class="min-h-screen container mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <!-- Carousel Section -->
           <div class="w-full order-2 md:order-1">
             <Carousel class="relative w-full max-w-xl mx-auto" :plugins="[plugin]">
