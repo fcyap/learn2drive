@@ -103,7 +103,9 @@ import {
 // Configure Supabase client
 const client = useSupabaseClient();
 
-const instructorId = 1; // FOR SESSION
+const instructorId = useLocalStorage('userId', null);
+import { useLocalStorage } from '@vueuse/core';
+
 
 // Define the next 7 days from tomorrow
 const generateNext7Days = async () => {
