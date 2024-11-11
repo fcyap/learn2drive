@@ -1,15 +1,27 @@
 <template>
   <div class="space-y-2 px-4 md:px-8 lg:px-16">
     <h2 class="text-xl md:text-2xl font-bold tracking-tight">Home</h2>
-    <p class="text-sm md:text-base text-muted-foreground">Manage everything here!</p>
+    <p class="text-sm md:text-base text-muted-foreground">
+      Manage everything here!
+    </p>
 
     <!-- Tab Navigation -->
     <div class="md:hidden">
-      <Tabs default-value="overview" class="space-y-4">
+      <Tabs
+        default-value="overview"
+        class="space-y-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1"
+      >
         <TabsList>
-          <TabsTrigger value="overview"> Overview </TabsTrigger>
-          <TabsTrigger value="calendar"> Calendar </TabsTrigger>
-          <TabsTrigger value="notifications">
+          <TabsTrigger value="overview" class="text-xs xs:text-base"
+            >Overview</TabsTrigger
+          >
+          <TabsTrigger value="calendar" class="text-xs xs:text-base"
+            >Calendar</TabsTrigger
+          >
+          <TabsTrigger
+            value="notifications"
+            class="relative text-xs xs:text-base"
+          >
             Notifications
             <Badge
               v-if="eventCount > 0"
@@ -24,7 +36,7 @@
         <!-- Overview Tab Content -->
         <TabsContent value="overview" class="space-y-4">
           <Summary />
-          <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-1">
+          <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-1">
             <Card>
               <Overview />
             </Card>
@@ -48,7 +60,7 @@
         </TabsContent>
       </Tabs>
     </div>
-    
+
     <!-- Desktop Tabs -->
     <div class="hidden md:flex flex-col space-y-4 pt-6">
       <Tabs default-value="overview" class="space-y-4">
@@ -57,7 +69,11 @@
           <TabsTrigger value="calendar">Calendar</TabsTrigger>
           <TabsTrigger value="notifications">
             Notifications
-            <Badge v-if="eventCount > 0" variant="destructive" class="rounded-full px-2 py-1 text-xs">
+            <Badge
+              v-if="eventCount > 0"
+              variant="destructive"
+              class="rounded-full px-2 py-1 text-xs"
+            >
               {{ eventCount }}
             </Badge>
           </TabsTrigger>
@@ -144,8 +160,8 @@ interface FetchResponse {
   data?: CalendarEvent[];
   message?: string;
 }
-import { useLocalStorage } from '@vueuse/core';
-const instructorId = Number(useLocalStorage('userId', null).value);
+import { useLocalStorage } from "@vueuse/core";
+const instructorId = Number(useLocalStorage("userId", null).value);
 
 const getPastEvents = async () => {
   try {
@@ -184,4 +200,3 @@ onMounted(async () => {
   }
 }
 </style>
-
