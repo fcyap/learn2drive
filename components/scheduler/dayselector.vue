@@ -60,9 +60,9 @@
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
-            <DialogFooter>
+            <DialogClose asChild>
               <Button type='button' @click="confirmAvailability()">Confirm</Button>
-            </DialogFooter>
+              </DialogClose>
             </DialogFooter>
           </DialogContent>
         </Dialog>
