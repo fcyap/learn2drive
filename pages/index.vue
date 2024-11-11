@@ -60,7 +60,7 @@
       </section>
       <!-- User Section -->
       <section
-        class="py-12 sm:py-20 bg-gray-50"
+        class="min-h-screen py-12 sm:py-20 bg-gray-50"
       >
         <div class="container mx-auto px-4 sm:px-6">
           <h2
@@ -101,21 +101,20 @@
               >
                 <div class="flex space-x-2 sm:space-x-4">
                   <img
-                    src="../public/externalFiles/images/Student Dashboard.jpg"
+                    src="../public/externalFiles/images/STUDENT Booking.jpg"
                     alt="Students Snapshot 1"
                     class="w-1/2 h-32 sm:h-40 object-contain object-center"
                   />
                   <img
-                    src="../public/externalFiles/images/Instructor Dashboard.jpg"
+                    src="../public/externalFiles/images/STUDENT Instructor Review.jpg"
                     alt="Students Snapshot 2"
                     class="w-1/2 h-32 sm:h-40 object-contain object-center"
                   />
                 </div>
                 <div class="pt-3 sm:pt-4">
-                  <h4 class="font-semibold text-gray-700">Lesson Schedule</h4>
+                  <h4 class="font-semibold text-gray-700">Student Portal</h4>
                   <p class="text-xs sm:text-sm text-gray-500">
-                    Easily view and manage your upcoming driving lessons with a
-                    streamlined calendar interface.
+                    Access bookings, BTT/FTT study materials, and everything you need for driving—all in one convenient portal.
                   </p>
                 </div>
               </div>
@@ -172,21 +171,20 @@
               >
                 <div class="flex space-x-2 sm:space-x-4">
                   <img
-                    src="../public/externalFiles/images/Student Dashboard.jpg"
+                    src="../public/externalFiles/images/INSTRUCTOR Availabilty.jpg"
                     alt="Students Snapshot 1"
-                    class="w-1/2 h-32 sm:h-40 object-contain object-center"
+                    class="w-1/2 h-40 object-contain object-center"
                   />
                   <img
-                    src="../public/externalFiles/images/Instructor Dashboard.jpg"
+                    src="../public/externalFiles/images/INSTRUCTOR Student Analysis.jpg"
                     alt="Students Snapshot 2"
-                    class="w-1/2 h-32 sm:h-40 object-contain object-center"
+                    class="w-1/2 h-40 object-contain object-center"
                   />
                 </div>
                 <div class="pt-3 sm:pt-4">
-                  <h4 class="font-semibold text-gray-700">Lesson Schedule</h4>
+                  <h4 class="font-semibold text-gray-700">Instructor Portal</h4>
                   <p class="text-xs sm:text-sm text-gray-500">
-                    Easily view and manage your upcoming driving lessons with a
-                    streamlined calendar interface.
+                    Effortlessly view and manage your upcoming driving lessons with a streamlined, user-friendly interface.
                   </p>
                 </div>
               </div>
@@ -215,7 +213,7 @@
       <section
         class="py-12 sm:py-20 px-4 sm:px-10 bg-gradient-to-b from-blue-50 to-white"
       >
-        <div class="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <div class="min-h-screen container mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <!-- Carousel Section -->
           <div class="w-full order-2 md:order-1">
             <Carousel class="relative w-full max-w-xl mx-auto" :plugins="[plugin]">
@@ -223,7 +221,7 @@
                 <CarouselItem
                   v-for="(card, index) in cards"
                   :key="index"
-                  class="pl-1 md:basis-full lg:basis-2/5"
+                  class="pl-1 md:basis-2/5 lg:basis-3/5"
                 >
                   <div class="p-2 sm:p-4">
                     <Card

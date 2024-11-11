@@ -52,14 +52,14 @@ interface Lesson {
 
 interface StudentDrivingProgress {
   id: number;
-  sn: number;
+  modulesn: string;
   module: string;
   done: boolean;
 }
 
 interface StudentTestRoutes {
   id: number;
-  sn: number;
+  testroutesn: number;
   testroute: string;
   done: boolean;
 }
@@ -141,7 +141,7 @@ function getStudentTestRoutes(studentId: number) {
   return (
     student_test_routes.value
       ?.filter((testroute) => testroute.id === studentId)
-      .sort((a, b) => a.sn - b.sn) || []
+      .sort((a, b) => a.testroutesn - b.testroutesn) || []
   );
 }
 
@@ -171,11 +171,6 @@ function getProfilePhotoUrl(studentId: string) {
   return `${supabaseUrl}/storage/v1/object/public/${bucketPath}/${studentId}.jpg`;
 }
 
-console.log("Instructor ID:", instructorId);
-console.log("All Lessons:", lessons.value);
-console.log("Future Lessons:", futureLessons.value);
-console.log("Student IDs with Future Lessons:", Array.from(studentIdsWithLessons.value));
-console.log("Students With Lessons:", studentsWithLessons.value);
 </script>
 
 <template>
@@ -184,16 +179,16 @@ console.log("Students With Lessons:", studentsWithLessons.value);
     <p class="text-muted-foreground">See your students!</p>
   </div>
 
-  <div class="grid lg:grid-cols-5 gap-2">
-    <ScrollArea class="lg:col-span-5 overflow-auto">
-      <div v-if="studentsWithLessons.length > 0" class="flex flex-wrap gap-4 p-4 justify-start">
+  <div>
+    <ScrollArea class="order rounded-md w-full lg:w-11/12 overflow-y-auto lg:overflow-x-auto whitespace-nowrap">
+      <div v-if="studentsWithLessons.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:flex lg:space-x-4 gap-4 p-4 mx-auto">
         <div
           v-for="student in studentsWithLessons"
           :key="student.id"
-          class="student-card"
+          class="student-card w-full sm:w-full md:w-1/2 lg:w-1/4"
         >
           <div class="rounded-md">
-            <Card class="h-80 w-60 flex flex-col items-center justify-center">
+            <Card class="h-80 w-60 flex flex-col items-center justify-center mx-auto">
               <CardContent class="text-center flex flex-col items-center">
                 <img
                   class="rounded-full h-28 w-28 mb-4"
@@ -246,13 +241,13 @@ console.log("Students With Lessons:", studentsWithLessons.value);
                       </div>
                     </DrawerHeader>
                     <div
-                      class="items-start justify-center gap-6 rounded-lg md:grid lg:grid-cols-2 xl:grid-cols-5"
+                      class="items-start justify-center gap-6 rounded-lg grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-5"
                     >
                       <div
-                        class="col-span-2 grid items-start gap-6 lg:col-span-1"
+                        class="col-span-2 md:col-span-1"
                       >
-                        <Container>
-                          <Card class="h-72 overflow-hidden">
+                        <Card>
+                          <Card class="h-auto md:h-72">
                             <CardHeader class="pb-3 h-16">
                               <CardTitle>Personal Details</CardTitle>
                             </CardHeader>
@@ -341,12 +336,12 @@ console.log("Students With Lessons:", studentsWithLessons.value);
                               </div>
                             </CardContent>
                           </Card>
-                        </Container>
+                        </Card>
                       </div>
                       <div class="grid items-start gap-6 lg:col-span-2">
                         <div>
-                          <Container>
-                            <Card class="h-72">
+                          <Card class="col-span-2 md:col-span-2">
+                            <Card class="h-auto md:h-72">
                               <CardHeader class="pb-3 h-16">
                                 <CardTitle>Driving Modules</CardTitle>
                               </CardHeader>
@@ -361,7 +356,7 @@ console.log("Students With Lessons:", studentsWithLessons.value);
                                           v-for="progress in getCompletedProgressByStudent(
                                             student.id
                                           )"
-                                          :key="progress.sn"
+                                          :key="progress.modulesn"
                                         >
                                           {{ progress.module }}
                                         </li>
@@ -376,7 +371,7 @@ console.log("Students With Lessons:", studentsWithLessons.value);
                                           v-for="progress in getUncompletedProgressByStudent(
                                             student.id
                                           )"
-                                          :key="progress.sn"
+                                          :key="progress.modulesn"
                                         >
                                           {{ progress.module }}
                                         </li>
@@ -386,14 +381,14 @@ console.log("Students With Lessons:", studentsWithLessons.value);
                                 </div>
                               </CardContent>
                             </Card>
-                          </Container>
+                          </Card>
                         </div>
                       </div>
                       <div
-                        class="col-span-2 grid items-start gap-6 lg:col-span-2"
+                        class="col-span-2 grid items-start gap-6 col-span-2 md:col-span-2"
                       >
-                        <Container>
-                          <Card class="h-72">
+                        <Card>
+                          <Card class="h-auto md:h-72">
                             <CardHeader class="pb-3 h-16">
                               <CardTitle>Test Route Completion</CardTitle>
                             </CardHeader>
@@ -403,7 +398,7 @@ console.log("Students With Lessons:", studentsWithLessons.value);
                                   v-for="testroute in getStudentTestRoutes(
                                     student.id
                                   )"
-                                  :key="testroute.sn"
+                                  :key="testroute.testroutesn"
                                 >
                                   <!-- Completed Route -->
                                   <Card class="test" v-if="testroute.done">
@@ -458,7 +453,7 @@ console.log("Students With Lessons:", studentsWithLessons.value);
                               </div>
                             </CardContent>
                           </Card>
-                        </Container>
+                        </Card>
                       </div>
                     </div>
                     <DrawerFooter>
