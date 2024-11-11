@@ -181,14 +181,14 @@ function getProfilePhotoUrl(studentId: string) {
 
   <div>
     <ScrollArea class="order rounded-md w-full lg:w-11/12 overflow-y-auto lg:overflow-x-auto whitespace-nowrap">
-      <div v-if="studentsWithLessons.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:flex lg:space-x-4 gap-4 p-4">
+      <div v-if="studentsWithLessons.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:flex lg:space-x-4 gap-4 p-4 mx-auto">
         <div
           v-for="student in studentsWithLessons"
           :key="student.id"
           class="student-card w-full sm:w-full md:w-1/2 lg:w-1/4"
         >
           <div class="rounded-md">
-            <Card class="h-80 w-60 flex flex-col items-center justify-center">
+            <Card class="h-80 w-60 flex flex-col items-center justify-center mx-auto">
               <CardContent class="text-center flex flex-col items-center">
                 <img
                   class="rounded-full h-28 w-28 mb-4"
