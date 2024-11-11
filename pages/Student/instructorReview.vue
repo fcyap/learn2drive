@@ -8,7 +8,7 @@
       </div>
     </div>
     
-    <div class="ml-auto mt-3 mr-3 flex-end" style="cursor:pointer;">
+    <div class="ml-auto mt-3 justify-end flex" style="cursor:pointer;">
       <DropdownMenu>
         <DropdownMenuTrigger as-child>
           <Button variant="outline">
@@ -32,20 +32,20 @@
     <div v-for="instructor in sortedInstructors" :key="instructor.id">
       <NuxtLink :to="`/Student/reviewTemplate/${instructor.id}`">
         <Card class="card bg-slate-100">
-          <div class="flex-shrink-0 mr-16">
+          <div class="flex-shrink-1 mr-3 sm:mr-8 md:mr-16">
             <img v-if="instructor.image !== null"
-              height="100px" 
-              width="100px" 
+              height="100vw"
+              width="100vw"
               :src="instructor.image"
               alt="Instructor" 
-              class="rounded-full"
+              class="object-cover rounded-full"
             />
             <img v-else
-              height="100px" 
-              width="100px" 
+              height="100vw"
+              width="100vw"
               src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
               alt="Instructor Uncle" 
-              class="rounded-full"
+              class="rounded-full object-cover"
             />
           </div>
           <div class="flex-grow">
@@ -159,6 +159,8 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     color: rgb(79, 83, 92);
   }
+
+  
 </style>
 <script setup lang="ts">
 definePageMeta({
