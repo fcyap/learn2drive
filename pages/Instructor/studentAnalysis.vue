@@ -52,14 +52,14 @@ interface Lesson {
 
 interface StudentDrivingProgress {
   id: number;
-  sn: number;
+  modulesn: string;
   module: string;
   done: boolean;
 }
 
 interface StudentTestRoutes {
   id: number;
-  sn: number;
+  testroutesn: number;
   testroute: string;
   done: boolean;
 }
@@ -141,7 +141,7 @@ function getStudentTestRoutes(studentId: number) {
   return (
     student_test_routes.value
       ?.filter((testroute) => testroute.id === studentId)
-      .sort((a, b) => a.sn - b.sn) || []
+      .sort((a, b) => a.testroutesn - b.testroutesn) || []
   );
 }
 
@@ -361,7 +361,7 @@ console.log("Students With Lessons:", studentsWithLessons.value);
                                           v-for="progress in getCompletedProgressByStudent(
                                             student.id
                                           )"
-                                          :key="progress.sn"
+                                          :key="progress.modulesn"
                                         >
                                           {{ progress.module }}
                                         </li>
@@ -376,7 +376,7 @@ console.log("Students With Lessons:", studentsWithLessons.value);
                                           v-for="progress in getUncompletedProgressByStudent(
                                             student.id
                                           )"
-                                          :key="progress.sn"
+                                          :key="progress.modulesn"
                                         >
                                           {{ progress.module }}
                                         </li>
@@ -403,7 +403,7 @@ console.log("Students With Lessons:", studentsWithLessons.value);
                                   v-for="testroute in getStudentTestRoutes(
                                     student.id
                                   )"
-                                  :key="testroute.sn"
+                                  :key="testroute.testroutesn"
                                 >
                                   <!-- Completed Route -->
                                   <Card class="test" v-if="testroute.done">
