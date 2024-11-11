@@ -60,9 +60,12 @@
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
-            <DialogClose asChild>
+            <DialogFooter>
               <Button type='button' @click="confirmAvailability()">Confirm</Button>
+              <DialogClose asChild>
+                <Button type='button'>Cancel</Button>
               </DialogClose>
+            </DialogFooter>
             </DialogFooter>
           </DialogContent>
         </Dialog>
