@@ -305,7 +305,7 @@ function navigateToTest() {
       </div>
         <br />
         <div class="inline-flex items-center justify-center w-full my-1 drop-shadow-md">
-          <div style="width: 10%;"> 
+          <div class="mr-7 sm:w-auto sm:mr-9 flex-shrink-0"> 
             <h2>Your answer:</h2>
           </div>
           <Card v-if="resultPair.aid !== 0" class="flex-grow w-full" :style="{backgroundColor: (getAnswer(resultPair.aid)?.is_correct === true) ? '#bcf6b8' : '#f3bdbd'}">
@@ -320,7 +320,7 @@ function navigateToTest() {
         </div>
         <div v-else>
           <div class="inline-flex items-center justify-center w-full my-1 drop-shadow-lg">
-            <div style="width: 10%"> 
+            <div class="mr-2 sm:w-auto sm:mr-4 flex-shrink-0"> 
             <h2>Correct answer:</h2>
           </div>
           <Card style="background-color: #bcf6b8" class="w-full">
