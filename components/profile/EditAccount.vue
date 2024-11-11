@@ -137,10 +137,11 @@ const updateProfile = async () => {
             @change="onFileSelected"
           />
         </div>
-        <div class="col-span-1 gap-2">
+      </div>
+        <div class="grid md:grid-cols-4 gap-6 grid-cols-1">
           <Button variant="secondary" @click="delete"> Delete </Button>
         </div>
-      </div>
+      
 
       <div class="grid md:grid-cols-2 gap-6 grid-cols-1 ">
         <div class="col-span-1 gap-2">
