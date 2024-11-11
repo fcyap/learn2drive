@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -6,20 +6,16 @@ import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useLocalStorage } from '@vueuse/core';
 
-interface Profile {
-  last_name: string;
-  first_name: string;
-  email: string;
-  password: string;
-}
 
-const supabase = useSupabaseClient<Profile>();
+const supabase = useSupabaseClient();
 // To get the current user ID
 const id = useLocalStorage('userId', null); // 'userId' is the key, and `null` is the default value
 const lastName = ref('');
 const firstName = ref('');
 const email = ref('');
-const phoneNumber = ref('');
+const contact_no = ref('');
+const user_type = ref('');
+const selectedFile = ref(null);
 
 // get current information
 if(id.value){
@@ -34,11 +30,29 @@ const { data, error} = await supabase
   } else {
 
   email.value = data.email
-  lastName.value = data.name.split(' ')[1];
-  firstName.value = data.name.split(' ')[0]
-  phoneNumber.value = data.phone_number
+  lastName.value = data.name.split(' ')[-1];
+  firstName.value = data.name.split(' ').slice(0, -1).join(',')
+  contact_no.value = data.contact_no
+  user_type.value = data.user_type
   }
+
+  if (user_type.value == 'student') {
+    const { data, error} = await supabase
+    .storage
+    .from('new_profile_photos')
+    .download('new_profile_photos/' + id.value + '.jpg')
+  } else {
+    const { data, error} = await supabase
+    .storage
+    .from('instructor_phots')
+    .download('instructor_photos/' + id.value + '.png')
+  } 
 }
+
+const onFileSelected = (event) => {
+  selectedFile.value = event.target.files[0];
+  console.log("Selected file:", selectedFile.value);
+};
 
 const updateProfile = async () => {
 
@@ -49,7 +63,7 @@ const updateProfile = async () => {
       .update({
         name: fullName,
         email: email.value,
-        phone_number: phoneNumber.value
+        contact_no: contact_no.value
       })
       .eq('id', id.value);
     
@@ -58,6 +72,27 @@ const updateProfile = async () => {
     } else {
         console.log('Profile updated successfully');
     }
+
+    const profilePic = selectedFile.value;
+      if (id.value == "student" && profilePic){
+        const { data, error } = await supabase
+          .storage
+          .from('new_profile_photos')
+          .update(`public/${profilePic}`, profilePic, {
+            cacheControl: '3600',
+            upsert: true,
+          })}
+      else{
+        if (profilePic){
+        const { data, error } = await supabase
+          .storage
+          .from('instructor_photos')
+          .update(`public/${profilePic}`, profilePic, {
+            cacheControl: '3600',
+            upsert: true,
+          })
+        }
+      }
   } else {
     console.error('User ID is null');
   }
@@ -85,14 +120,26 @@ const updateProfile = async () => {
           </Avatar>
           <div>
             <h4 class="text-m font-bold tracking-tight">Profile Picture</h4>
-            <!-- <p class="text-muted-foreground">PNG, JPEG under 15mb</p> -->
+            <p class="text-muted-foreground">PNG, JPEG under 15mb</p>
           </div>
         </div>
 
-        <!-- <div>
-          <Button variant="outline" class="mr-2"> Upload new picture </Button>
-          <Button variant="secondary"> Delete </Button>
-        </div> -->
+        
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6 grid-cols-1 ">
+        <div class="col-span-1 gap-2">
+          <label for="profilePic" class="block text-sm font-medium text-gray-700"
+            >Update Profile Pic</label>
+          <input
+            id="profilePic"
+            type="file"
+            @change="onFileSelected"
+          />
+        </div>
+        <div class="col-span-1 gap-2">
+          <Button variant="secondary" @click="delete"> Delete </Button>
+        </div>
       </div>
 
       <div class="grid md:grid-cols-2 gap-6 grid-cols-1 ">
@@ -113,7 +160,7 @@ const updateProfile = async () => {
         </div>
         <div class="col-span-1 gap-2">
           <Label for="number" class="col-span-2">Phone Number</Label>
-          <Input id="phonenumber" type="number" :placeholder="phoneNumber" v-model="phoneNumber"/>
+          <Input id="contact_no" type="number" :placeholder="contact_no" v-model="contact_no"/>
         </div>
       </div>
       <div style="margin-top: 4%; text-align: center;">

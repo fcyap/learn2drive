@@ -366,6 +366,28 @@
                   <option value="student">Student</option>
                   <option value="instructor">Instructor</option>
                 </select>
+              
+                <label for="contactNo" class="block text-sm font-medium text-gray-700"
+                  >Contact Number</label
+                >
+                <input
+                  id="contactNo"
+                  v-model="contactNo"
+                  type="number"
+                  placeholder="Enter your contact number"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-slate-500 focus:border-slate-500"
+                />
+
+                <label for="profilePic" class="block text-sm font-medium text-gray-700"
+                  >Profile Picture</label
+                >
+                <input
+                  id="profilePic"
+                  type="file"
+                  @change="onFileSelected"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-slate-500 focus:border-slate-500"
+                />
+              
               </div>
               <button
                 type="submit"
@@ -422,6 +444,8 @@ const name = ref("");
 const email = ref("");
 const password = ref("");
 const userType = ref("student");let currentIndex = 0;
+const contactNo = ref("");
+const selectedFile = ref(null);
 
 
 function updateCarousel() {
@@ -575,6 +599,12 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
 });
+
+const onFileSelected = (event) => {
+  selectedFile.value = event.target.files[0];
+  console.log("Selected file:", selectedFile.value);
+};
+
 const getNextId = async (userType) => {
   const { data, error } = await supabase
     .from('profiles_duplicate')
@@ -597,6 +627,8 @@ const getNextId = async (userType) => {
     return userType === 'instructor' ? 1 : 101;
   }
 };
+
+
 const handleSubmit = async () => {
   error.value = null;
   const userId = useLocalStorage('userId', null); // Use localStorage to store userId
@@ -643,6 +675,7 @@ const handleSubmit = async () => {
           email: email.value,
           password: password.value,
           user_type: userType.value,
+          contact_no: contactNo.value,
         })
         .select();
 
@@ -654,6 +687,26 @@ const handleSubmit = async () => {
 
       // Store userId in localStorage
       userId.value = nextId; // Store userId
+
+      // Upload profile picture
+      const profilePic = selectedFile.value;
+      if (userId.value == "student"){
+        const { data, error } = await supabase
+          .storage
+          .from('new_profile_photos')
+          .upload(`public/${profilePic.value}`, profilePic, {
+            cacheControl: '3600',
+            upsert: false,
+          })}
+      else{
+        const { data, error } = await supabase
+          .storage
+          .from('instructor_photos')
+          .upload(`public/${profilePic.value}`, profilePic, {
+            cacheControl: '3600',
+            upsert: false,
+          })
+      }
 
 
       if (data && data.length > 0) {
