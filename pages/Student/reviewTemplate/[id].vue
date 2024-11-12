@@ -140,6 +140,18 @@ const sortedReviews = computed(() => {
   });
 });
 
+    const showFullText = ref({});
+
+    function toggleFullText(idx: number) {
+      // Toggle the expanded state of the selected review
+      showFullText.value[idx] = !showFullText.value[idx];
+    }
+
+    function truncatedText(text: string) {
+      // Truncate text to a certain length
+      return text.length > 300 ? text.slice(0, 300) + '...' : text;
+    }
+
 </script>
 
 <template>
@@ -199,11 +211,22 @@ const sortedReviews = computed(() => {
       </div>
     </div>
     <hr>
-    <p class="py-2 break-words">{{ review.comment }}</p>
+    <div class="py-2 break-words">
+      <p :class="{ 'max-h-[100px] overflow-hidden': !showFullText[idx] }">
+        {{ showFullText[idx] ? review.comment : truncatedText(review.comment) }}
+    </p>
+    </div>
+    <button
+      v-if="review.comment.length > 150"
+      @click="toggleFullText(idx)"
+      class="text-gray-500 hover:underline mt-1"
+    >
+      {{ showFullText[idx] ? 'Read less' : 'Read more' }}
+    </button>
   </Card>
 </div>
 
-  <div v-else class="text-2xl">No reviews yet.</div>
+  <div v-else class="text-xl px-4">No reviews yet.</div>
   </div>  
 </div>
 </template>
