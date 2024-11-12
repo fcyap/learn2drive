@@ -22,24 +22,23 @@ export default defineNuxtConfig({
     // }
   },
 
-  // shadcn-nuxt Module Configuration
   shadcn: {
     prefix: '',
     componentDir: './components/ui',
   },
 
-  // Vite Configuration for Icons Plugin
   vite: {
     plugins: [
       Icons({
-        autoInstall: true, // Automatically installs missing icons
-        compiler: 'vue3', // Ensure Vue 3 compatibility
+        autoInstall: true,
+        compiler: 'vue3',
       }),
     ],
   },
 
-  // Compatibility Settings
   compatibilityDate: '2024-10-10',
+
+  css:['~/assets/css/tailwind.css'],
 
   build:{
     transpile:["@supabase/postgrest-js"]

@@ -184,11 +184,10 @@ function getProfilePhotoUrl(studentId: string) {
         <div
           v-for="student in studentsWithLessons"
           :key="student.id"
-          class="student-card w-full sm:w-full md:w-1/2 lg:w-1/4"
+          class="w-full sm:w-full md:w-1/2 lg:w-1/4"
         >
-          <div class="rounded-md">
             <Card
-              class="w-56 h-80 lg:w-60 flex flex-col items-center justify-center mx-auto"
+              class="student-card w-56 h-80 lg:w-60 flex flex-col items-center justify-center mx-auto"
             >
               <CardContent class="text-center flex flex-col items-center">
                 <img
@@ -460,7 +459,6 @@ function getProfilePhotoUrl(studentId: string) {
                 </Drawer>
               </CardContent>
             </Card>
-          </div>
         </div>
       </div>
       <div v-else class="p-4 text-center">
@@ -472,6 +470,10 @@ function getProfilePhotoUrl(studentId: string) {
 </template>
 
 <style scoped>
+
+.student-card {
+  border-radius: 0.5rem;
+}
 .view-progress:hover {
   background-color: rgb(213, 213, 213);
 }
