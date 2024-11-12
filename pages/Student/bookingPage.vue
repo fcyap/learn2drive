@@ -144,7 +144,12 @@ import { useLocalStorage } from "@vueuse/core";
 
 // To get the current user ID
 const userId = useLocalStorage("userId", null).value;
-console.log(userId);
+import { useRouter } from 'vue-router';
+
+if (userId === null) {
+  const router = useRouter();
+  router.push("/");
+}
 
 // Reactive references for data
 const locations = ref([]);
