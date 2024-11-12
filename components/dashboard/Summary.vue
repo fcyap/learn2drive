@@ -6,7 +6,7 @@ const client = useSupabaseClient();
 
 interface Earning {
   month: number;
-  instructorId: number;
+  instructorid: number;
   year: number;
   amount: number;
 }
@@ -72,7 +72,7 @@ function getUniqueStudents(instructorId: number) {
 function getInstructorEarning(instructorId: number, month?: number, year?: number) {
   return instructor_earnings.value?.filter(
     (earning) =>
-      earning.instructorId === instructorId &&
+      earning.instructorid === instructorId &&
       (!month || earning.month === month) &&
       (!year || earning.year === year)
   ) ?? [];
