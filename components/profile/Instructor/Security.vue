@@ -18,7 +18,7 @@ const changePW = async () => {
     const { data, error } = await supabase
       .from('profiles_duplicate')
       .select('password')
-      .eq('id', id.value)
+      .eq('id', id)
       .single();
 
     if (error) {
@@ -35,8 +35,8 @@ const changePW = async () => {
     else {
       const { data, error } = await supabase
         .from('profiles_duplicate')
-        .update({ password: newPassword.value })
-        .eq('id', id.value);
+        .update({ password: newPassword })
+        .eq('id', id);
 
       console.log("Password updated successfully");
     }
@@ -61,11 +61,11 @@ const changePW = async () => {
       <div>
         <form>
         <div class="col-span-1 gap-2">
-          <Label for="oldPassword">Current Password</Label>
+          <Label for="oldPassword">Password</Label>
           <Input id="oldPassword" type="text" v-model="oldPassword" placeholder="" />
         </div>
         <div class="col-span-1 gap-2">
-          <Label for="newPassword">New Password</Label>
+          <Label for="newPassword">Confirm Password</Label>
           <Input id="newPassword" type="text" v-model="newPassword" placeholder="" />
         </div>
         <div style="margin-top: 4%; text-align: center">
