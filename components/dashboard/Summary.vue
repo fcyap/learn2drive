@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed } from 'vue';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const client = useSupabaseClient();
@@ -15,7 +15,7 @@ interface Lessons {
   instructor_name: string;
   student_id: number;
   date: Date;
-  time: string;
+  time: string; 
   location: string;
   instructor_id: number;
 }
@@ -37,17 +37,20 @@ interface CalendarEvent {
   };
 }
 
-import { useLocalStorage } from "@vueuse/core";
-const instructorId = Number(useLocalStorage("userId", null).value);
+import { useLocalStorage } from '@vueuse/core';
+const instructorId = Number(useLocalStorage('userId', null).value);
 // const instructorId = 1; // Replace with session id or other identifier
-const previousMonth = new Date().getMonth();
+const previousMonth  = new Date().getMonth()
 const currentMonth = previousMonth + 1;
 const currentYear = new Date().getFullYear();
 
-const { data: lessons } = await useAsyncData<Lessons[]>("lessons", async () => {
-  const { data } = await client.from("lessons").select();
-  return data ?? [];
-});
+const { data: lessons } = await useAsyncData<Lessons[]>(
+  "lessons",
+  async () => {
+    const { data } = await client.from("lessons").select();
+    return data ?? [];
+  }
+);
 
 // Fetch earnings data
 const { data: instructor_earnings } = await useAsyncData<Earning[]>(
@@ -60,56 +63,46 @@ const { data: instructor_earnings } = await useAsyncData<Earning[]>(
 
 function getUniqueStudents(instructorId: number) {
   const uniqueStudentIds = new Set(
-    lessons.value
-      ?.filter((lesson) => lesson.instructor_id === instructorId)
-      .map((lesson) => lesson.student_id)
+    lessons.value?.filter(lesson => lesson.instructor_id === instructorId).map(lesson => lesson.student_id)
   );
   return uniqueStudentIds.size;
 }
 
 // Function to get earnings for a specific instructor and month/year
-function getInstructorEarning(
-  instructorId: number,
-  month?: number,
-  year?: number
-) {
-  return (
-    instructor_earnings.value?.filter(
-      (earning) =>
-        earning.instructorId === instructorId &&
-        (!month || earning.month === month) &&
-        (!year || earning.year === year)
-    ) ?? []
-  );
+function getInstructorEarning(instructorId: number, month?: number, year?: number) {
+  return instructor_earnings.value?.filter(
+    (earning) =>
+      earning.instructorId === instructorId &&
+      (!month || earning.month === month) &&
+      (!year || earning.year === year)
+  ) ?? [];
 }
 
 // Total earning up to the current month
 const totalEarning = computed(() => {
-  return (
-    getInstructorEarning(instructorId)
-      ?.filter((earning) => earning.month <= currentMonth) // Filter for months before November
-      .reduce((sum, earning) => sum + earning.amount, 0) ?? 0
-  );
+  return getInstructorEarning(instructorId)
+    ?.filter((earning) => earning.month <= currentMonth) // Filter for months before November
+    .reduce((sum, earning) => sum + earning.amount, 0) ?? 0;
 });
 
 const totalEarningBefore = computed(() => {
-  return (
-    getInstructorEarning(instructorId)
-      ?.filter((earning) => earning.month <= previousMonth) // Filter for months before November
-      .reduce((sum, earning) => sum + earning.amount, 0) ?? 0
-  );
+  return getInstructorEarning(instructorId)
+    ?.filter((earning) => earning.month <= previousMonth) // Filter for months before November
+    .reduce((sum, earning) => sum + earning.amount, 0) ?? 0;
 });
+
+
 
 // Percentage change from the previous month to the current month
 const percentageChange = computed(() => {
   return totalEarningBefore.value
-    ? ((totalEarning.value - totalEarningBefore.value) /
-        totalEarningBefore.value) *
-        100
+    ? ((totalEarning.value - totalEarningBefore.value) / totalEarningBefore.value) * 100
     : 0;
 });
 
 const uniqueStudentsCount = computed(() => getUniqueStudents(instructorId));
+
+
 
 const events = ref<CalendarEvent[]>([]);
 const errorMessage = ref("");
@@ -127,14 +120,11 @@ const getEventsAfter = async () => {
     const response = await $fetch<FetchResponse>("/api/getEventsAfter", {
       params: { timeMin: new Date().toISOString(), instructorId },
     });
-
+    
     if (response.success && response.data) {
       events.value = response.data;
       eventCount.value = events.value.length; // Update with the count of future events
-      console.log(
-        "Number of events retrieved after current time:",
-        eventCount.value
-      );
+      console.log("Number of events retrieved after current time:", eventCount.value);
     } else {
       errorMessage.value = response.message || "Failed to retrieve events";
       eventCount.value = 0;
@@ -154,11 +144,12 @@ const getEventsAfter = async () => {
 onMounted(() => {
   getEventsAfter();
 });
+
 </script>
 
 <template>
   <div class="grid gap-4 grid-cols-1 md:grid-cols-1 lg:grid-cols-3">
-    <Card class="bg-slate-100">
+    <Card>
       <CardHeader
         class="flex flex-row items-center justify-between space-y-0 pb-2"
       >
@@ -181,16 +172,12 @@ onMounted(() => {
       <CardContent>
         <div class="text-2xl font-bold">${{ totalEarning }}</div>
         <p class="text-xs text-muted-foreground">
-          <span :class="percentageChange > 0 ? 'text-green-500' : ''">
-            {{ percentageChange > 0 ? "+" : ""
-            }}{{ percentageChange.toFixed(1) }}%
-          </span>
-          from last month
+          +{{ percentageChange.toFixed(1) }}% from last month
         </p>
       </CardContent>
     </Card>
-
-    <Card class="bg-slate-100">
+    
+    <Card>
       <CardHeader
         class="flex flex-row items-center justify-between space-y-0 pb-2"
       >
@@ -216,12 +203,12 @@ onMounted(() => {
           <NuxtLink to="/Instructor/studentAnalysis">
             Student Analysis
           </NuxtLink>
-          for more information
+          for more information on current students
         </p>
       </CardContent>
     </Card>
-
-    <Card class="bg-slate-100">
+    
+    <Card>
       <CardHeader
         class="flex flex-row items-center justify-between space-y-0 pb-2"
       >
