@@ -747,7 +747,7 @@ const handleSubmit = async () => {
       const profilePic = selectedFile.value;
       console.log(data[0].user_type);
       if (data[0].user_type === "student") {
-        const fileName = `${nextId}.png`;
+        const fileName = `${nextId}.jpg`;
         const { data: uploadData, error } = await supabase.storage
           .from("new_profile_photos")
           .upload(`${fileName}`, profilePic, {
@@ -764,7 +764,7 @@ const handleSubmit = async () => {
           );
         }
       } else {
-        const fileName = `${nextId}.jpg`;
+        const fileName = `${nextId}.png`;
         const { data: uploadData, error } = await supabase.storage
           .from("instructor_photos")
           .upload(`${fileName}`, profilePic, {
