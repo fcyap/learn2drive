@@ -7,6 +7,14 @@ import Container from "@/components/profile/Container.vue";
 import EditAccount from "@/components/profile/EditAccount.vue";
 import SecurityStudent from "~/components/profile/Student/SecurityStudent.vue";
 import Logout from "~/components/profile/Logout.vue";
+import { useLocalStorage } from "@vueuse/core";
+import { useRouter } from 'vue-router';
+
+const id = Number(useLocalStorage("userId", null).value);
+if (id === null) {
+  const router = useRouter();
+  router.push("/");
+}
 </script>
 
 <template>

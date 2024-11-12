@@ -107,6 +107,12 @@ const instructorId = useLocalStorage('userId', null);
 import { useLocalStorage } from '@vueuse/core';
 
 
+import { useRouter } from 'vue-router';
+if (instructorId === null) {
+  const router = useRouter();
+  router.push("/");
+}
+
 // Define the next 7 days from tomorrow
 const generateNext7Days = async () => {
   const daysArray = [];
