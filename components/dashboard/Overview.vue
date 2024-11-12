@@ -6,7 +6,7 @@ const client = useSupabaseClient();
 
 interface Earning {
   month: number;
-  instructorId: number;
+  instructorid: number;
   year: number;
   amount: number;
 }
@@ -27,7 +27,7 @@ const instructorId = Number(useLocalStorage('userId', null).value);
 function getInstructorEarning(instructorId: number){
   return (
     instructor_earnings.value?.filter(
-      (earning) => earning.instructorId === instructorId
+      (earning) => earning.instructorid === instructorId
     )
   );
 }
@@ -37,7 +37,7 @@ const formattedEarnings = computed(() => {
 
   return (
     instructor_earnings.value
-      ?.filter((earning) => earning.instructorId === instructorId)
+      ?.filter((earning) => earning.instructorid === instructorId)
       .sort((a, b) => a.month - b.month) // Sort by month number
       .map((earning) => ({
         name: monthNames[earning.month - 1], // Convert month number to name

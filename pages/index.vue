@@ -7,7 +7,9 @@
       class="fixed top-0 left-0 right-0 bg-white bg-opacity-90 shadow-md z-50 transition-all duration-300"
       :class="{ 'py-2': scrollY > 50, 'py-4': scrollY <= 50 }"
     >
-      <nav class="container mx-auto px-4 sm:px-6 flex justify-between items-center">
+      <nav
+        class="container mx-auto px-4 sm:px-6 flex justify-between items-center"
+      >
         <h1
           class="text-xl sm:text-2xl font-bold text-slate-600 transition-all duration-300"
           :class="{ 'text-lg sm:text-xl': scrollY > 50 }"
@@ -28,7 +30,9 @@
         class="min-h-screen flex items-center justify-center relative overflow-hidden animation-delay-300 px-4 sm:px-6"
       >
         <div class="container mx-auto text-center">
-          <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-blue-800 animate-fade-in-up">
+          <h2
+            class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-blue-800 animate-fade-in-up"
+          >
             Driving with Learn2Drive
           </h2>
           <p class="text-lg sm:text-xl mb-8 text-gray-600 animate-fade-in-up">
@@ -47,7 +51,9 @@
               transform: `translateX(${((scrollY % 1000) / 1000) * 50}vw)`,
             }"
           >
-            <div class="w-24 sm:w-32 h-12 sm:h-16 bg-blue-500 bottom-2 rounded-t-full relative">
+            <div
+              class="w-24 sm:w-32 h-12 sm:h-16 bg-blue-500 bottom-2 rounded-t-full relative"
+            >
               <div
                 class="absolute top-2 left-2 right-2 h-4 sm:h-6 bg-slate-400 rounded-t-full"
               ></div>
@@ -62,9 +68,7 @@
         </div>
       </section>
       <!-- User Section -->
-      <section
-        class="min-h-screen py-12 sm:py-20 bg-gray-50"
-      >
+      <section class="min-h-screen py-12 sm:py-20 bg-gray-50">
         <div class="container mx-auto px-4 sm:px-6">
           <h2
             class="text-3xl sm:text-4xl font-bold mb-8 sm:mb-12 text-center text-blue-800"
@@ -73,7 +77,8 @@
           </h2>
           <div class="grid md:grid-cols-2 gap-8 sm:gap-12">
             <!-- Students Card -->
-            <div @click="showAuthModal = true"
+            <div
+              @click="showAuthModal = true"
               class="bg-white rounded-xl shadow-lg p-4 sm:p-6 relative overflow-hidden hover:-translate-y-2 transition-transform duration-300 ease-in-out"
             >
               <div class="absolute top-4 sm:top-6 right-4 sm:right-6">
@@ -94,7 +99,11 @@
                   </svg>
                 </button>
               </div>
-              <h3 class="text-2xl sm:text-3xl font-semibold text-slate-700 mb-3 sm:mb-4">Students</h3>
+              <h3
+                class="text-2xl sm:text-3xl font-semibold text-slate-700 mb-3 sm:mb-4"
+              >
+                Students
+              </h3>
               <p class="text-gray-600 mb-4 sm:mb-6">
                 A platform for learners to manage their driving lessons, track
                 progress, and connect with instructors.
@@ -117,11 +126,13 @@
                 <div class="pt-3 sm:pt-4">
                   <h4 class="font-semibold text-gray-700">Student Portal</h4>
                   <p class="text-xs sm:text-sm text-gray-500">
-                    Access bookings, BTT/FTT study materials, and everything you need for driving—all in one convenient portal.
+                    Access bookings, BTT/FTT study materials, and everything you
+                    need for driving—all in one convenient portal.
                   </p>
                 </div>
               </div>
-              <button @click="showAuthModal = true"
+              <button
+                @click="showAuthModal = true"
                 class="absolute top-4 sm:top-6 right-4 sm:right-6 bg-white text-blue-600 rounded-full p-2 sm:p-3 shadow-lg"
               >
                 <svg
@@ -141,7 +152,8 @@
               </button>
             </div>
             <!-- Instructors Card -->
-            <div @click="showAuthModal = true"
+            <div
+              @click="showAuthModal = true"
               class="bg-white rounded-xl shadow-lg p-4 sm:p-6 relative overflow-hidden hover:-translate-y-2 transition-transform duration-300 ease-in-out"
             >
               <div class="absolute top-4 sm:top-6 right-4 sm:right-6">
@@ -162,12 +174,14 @@
                   </svg>
                 </button>
               </div>
-              <h3 class="text-2xl sm:text-3xl font-semibold text-slate-700 mb-3 sm:mb-4">
+              <h3
+                class="text-2xl sm:text-3xl font-semibold text-slate-700 mb-3 sm:mb-4"
+              >
                 Instructors
               </h3>
               <p class="text-gray-600 mb-4 sm:mb-6">
-                A tool for driving instructors to manage schedules, track student
-                progress, and optimize lesson plans.
+                A tool for driving instructors to manage schedules, track
+                student progress, and optimize lesson plans.
               </p>
               <div
                 class="rounded-lg overflow-hidden shadow-lg border bg-white p-3 sm:p-4"
@@ -187,7 +201,8 @@
                 <div class="pt-3 sm:pt-4">
                   <h4 class="font-semibold text-gray-700">Instructor Portal</h4>
                   <p class="text-xs sm:text-sm text-gray-500">
-                    Effortlessly view and manage your upcoming driving lessons with a streamlined, user-friendly interface.
+                    Effortlessly view and manage your upcoming driving lessons
+                    with a streamlined, user-friendly interface.
                   </p>
                 </div>
               </div>
@@ -216,10 +231,15 @@
       <section
         class="py-12 sm:py-20 px-4 sm:px-10 bg-gradient-to-b from-blue-50 to-white"
       >
-        <div class="min-h-screen container mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <div
+          class="min-h-screen container mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center"
+        >
           <!-- Carousel Section -->
           <div class="w-full order-2 md:order-1">
-            <Carousel class="relative w-full max-w-xl mx-auto" :plugins="[plugin]">
+            <Carousel
+              class="relative w-full max-w-xl mx-auto"
+              :plugins="[plugin]"
+            >
               <CarouselContent>
                 <CarouselItem
                   v-for="(card, index) in cards"
@@ -228,13 +248,18 @@
                 >
                   <div class="p-2 sm:p-4">
                     <Card
-                      :class="[card.bgColor, 'w-full h-80 sm:h-96 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-2 transition-transform duration-300 ease-in-out']"
+                      :class="[
+                        card.bgColor,
+                        'w-full h-80 sm:h-96 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-2 transition-transform duration-300 ease-in-out',
+                      ]"
                     >
                       <CardContent
                         class="flex flex-col items-center justify-center p-4 sm:p-6"
                       >
                         <div v-html="card.icon"></div>
-                        <h2 class="text-lg sm:text-xl font-bold mt-3 sm:mt-4 text-center">
+                        <h2
+                          class="text-lg sm:text-xl font-bold mt-3 sm:mt-4 text-center"
+                        >
                           {{ card.title }}
                         </h2>
                         <p
@@ -247,7 +272,10 @@
                           {{ card.description }}
                         </p>
                         <!-- Conditional Divider -->
-                        <div v-if="card.showDivider" class="w-full my-3 sm:my-4">
+                        <div
+                          v-if="card.showDivider"
+                          class="w-full my-3 sm:my-4"
+                        >
                           <hr class="border-t border-gray-300" />
                           <p
                             v-if="card.dividerText"
@@ -268,7 +296,9 @@
 
           <!-- Text Section -->
           <div class="text-center md:text-right order-1 md:order-2">
-            <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-4 text-blue-800 animate-fade-in-up">
+            <h2
+              class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-4 text-blue-800 animate-fade-in-up"
+            >
               Providing better experiences,
               <br />connecting both <br />learners and instructors
             </h2>
@@ -318,7 +348,9 @@
             </div>
             <form @submit.prevent="handleSubmit" class="space-y-4">
               <div v-if="!isLogin" class="space-y-2">
-                <label for="name" class="block text-sm font-medium text-gray-700"
+                <label
+                  for="name"
+                  class="block text-sm font-medium text-gray-700"
                   >Full Name</label
                 >
                 <input
@@ -330,7 +362,9 @@
                 />
               </div>
               <div class="space-y-2">
-                <label for="email" class="block text-sm font-medium text-gray-700"
+                <label
+                  for="email"
+                  class="block text-sm font-medium text-gray-700"
                   >Email</label
                 >
                 <input
@@ -356,7 +390,9 @@
                 />
               </div>
               <div v-if="!isLogin" class="space-y-2">
-                <label for="userType" class="block text-sm font-medium text-gray-700"
+                <label
+                  for="userType"
+                  class="block text-sm font-medium text-gray-700"
                   >User Type</label
                 >
                 <select
@@ -367,8 +403,10 @@
                   <option value="student">Student</option>
                   <option value="instructor">Instructor</option>
                 </select>
-              
-                <label for="contactNo" class="block text-sm font-medium text-gray-700"
+
+                <label
+                  for="contactNo"
+                  class="block text-sm font-medium text-gray-700"
                   >Contact Number</label
                 >
                 <input
@@ -379,7 +417,9 @@
                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-slate-500 focus:border-slate-500"
                 />
 
-                <label for="location" class="block text-sm font-medium text-gray-700"
+                <label
+                  for="location"
+                  class="block text-sm font-medium text-gray-700"
                   >Location</label
                 >
                 <input
@@ -390,7 +430,9 @@
                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-slate-500 focus:border-slate-500"
                 />
 
-                <label for="profilePic" class="block text-sm font-medium text-gray-700"
+                <label
+                  for="profilePic"
+                  class="block text-sm font-medium text-gray-700"
                   >Profile Picture</label
                 >
                 <input
@@ -399,7 +441,6 @@
                   @change="onFileSelected"
                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-slate-500 focus:border-slate-500"
                 />
-              
               </div>
               <button
                 type="submit"
@@ -430,10 +471,10 @@
   </div>
 </template>
 <script setup>
-import { useLocalStorage } from '@vueuse/core';
+import { useLocalStorage } from "@vueuse/core";
 import { ref, onMounted, onUnmounted, computed } from "vue";
 import { Card, CardContent } from "@/components/ui/card";
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
 const supabase = useSupabaseClient();
 import {
   Carousel,
@@ -455,11 +496,11 @@ const isLogin = ref(true);
 const name = ref("");
 const email = ref("");
 const password = ref("");
-const userType = ref("student");let currentIndex = 0;
+const userType = ref("student");
+let currentIndex = 0;
 const contactNo = ref("");
 const selectedFile = ref(null);
 const location = ref("");
-
 
 function updateCarousel() {
   const carousel = document.querySelector(".carousel");
@@ -620,10 +661,10 @@ const onFileSelected = (event) => {
 
 const getNextId = async (userType) => {
   const { data, error } = await supabase
-    .from('profiles_duplicate')
-    .select('id')
-    .eq('user_type', userType)
-    .order('id', { ascending: false })
+    .from("profiles_duplicate")
+    .select("id")
+    .eq("user_type", userType)
+    .order("id", { ascending: false })
     .limit(1);
   if (error) {
     console.error("Error fetching last ID:", error);
@@ -631,30 +672,29 @@ const getNextId = async (userType) => {
   }
   if (data && data.length > 0) {
     const lastId = data[0].id;
-    if (userType === 'instructor') {
+    if (userType === "instructor") {
       return Math.max(lastId, 0) + 1;
     } else {
       return Math.max(lastId, 100) + 1;
     }
   } else {
-    return userType === 'instructor' ? 1 : 101;
+    return userType === "instructor" ? 1 : 101;
   }
 };
 
-
 const handleSubmit = async () => {
   error.value = null;
-  const userId = useLocalStorage('userId', null); // Use localStorage to store userId
+  const userId = useLocalStorage("userId", null); // Use localStorage to store userId
 
   try {
     if (isLogin.value) {
       // Login Flow
       console.log("Attempting to log in with:", { email: email.value });
       const { data, error: loginError } = await supabase
-        .from('profiles_duplicate')
-        .select('*')
-        .eq('email', email.value)
-        .eq('password', password.value)
+        .from("profiles_duplicate")
+        .select("*")
+        .eq("email", email.value)
+        .eq("password", password.value)
         .single();
 
       if (loginError) {
@@ -669,19 +709,22 @@ const handleSubmit = async () => {
       // Store userId in localStorage
       userId.value = data.id; // Store userId
 
-
-      if (data.user_type === 'student') {
+      if (data.user_type === "student") {
         await navigateTo(`/student/homepage`);
-      } else if (data.user_type === 'instructor') {
+      } else if (data.user_type === "instructor") {
         await navigateTo(`/instructor/homepage`);
       }
     } else {
       // Sign Up Flow
-      console.log("Attempting to sign up with:", { email: email.value, name: name.value, userType: userType.value });
+      console.log("Attempting to sign up with:", {
+        email: email.value,
+        name: name.value,
+        userType: userType.value,
+      });
       const nextId = await getNextId(userType.value);
 
       const { data, error: signUpError } = await supabase
-        .from('profiles_duplicate')
+        .from("profiles_duplicate")
         .insert({
           id: nextId,
           name: name.value,
@@ -701,32 +744,51 @@ const handleSubmit = async () => {
 
       // Store userId in localStorage
       userId.value = nextId; // Store userId
+      
 
       // Upload profile picture
       const profilePic = selectedFile.value;
-      if (userId.value == "student"){
-        const { data, error } = await supabase
-          .storage
-          .from('new_profile_photos')
-          .upload(`public/${profilePic.value}`, profilePic, {
-            cacheControl: '3600',
+      console.log(data[0].user_type);
+      if (data[0].user_type === "student") {
+        const fileName = `${nextId}.jpg`;
+        const { data: uploadData, error } = await supabase.storage
+          .from("new_profile_photos")
+          .upload(`${fileName}`, profilePic, {
+            cacheControl: "3600",
             upsert: false,
-          })}
-      else{
-        const { data, error } = await supabase
-          .storage
-          .from('instructor_photos')
-          .upload(`public/${profilePic.value}`, profilePic, {
-            cacheControl: '3600',
+          });
+
+        if (error) {
+          console.error("Error uploading student profile picture:", error);
+        } else {
+          console.log(
+            "Student profile picture uploaded successfully:",
+            uploadData
+          );
+        }
+      } else {
+        const fileName = `${nextId}.png`;
+        const { data: uploadData, error } = await supabase.storage
+          .from("instructor_photos")
+          .upload(`${fileName}`, profilePic, {
+            cacheControl: "3600",
             upsert: false,
-          })
+          });
+
+        if (error) {
+          console.error("Error uploading instructor profile picture:", error);
+        } else {
+          console.log(
+            "Instructor profile picture uploaded successfully:",
+            uploadData
+          );
+        }
       }
 
-
       if (data && data.length > 0) {
-        if (userType.value === 'student') {
+        if (userType.value === "student") {
           await navigateTo(`/student/homepage?id=${data[0].id}`);
-        } else if (userType.value === 'instructor') {
+        } else if (userType.value === "instructor") {
           await navigateTo(`/instructor/homepage?id=${data[0].id}`);
         }
       } else {
@@ -735,11 +797,11 @@ const handleSubmit = async () => {
     }
     showAuthModal.value = false;
   } catch (err) {
-    console.error('Error in handleSubmit:', err);
-    error.value = err instanceof Error ? err.message : "An unexpected error occurred";
+    console.error("Error in handleSubmit:", err);
+    error.value =
+      err instanceof Error ? err.message : "An unexpected error occurred";
   }
 };
-
 </script>
 <style>
 @keyframes fadeInOpenUp {
@@ -823,4 +885,5 @@ const handleSubmit = async () => {
 
 .animation-delay-600 {
   animation-delay: 600ms;
-}</style>
+}
+</style>

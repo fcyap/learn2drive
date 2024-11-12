@@ -147,7 +147,12 @@ import { useLocalStorage } from "@vueuse/core";
 
 // To get the current user ID
 const userId = useLocalStorage("userId", null).value;
-console.log(userId);
+import { useRouter } from 'vue-router';
+
+if (userId === null) {
+  const router = useRouter();
+  router.push("/");
+}
 
 // Reactive references for data
 const locations = ref([]);
@@ -282,7 +287,7 @@ async function confirmBooking() {
 
     const eventData = {
       startDateTime: formattedDate,
-      instructorId: selectedInstructor.value.id,
+      instructorid: selectedInstructor.value.id,
       studentId: userId,
       location: selectedLocation.value,
     };
@@ -339,7 +344,7 @@ async function confirmBooking() {
     const { data: earningsData, error: fetchError } = await client
       .from("instructor_earnings")
       .select("amount")
-      .eq("instructorId", selectedInstructor.value.id)
+      .eq("instructorid", selectedInstructor.value.id)
       .eq("month", currentMonth)
       .eq("year", currentYear)
       .single();
@@ -350,7 +355,7 @@ async function confirmBooking() {
     const { error: updateEarningError } = await client
       .from("instructor_earnings")
       .update({ amount: earningsData.amount + 60 })
-      .eq("instructorId", selectedInstructor.value.id)
+      .eq("instructorid", selectedInstructor.value.id)
       .eq("month", currentMonth)
       .eq("year", currentYear);
 
