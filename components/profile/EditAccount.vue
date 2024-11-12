@@ -17,6 +17,7 @@ const contact_no = ref('');
 const user_type = ref('');
 const selectedFile = ref(null);
 const location = ref('');
+const profilePic = ref('');
 
 
 // get current information
@@ -44,11 +45,15 @@ const { data, error} = await supabase
     .storage
     .from('new_profile_photos')
     .download('new_profile_photos/' + id.value + '.jpg')
+
+    profilePic = data
   } else {
     const { data, error} = await supabase
     .storage
     .from('instructor_phots')
     .download('instructor_photos/' + id.value + '.png')
+
+    profilePic = data
   } 
 }
 
@@ -134,7 +139,7 @@ const updateProfile = async () => {
         <div class="flex items-center space-x-4">
           <Avatar class="size-28">
             <AvatarImage
-              src="https://github.com/radix-vue.png"
+              src={profilePic}
               alt="@radix-vue"
             />
             <AvatarFallback>CN</AvatarFallback>
