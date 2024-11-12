@@ -20,7 +20,7 @@ const selectedFile = ref(null);
 // get current information
 if(id.value){
 const { data, error} = await supabase
-  .from('profiles_duplicates')
+  .from('profiles_duplicate')
   .select('*')
   .eq('id', id.value)
   .single()
@@ -54,6 +54,23 @@ const onFileSelected = (event) => {
   console.log("Selected file:", selectedFile.value);
 };
 
+const deletePic = async() => {
+  if(id.value){
+    if (user_type.value == 'student') {
+      const { data, error} = await supabase
+      .storage
+      .from('new_profile_photos')
+      .remove(['new_profile_photos/' + id.value + '.jpg'])
+    } else {
+      const { data, error} = await supabase
+      .storage
+      .from('instructor_photos')
+      .remove(['instructor_photos/' + id.value + '.png'])
+    }
+  }
+}
+
+
 const updateProfile = async () => {
 
   if (id.value) {
@@ -74,7 +91,7 @@ const updateProfile = async () => {
     }
 
     const profilePic = selectedFile.value;
-      if (id.value == "student" && profilePic){
+      if (user_type.value == "student" && profilePic){
         const { data, error } = await supabase
           .storage
           .from('new_profile_photos')
@@ -139,7 +156,7 @@ const updateProfile = async () => {
         </div>
       </div>
         <div class="grid md:grid-cols-4 gap-6 grid-cols-1">
-          <Button variant="secondary" @click="delete"> Delete </Button>
+          <Button variant="secondary" @click="deletePic"> Delete </Button>
         </div>
       
 
