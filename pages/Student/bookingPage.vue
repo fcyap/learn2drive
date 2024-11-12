@@ -1,4 +1,7 @@
 <template>
+  <head>
+    <title>Booking</title>
+  </head>
   <div class="container mx-auto p-4 sm:p-6 min-h-screen">
     <div class="space-y-2 mb-6 sm:mb-10">
       <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-700">

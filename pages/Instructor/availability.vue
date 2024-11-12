@@ -1,4 +1,7 @@
 <template>
+  <head>
+    <title>Availability</title>
+  </head>
   <div class="space-y-0.5">
     <h2 class="text-2xl font-bold tracking-tight">
       Availability

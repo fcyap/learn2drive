@@ -143,7 +143,10 @@ const sortedReviews = computed(() => {
 </script>
 
 <template>
-  <div class="flex flex-col">
+  <head>
+    <title v-if="instructor">{{ instructor.name }}'s Reviews</title>
+  </head>
+  <div class="flex min-h-screen flex-col">
     <NuxtLink to="/Student/instructorReview" class="inline-flex">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 26 26" stroke-width="1.5" stroke="currentColor" class="size-6 mr-2 mt-1">
         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
@@ -179,7 +182,9 @@ const sortedReviews = computed(() => {
     </div>
 
     <br>
-    <div class="grid grid-cols-1 gap-5 lg:grid-cols-3" style="height:300px" v-if="reviews.length > 0">
+    <div class="flex-grow">
+    <div class="grid grid-cols-1 gap-5 lg:grid-cols-3" v-if="reviews.length > 0">
+      
   <Card id="app" class="review bg-slate-100 max-w-full p-4" v-for="(review, idx) in sortedReviews" :key="idx">
     <!-- Name and rating in the center -->
     <div class="flex-grow flex items-center mb-2">
@@ -200,6 +205,7 @@ const sortedReviews = computed(() => {
 
   <div v-else class="text-2xl">No reviews yet.</div>
   </div>  
+</div>
 </template>
 
 <style>

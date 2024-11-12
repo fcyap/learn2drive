@@ -168,6 +168,9 @@ function getProfilePhotoUrl(studentId: string) {
 </script>
 
 <template>
+  <head>
+    <title>Student Analysis</title>
+  </head>
   <div class="space-y-0.5">
     <h2 class="text-2xl font-bold tracking-tight">Current Students</h2>
     <p class="text-muted-foreground">See your students!</p>

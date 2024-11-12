@@ -1,4 +1,7 @@
 <template>
+  <head>
+    <title>Learn2Drive</title>
+  </head>
     <div class="container mx-auto p-4">
       <div class="space-y-0.5 mb-6">
         <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-700">Student Dashboard</h1>

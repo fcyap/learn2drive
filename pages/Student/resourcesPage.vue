@@ -17,6 +17,9 @@ import { Button } from "@/components/ui/button";
 </script>
 
 <template>
+  <head>
+    <title>Resources</title>
+  </head>
     <div class="container mx-auto p-6 min-h-screen">
         <div class="space-y-2 mb-6 sm:mb-10">
             <h1 class="text-3xl font-bold tracking-tight text-slate-700">Resources</h1>

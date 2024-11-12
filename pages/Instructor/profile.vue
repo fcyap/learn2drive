@@ -10,6 +10,9 @@ import Logout from "~/components/profile/Logout.vue";
 </script>
 
 <template>
+  <head>
+    <title>Profile</title>
+  </head>
   <div class="space-y-0.5">
     <h2 class="text-2xl font-bold tracking-tight">Profile</h2>
     <p class="text-muted-foreground">Manage your settings</p>

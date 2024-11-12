@@ -1,4 +1,7 @@
 <template>
+  <head>
+    <title>Instructor Reviews</title>
+  </head>
   <div class="flex container mx-auto p-6">
     <div class="flex items-center justify-between mb-6 sm:mb-10">
       <!-- Header section with revised styling -->

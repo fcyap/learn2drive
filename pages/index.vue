@@ -1,4 +1,7 @@
 <template>
+  <head>
+    <title>Learn2Drive</title>
+  </head>
   <div class="min-h-screen bg-gradient-to-b from-blue-50 to-white">
     <header
       class="fixed top-0 left-0 right-0 bg-white bg-opacity-90 shadow-md z-50 transition-all duration-300"
