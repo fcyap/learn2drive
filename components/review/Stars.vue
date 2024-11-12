@@ -12,19 +12,19 @@
   </div>
 </template>
   
-  <script setup>
+<script setup>
   defineProps({
     rating: {
       type: Number,
       required: true
     }
   })
-  </script>
+</script>
   
-  <style scoped>
+<style scoped>
   .size-6 {
     width: 24px;
     height: 24px;
   }
-  </style>
+</style>
   

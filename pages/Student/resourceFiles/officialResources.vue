@@ -1,28 +1,40 @@
 <script setup lang="ts">
-definePageMeta({
-  layout: "studentview",
-});
+  definePageMeta({
+    layout: "studentview",
+  });
 
-import { ref } from 'vue';
+  import { ref } from 'vue';
+  //Redirect user if not signed in
+  import { useLocalStorage } from "@vueuse/core";
+  const studentId = Number(useLocalStorage("userId", null).value);
+  if (studentId === null) {
+    const router = useRouter();
+    router.push("/");
+  }
 
-// Make currentTopic reactive
-const currentTopic = ref<"BTT" | "FTT">("BTT");
+  // Make currentTopic reactive
+  const currentTopic = ref<"BTT" | "FTT">("BTT");
 
-// Define function to toggle the topic
-function toggleTopic() {
-  currentTopic.value = currentTopic.value === "BTT" ? "FTT" : "BTT";
-}
+  // Define function to toggle the topic
+  function toggleTopic() {
+    currentTopic.value = currentTopic.value === "BTT" ? "FTT" : "BTT";
+  }
 </script>
 
 <template>
-  <!-- Back to Resources Link -->
+  <head>
+    <title>
+      BTT/FTT Resources
+    </title>
+  </head>
+  <!-- Back button -->
   <div>
-    <a href="/Student/resourcesPage" class="inline-flex">
+    <NuxtLink to="/Student/resourcesPage" class="inline-flex">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 26 26" stroke-width="1.5" stroke="currentColor" class="size-6 mr-2 mt-1">
         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
       </svg> 
       <h1 class="text-lg">Back to Resources</h1>
-    </a>
+    </NuxtLink>
   </div>
 
   <!-- Slide Toggle Switch -->
@@ -36,9 +48,8 @@ function toggleTopic() {
   <div class="wrapper">
     <iframe
       :src="currentTopic === 'FTT' ? '/externalFiles/FTT.pdf' : '/externalFiles/BTT.pdf'"
-      
-      loading="lazy"
-    ></iframe>
+      loading="lazy">
+    </iframe>
   </div>
 </template>
 
@@ -88,12 +99,12 @@ function toggleTopic() {
     padding-bottom: 56.25%; /* 16:9 */
     padding-top: 25px;
     height: 0;
-}
-.wrapper iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
+  }
+  .wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+  }
 </style>
