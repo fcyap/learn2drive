@@ -10,13 +10,13 @@ import { useLocalStorage } from '@vueuse/core';
 const supabase = useSupabaseClient();
 // To get the current user ID
 const id = useLocalStorage('userId', null); // 'userId' is the key, and `null` is the default value
-const fullName = ref('');
+const lastName = ref('');
+const firstName = ref('');
 const email = ref('');
 const contact_no = ref('');
 const user_type = ref('');
 const selectedFile = ref(null);
 const location = ref('');
-const currentPhoto = ref(null);
 
 
 // get current information
@@ -32,7 +32,8 @@ const { data, error} = await supabase
   } else {
 
   email.value = data.email
-  fullName = data.name
+  lastName.value = data.name.split(' ').slice(-1).join('');
+  firstName.value = data.name.split(' ').slice(0, -1).join('')
   contact_no.value = data.contact_no
   user_type.value = data.user_type
   location.value = data.location
@@ -43,15 +44,11 @@ const { data, error} = await supabase
     .storage
     .from('new_profile_photos')
     .download('new_profile_photos/' + id.value + '.jpg')
-
-    currentPhoto = data;
   } else {
     const { data, error} = await supabase
     .storage
-    .from('instructor_photos')
+    .from('instructor_phots')
     .download('instructor_photos/' + id.value + '.png')
-
-    currentPhoto = data;
   } 
 }
 
@@ -80,6 +77,7 @@ const deletePic = async() => {
 const updateProfile = async () => {
 
   if (id.value) {
+    const fullName = `${firstName.value} ${lastName.value}`;
     const { error } = await supabase
       .from('profiles_duplicate')
       .update({
@@ -101,7 +99,7 @@ const updateProfile = async () => {
         const { data, error } = await supabase
           .storage
           .from('new_profile_photos')
-          .update(`new_profile_photos/${profilePic}.jpg`, profilePic, {
+          .update(`public/${profilePic}`, profilePic, {
             cacheControl: '3600',
             upsert: true,
           })}
@@ -110,7 +108,7 @@ const updateProfile = async () => {
         const { data, error } = await supabase
           .storage
           .from('instructor_photos')
-          .update(`instructor_photos/${profilePic}.jpg`, profilePic, {
+          .update(`public/${profilePic}`, profilePic, {
             cacheControl: '3600',
             upsert: true,
           })
@@ -134,13 +132,13 @@ const updateProfile = async () => {
     <CardContent class="grid gap-4">
       <div class="flex items-center justify-between space-x-4">
         <div class="flex items-center space-x-4">
-            <Avatar class="size-28">
+          <Avatar class="size-28">
             <AvatarImage
-              :src="currentPhoto ? URL.createObjectURL(currentPhoto) : 'https://github.com/radix-vue.png'"
-              alt="Profile Picture"
+              src="https://github.com/radix-vue.png"
+              alt="@radix-vue"
             />
             <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
+          </Avatar>
           <div>
             <h4 class="text-m font-bold tracking-tight">Profile Picture</h4>
             <p class="text-muted-foreground">PNG, JPEG under 15mb</p>
@@ -166,33 +164,37 @@ const updateProfile = async () => {
         </div>
       
 
-      <div class="grid md:grid-cols-1 gap-6 grid-cols-1 ">
+      <div class="grid md:grid-cols-2 gap-6 grid-cols-1 ">
         <div class="col-span-1 gap-2">
-          <Label for="fullName">Full Name</Label>
-            <Input id="fullName" type="text" v-model="fullName" :placeholder="fullName" />
+          <Label for="lname">Last Name</Label>
+            <Input id="lname" type="text" v-model="lastName" :placeholder="lastName" />
         </div>
         <div class="col-span-1 gap-2">
-          <Label for="email" class="col-span-2">Email</Label>
-          <Input id="email" type="email" v-model="email" :placeholder="email" />
+          <Label for="fname">First Name</Label>
+          <Input id="fname" type="text" v-model="firstName" :placeholder="firstName" />
         </div>
       </div>
 
       <div class="grid md:grid-cols-2 gap-6 grid-cols-1">
-        
+        <div class="col-span-1 gap-2">
+          <Label for="email" class="col-span-2">Email</Label>
+          <Input id="email" type="email" v-model="email" :placeholder="email" />
+        </div>
         <div class="col-span-1 gap-2">
           <Label for="number" class="col-span-2">Phone Number</Label>
           <Input id="contact_no" type="number" :placeholder="contact_no" v-model="contact_no"/>
         </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6 grid-cols-1">
         <div class="col-span-1 gap-2">
           <Label for="location" class="col-span-2">Location</Label>
           <Input id="location" type="text" v-model="location" :placeholder="location" />
         </div>
-      </div>
-        
-        <div style="margin-top: 4%; text-align:center;">
+        <div class="col-span-1 gap-2">
           <Button type="submit" id="submit" @click="updateProfile" class="btn btn-primary">Update Profile</Button>
         </div>
-
+      </div>
       
     </CardContent>
   </Card>
