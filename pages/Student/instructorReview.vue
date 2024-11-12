@@ -41,7 +41,7 @@
           <img v-if="instructor.image !== null"
             height="100vw"
             width="100vw"
-            :src="instructor.image"
+            :src="getProfilePicUrl(instructor.id)"
             alt="Instructor" 
             class="object-cover aspect-square rounded-full"
           />
@@ -217,6 +217,17 @@
       return 0;
     });
   });
+
+  
+
+  function getProfilePicUrl(id: number) {
+    const supabaseUrl = "https://tzklhzyswqmorhokvgmw.supabase.co";
+    const bucketPath = "instructor_photos";
+    const profilePicUrl = ref('');
+    profilePicUrl.value = `${supabaseUrl}/storage/v1/object/public/${bucketPath}/${id}.png`;
+    return profilePicUrl.value
+  }
+
   
   const fetchInstructorsWithReviews = async () => {
     try {
