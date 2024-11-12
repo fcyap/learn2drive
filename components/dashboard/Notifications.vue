@@ -226,6 +226,12 @@ export default defineComponent({
       loading.value = false;
     });
 
+  function getProfilePhotoUrl(studentId: string) {
+  const supabaseUrl = "https://tzklhzyswqmorhokvgmw.supabase.co";
+  const bucketPath = "new_profile_photos";
+  return `${supabaseUrl}/storage/v1/object/public/${bucketPath}/${studentId}.jpg`;
+}
+
     return {
       events,
       errorMessage,
@@ -237,6 +243,7 @@ export default defineComponent({
       checkedTestRoutes,
       updateDatabase,
       deleteCalendarEvent,
+      getProfilePhotoUrl,
     };
   },
 });
@@ -266,8 +273,8 @@ export default defineComponent({
           class="flex items-center gap-4"
         >
           <Avatar class="h-9 w-9">
-            <AvatarImage src="" alt="Avatar" />
-            <AvatarFallback>OM</AvatarFallback>
+            <AvatarImage :src="getProfilePhotoUrl(event.extendedProperties?.private?.student_id)" alt="Avatar" />
+            <AvatarFallback>{{ event.extendedProperties?.private?.student_id }}</AvatarFallback>
           </Avatar>
           <div class="ml-4 space-y-1">
             <p class="text-sm font-medium leading-none">
