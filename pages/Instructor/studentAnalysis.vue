@@ -188,7 +188,7 @@ function getProfilePhotoUrl(studentId: string) {
           class="student-card w-full sm:w-full md:w-1/2 lg:w-1/4"
         >
           <div class="rounded-md">
-            <Card class="h-80 w-60 flex flex-col items-center justify-center mx-auto">
+            <Card class="w-56 h-80 lg:w-60 flex flex-col items-center justify-center mx-auto">
               <CardContent class="text-center flex flex-col items-center">
                 <img
                   class="rounded-full h-28 w-28 mb-4"
