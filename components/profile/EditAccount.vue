@@ -17,7 +17,7 @@ const contact_no = ref('');
 const user_type = ref('');
 const selectedFile = ref(null);
 const location = ref('');
-const profilePic = ref('');
+var profilePic = ref('');
 
 
 // get current information
@@ -41,20 +41,19 @@ const { data, error} = await supabase
   }
 
   if (user_type.value == 'student') {
-    const { data, error} = await supabase
-    .storage
-    .from('new_profile_photos')
-    .download('new_profile_photos/' + id.value + '.jpg')
 
-    profilePic = data
+    const supabaseUrl = "https://tzklhzyswqmorhokvgmw.supabase.co";
+    const bucketPath = "new_profile_photos";
+    profilePic = `${supabaseUrl}/storage/v1/object/public/${bucketPath}/${id.value}.jpg`;
+  
   } else {
-    const { data, error} = await supabase
-    .storage
-    .from('instructor_phots')
-    .download('instructor_photos/' + id.value + '.png')
+  
+    const supabaseUrl = "https://tzklhzyswqmorhokvgmw.supabase.co";
+    const bucketPath = "instructor_photos";
+    profilePic = `${supabaseUrl}/storage/v1/object/public/${bucketPath}/${id.value}.png`;
 
-    profilePic = data
   } 
+
 }
 
 const onFileSelected = (event) => {
@@ -99,31 +98,8 @@ const updateProfile = async () => {
         console.log('Profile updated successfully');
     }
 
-    const profilePic = selectedFile.value;
-      if (user_type.value == "student" && profilePic){
-        const { data, error } = await supabase
-          .storage
-          .from('new_profile_photos')
-          .update(`public/${profilePic}`, profilePic, {
-            cacheControl: '3600',
-            upsert: true,
-          })}
-      else{
-        if (profilePic){
-        const { data, error } = await supabase
-          .storage
-          .from('instructor_photos')
-          .update(`public/${profilePic}`, profilePic, {
-            cacheControl: '3600',
-            upsert: true,
-          })
-        }
-      }
-  } else {
-    console.error('User ID is null');
-  }
 }
-
+}
 </script>
 
 <template>
@@ -137,39 +113,21 @@ const updateProfile = async () => {
     <CardContent class="grid gap-4">
       <div class="flex items-center justify-between space-x-4">
         <div class="flex items-center space-x-4">
-          <Avatar class="size-28">
-            <AvatarImage
-              src={profilePic}
-              alt="@radix-vue"
-            />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
+          <img
+                  class="rounded-full h-28 w-28 mb-4"
+                  :src=profilePic
+                  alt="Photo"
+          />
           <div>
             <h4 class="text-m font-bold tracking-tight">Profile Picture</h4>
-            <p class="text-muted-foreground">PNG, JPEG under 15mb</p>
+    
           </div>
         </div>
 
         
       </div>
 
-      <div class="grid md:grid-cols-2 gap-6 grid-cols-1 ">
-        <div class="col-span-1 gap-2">
-          <label for="profilePic" class="block text-sm font-medium text-gray-700"
-            >Update Profile Pic</label>
-          <input
-            id="profilePic"
-            type="file"
-            @change="onFileSelected"
-          />
-        </div>
-      </div>
-        <div class="grid md:grid-cols-4 gap-6 grid-cols-1">
-          <Button variant="secondary" @click="deletePic"> Delete </Button>
-        </div>
-      
-
-      <div class="grid md:grid-cols-2 gap-6 grid-cols-1 ">
+       <div class="grid md:grid-cols-2 gap-6 grid-cols-1 ">
         <div class="col-span-1 gap-2">
           <Label for="lname">Last Name</Label>
             <Input id="lname" type="text" v-model="lastName" :placeholder="lastName" />
