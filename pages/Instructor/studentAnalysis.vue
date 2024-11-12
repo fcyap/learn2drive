@@ -77,7 +77,7 @@ const instructorId = Number(useLocalStorage("userId", null).value);
 console.log(instructorId);
 import { useRouter } from 'vue-router';
 if (instructorId === 0) {
-  console.log(instructorId);
+  // console.log(instructorId);
   const router = useRouter();
   router.push("/");
 }
