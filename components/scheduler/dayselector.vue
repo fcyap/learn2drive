@@ -183,7 +183,6 @@ const fetchDisabledSlots = async (date) => {
       .select('time')
       .eq("instructor_id", instructorId.value)
       .eq('date', date)
-      .eq('available', true);
 
     if (error) {
       console.error('Error fetching disabled slots:', error);
@@ -252,7 +251,6 @@ const fetchUpcomingAvailability = async () => {
       .from('availability')
       .select('date, time')
       .eq("instructor_id",instructorId.value)
-      .eq("available",true)
       .gte('date', today)
       .order('date', { ascending: true })
       .order('time', { ascending: true });
