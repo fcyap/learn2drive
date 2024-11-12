@@ -108,7 +108,7 @@ import { useLocalStorage } from '@vueuse/core';
 
 
 import { useRouter } from 'vue-router';
-if (instructorId === null) {
+if (instructorId.value === null) {
   const router = useRouter();
   router.push("/");
 }
