@@ -41,20 +41,20 @@
               width="100vw"
               :src="instructor.image"
               alt="Instructor" 
-              class="object-cover rounded-full"
+              class="object-cover aspect-square rounded-full"
             />
             <img v-else
               height="100vw"
               width="100vw"
-              src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+              src="https://tzklhzyswqmorhokvgmw.supabase.co/storage/v1/object/public/instructor_photos/default.jpg?t=2024-11-12T12%3A41%3A10.633Z"
               alt="Instructor Uncle" 
-              class="rounded-full object-cover"
+              class="rounded-full aspect-square object-cover"
             />
           </div>
           <div class="flex-grow">
   <h1 class="font-bold mb-2" style="text-align: left; font-size: 23px;">{{ instructor.name }}</h1>
   <h1 class="italic mb-2 text-slate-600" style="text-align: left; font-size: 15px">{{ instructor.location }}</h1>
-  <div class="inline-flex items-center">
+  <div class="inline-flex items-center" style="min-width: 136px">
     <h2 style="font-size: 19px">
       {{ instructor.rating !== null ? instructor.rating.toFixed(1) : 'No reviews yet' }}
     </h2>
