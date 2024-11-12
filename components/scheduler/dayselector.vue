@@ -107,6 +107,12 @@ const instructorId = useLocalStorage('userId', null);
 import { useLocalStorage } from '@vueuse/core';
 
 
+import { useRouter } from 'vue-router';
+if (instructorId.value === null) {
+  const router = useRouter();
+  router.push("/");
+}
+
 // Define the next 7 days from tomorrow
 const generateNext7Days = async () => {
   const daysArray = [];
@@ -177,7 +183,6 @@ const fetchDisabledSlots = async (date) => {
       .select('time')
       .eq("instructor_id", instructorId.value)
       .eq('date', date)
-      .eq('available', true);
 
     if (error) {
       console.error('Error fetching disabled slots:', error);
@@ -246,7 +251,6 @@ const fetchUpcomingAvailability = async () => {
       .from('availability')
       .select('date, time')
       .eq("instructor_id",instructorId.value)
-      .eq("available",true)
       .gte('date', today)
       .order('date', { ascending: true })
       .order('time', { ascending: true });

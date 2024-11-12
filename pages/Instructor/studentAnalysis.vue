@@ -74,8 +74,13 @@ const { data: studentview } = await useAsyncData<Student[]>(
 
 import { useLocalStorage } from "@vueuse/core";
 const instructorId = Number(useLocalStorage("userId", null).value);
-
 console.log(instructorId);
+import { useRouter } from 'vue-router';
+if (instructorId === 0) {
+  // console.log(instructorId);
+  const router = useRouter();
+  router.push("/");
+}
 
 const { data: lessons } = await useAsyncData<Lesson[]>("lessons", async () => {
   const { data } = await client.from("lessons").select();

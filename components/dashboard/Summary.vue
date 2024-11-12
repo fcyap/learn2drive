@@ -124,7 +124,7 @@ const getEventsAfter = async () => {
     if (response.success && response.data) {
       events.value = response.data;
       eventCount.value = events.value.length; // Update with the count of future events
-      console.log("Number of events retrieved after current time:", eventCount.value);
+      // console.log("Number of events retrieved after current time:", eventCount.value);
     } else {
       errorMessage.value = response.message || "Failed to retrieve events";
       eventCount.value = 0;

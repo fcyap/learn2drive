@@ -90,7 +90,7 @@ export default defineComponent({
     if (response.success && response.data) {
       events.value = response.data;
       eventCount.value = events.value.length;
-      console.log("Number of events retrieved in notifications:", eventCount.value);
+      // console.log("Number of events retrieved in notifications:", eventCount.value);
     }
         else
           errorMessage.value = response.message || "Failed to retrieve events";
@@ -155,8 +155,8 @@ export default defineComponent({
     }
 
     const updateDatabase = async (studentId: number, eventId: string) => {
-      console.log("Update database function called");
-      console.log("Checked modules:", checkedModules.value); // Logs the selected modules
+      // console.log("Update database function called");
+      // console.log("Checked modules:", checkedModules.value);
 
       try {
         for (const moduleId of checkedModules.value) {
@@ -167,9 +167,9 @@ export default defineComponent({
           if (progressItem) {
             const { error } = await client
               .from("student_driving_progress")
-              .update({ done: true }) // Update the `done` status to true
+              .update({ done: true })
               .eq("modulesn", moduleId)
-              .eq("id", studentId); // Use ID to ensure correct item is updated
+              .eq("id", studentId);
 
             if (error) throw error;
           }
@@ -183,7 +183,7 @@ export default defineComponent({
             .eq("id", studentId);
           if (error) throw error;
         }
-        console.log("Database updated successfully with checked modules");
+        // console.log("Database updated successfully with checked modules");
 
         checkedModules.value = [];
         checkedTestRoutes.value = [];
@@ -208,7 +208,7 @@ export default defineComponent({
     if (!response.success) {
       throw new Error(response.message || 'Failed to delete event');
     }
-    console.log("Event deleted successfully from Google Calendar");
+    // console.log("Event deleted successfully from Google Calendar");
 
     events.value = events.value.filter(event => event.id !== eventId);
         

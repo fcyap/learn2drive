@@ -61,7 +61,7 @@ const fetchEventsFromToday = async () => {
     if (data.value?.success && data.value.data) {
       eventsFromToday.value = data.value.data;
       eventCount.value = eventsFromToday.value.length;
-      console.log("Number of events retrieved in calendar:", eventCount.value);
+      // console.log("Number of events retrieved in calendar:", eventCount.value);
       groupEventsByDate();
     } else {
       eventsFromToday.value = [];
@@ -115,7 +115,7 @@ function getStudentNumber(studentId: number): string {
 }
 
 onMounted(() => {
-  console.log(instructorId);
+  // console.log(instructorId);
   fetchEventsFromToday();
   getStudents();
 });
