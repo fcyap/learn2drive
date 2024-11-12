@@ -38,7 +38,7 @@
         <!-- Profile link flushed to the bottom -->
         <div class="flex justify-center mt-auto">
           <Button variant="ghost">
-            <NuxtLink to="/Instructor/profile" @click="closeMenu" class="text-slate-200 hover:text-white text-lg flex items-center">
+            <NuxtLink to="/Instructor/profile" @click="closeMenu" class="text-slate-200 hover:text-black text-lg flex items-center">
               <UserIcon class="mr-3 h-5 w-5" />
               Profile
             </NuxtLink>
