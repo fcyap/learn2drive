@@ -376,6 +376,17 @@
                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-slate-500 focus:border-slate-500"
                 />
 
+                <label for="location" class="block text-sm font-medium text-gray-700"
+                  >Location</label
+                >
+                <input
+                  id="location"
+                  v-model="location"
+                  type="text"
+                  placeholder="Enter your area of residence"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-slate-500 focus:border-slate-500"
+                />
+
                 <label for="profilePic" class="block text-sm font-medium text-gray-700"
                   >Profile Picture</label
                 >
@@ -444,6 +455,7 @@ const password = ref("");
 const userType = ref("student");let currentIndex = 0;
 const contactNo = ref("");
 const selectedFile = ref(null);
+const location = ref("");
 
 
 function updateCarousel() {
@@ -674,6 +686,7 @@ const handleSubmit = async () => {
           password: password.value,
           user_type: userType.value,
           contact_no: contactNo.value,
+          location: location.value,
         })
         .select();
 

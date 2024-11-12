@@ -5,7 +5,6 @@ definePageMeta({
 
 import Container from "@/components/profile/Container.vue";
 import EditAccount from "@/components/profile/EditAccount.vue";
-import NotificationsStudent from "~/components/profile/Student/NotificationsStudent.vue";
 import SecurityStudent from "~/components/profile/Student/SecurityStudent.vue";
 import Logout from "~/components/profile/Logout.vue";
 </script>

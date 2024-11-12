@@ -5,7 +5,6 @@ definePageMeta({
 
 import Container from "@/components/profile/Container.vue";
 import EditAccount from "@/components/profile/EditAccount.vue";
-import Notifications from "~/components/profile/Instructor/Notifications.vue";
 import Security from "~/components/profile/Instructor/Security.vue";
 import Logout from "~/components/profile/Logout.vue";
 </script>
@@ -24,17 +23,10 @@ import Logout from "~/components/profile/Logout.vue";
         <EditAccount />
       </Container>
     </div>
-    <div class="grid items-start gap-6 lg:col-span-2">
-      <div class="col-span-2">
+    <div class="col-span-2 grid items-start gap-6 lg:col-span-3">
         <Container>
           <Security />
         </Container>
-      </div>
-    </div>
-    <div class="col-span-2 grid items-start gap-6 lg:col-span-1">
-      <Container>
-        <Notifications />
-      </Container>
     </div>
     <div class="col-span-2 grid items-start gap-6 lg:col-span-3">
       <Container>

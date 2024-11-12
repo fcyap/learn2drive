@@ -16,6 +16,8 @@ const email = ref('');
 const contact_no = ref('');
 const user_type = ref('');
 const selectedFile = ref(null);
+const location = ref('');
+
 
 // get current information
 if(id.value){
@@ -30,10 +32,11 @@ const { data, error} = await supabase
   } else {
 
   email.value = data.email
-  lastName.value = data.name.split(' ')[-1];
-  firstName.value = data.name.split(' ').slice(0, -1).join(',')
+  lastName.value = data.name.split(' ').slice(-1).join('');
+  firstName.value = data.name.split(' ').slice(0, -1).join('')
   contact_no.value = data.contact_no
   user_type.value = data.user_type
+  location.value = data.location
   }
 
   if (user_type.value == 'student') {
@@ -76,11 +79,12 @@ const updateProfile = async () => {
   if (id.value) {
     const fullName = `${firstName.value} ${lastName.value}`;
     const { error } = await supabase
-      .from('profiles_duplicates')
+      .from('profiles_duplicate')
       .update({
         name: fullName,
         email: email.value,
-        contact_no: contact_no.value
+        contact_no: contact_no.value,
+        location: location.value
       })
       .eq('id', id.value);
     
@@ -181,10 +185,15 @@ const updateProfile = async () => {
           <Input id="contact_no" type="number" :placeholder="contact_no" v-model="contact_no"/>
         </div>
       </div>
-      <div style="margin-top: 4%; text-align: center;">
+
+      <div class="grid md:grid-cols-2 gap-6 grid-cols-1">
+        <div class="col-span-1 gap-2">
+          <Label for="location" class="col-span-2">Location</Label>
+          <Input id="location" type="text" v-model="location" :placeholder="location" />
+        </div>
+        <div class="col-span-1 gap-2">
           <Button type="submit" id="submit" @click="updateProfile" class="btn btn-primary">Update Profile</Button>
         </div>
-      <div class="grid grid-cols-2 gap-6">
       </div>
       
     </CardContent>
