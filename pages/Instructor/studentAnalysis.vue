@@ -72,10 +72,10 @@ const { data: studentview } = await useAsyncData<Student[]>(
   }
 );
 
-import { useLocalStorage } from '@vueuse/core';
-const instructorId = Number(useLocalStorage('userId', null).value);
+import { useLocalStorage } from "@vueuse/core";
+const instructorId = Number(useLocalStorage("userId", null).value);
 
-console.log(instructorId)
+console.log(instructorId);
 
 const { data: lessons } = await useAsyncData<Lesson[]>("lessons", async () => {
   const { data } = await client.from("lessons").select();
@@ -87,9 +87,7 @@ const futureLessons = computed(() => {
   return (
     lessons.value?.filter((lesson) => {
       const lessonDateTime = new Date(`${lesson.date}T${lesson.time}`);
-      return (
-        lesson.instructor_id === instructorId && lessonDateTime > now
-      );
+      return lesson.instructor_id === instructorId && lessonDateTime > now;
     }) ?? []
   );
 });
@@ -151,10 +149,7 @@ function getNearestUpcomingLessonDate(studentId: number): Date | null {
   const upcomingLessons = lessons.value
     ?.filter((lesson) => {
       const lessonDateTime = new Date(`${lesson.date}T${lesson.time}`);
-      return (
-        lesson.student_id === studentId &&
-        lessonDateTime > now
-      );
+      return lesson.student_id === studentId && lessonDateTime > now;
     })
     .sort((a, b) => {
       const lessonDateTimeA = new Date(`${a.date}T${a.time}`).getTime();
@@ -170,7 +165,6 @@ function getProfilePhotoUrl(studentId: string) {
   const bucketPath = "new_profile_photos";
   return `${supabaseUrl}/storage/v1/object/public/${bucketPath}/${studentId}.jpg`;
 }
-
 </script>
 
 <template>
@@ -180,15 +174,22 @@ function getProfilePhotoUrl(studentId: string) {
   </div>
 
   <div>
-    <ScrollArea class="order rounded-md w-full lg:w-11/12 overflow-y-auto lg:overflow-x-auto whitespace-nowrap">
-      <div v-if="studentsWithLessons.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:flex lg:space-x-4 gap-4 p-4 mx-auto">
+    <ScrollArea
+      class="order rounded-md w-full lg:w-11/12 overflow-y-auto lg:overflow-x-auto whitespace-nowrap"
+    >
+      <div
+        v-if="studentsWithLessons.length > 0"
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:flex lg:space-x-4 gap-4 p-4 mx-auto"
+      >
         <div
           v-for="student in studentsWithLessons"
           :key="student.id"
           class="student-card w-full sm:w-full md:w-1/2 lg:w-1/4"
         >
           <div class="rounded-md">
-            <Card class="w-56 h-80 lg:w-60 flex flex-col items-center justify-center mx-auto">
+            <Card
+              class="w-56 h-80 lg:w-60 flex flex-col items-center justify-center mx-auto"
+            >
               <CardContent class="text-center flex flex-col items-center">
                 <img
                   class="rounded-full h-28 w-28 mb-4"
@@ -233,236 +234,235 @@ function getProfilePhotoUrl(studentId: string) {
                     </Button>
                   </DrawerTrigger>
                   <DrawerContent>
-                    <DrawerHeader>
-                      <div class="space-y-0.5">
-                        <h2 class="text-2xl font-bold tracking-tight">
-                          {{ student.name }}'s Progress
-                        </h2>
-                      </div>
-                    </DrawerHeader>
-                    <div
-                      class="items-start justify-center gap-6 rounded-lg grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-5"
-                    >
+                    <div class="overflow-auto h-[80vh] lg:h-fit">
+                      <DrawerHeader>
+                        <div class="space-y-0.5">
+                          <h2 class="text-2xl font-bold tracking-tight">
+                            {{ student.name }}'s Progress
+                          </h2>
+                        </div>
+                      </DrawerHeader>
                       <div
-                        class="col-span-2 md:col-span-1"
+                        class="items-start justify-center gap-6 rounded-lg grid grid-cols-1 md:grid-rows-2 lg:grid-rows-1 gap-6 md:grid-cols-2 lg:grid-cols-5"
                       >
-                        <Card>
-                          <Card class="h-auto md:h-72">
-                            <CardHeader class="pb-3 h-16">
-                              <CardTitle>Personal Details</CardTitle>
-                            </CardHeader>
-
-                            <CardContent>
-                              <div class="flex justify-center">
-                                <img
-                                  class="rounded-full h-20 w-20 mb-4"
-                                  :src="
-                                    getProfilePhotoUrl(student.id.toString())
-                                  "
-                                  alt="Student Photo"
-                                />
-                              </div>
-
-                              <div class="grid grid-cols-2 gap-2">
-                                <div
-                                  class="col-span-1 flex flex-col items-center justify-center"
-                                >
-                                  <TooltipProvider>
-                                    <Tooltip>
-                                      <TooltipTrigger>
-                                        <Card
-                                          class="h-16 w-24 flex flex-col items-center justify-center m-1"
-                                        >
-                                          <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke-width="1.5"
-                                            stroke="currentColor"
-                                            class="h-6 w-6 mx-auto"
-                                          >
-                                            <path
-                                              stroke-linecap="round"
-                                              stroke-linejoin="round"
-                                              d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"
-                                            />
-                                          </svg>
-                                          <CardContent class="text-center p-0">
-                                            {{ student.contact }}
-                                          </CardContent>
-                                        </Card>
-                                      </TooltipTrigger>
-                                      <TooltipContent>
-                                        <p>Contact</p>
-                                      </TooltipContent>
-                                    </Tooltip>
-                                  </TooltipProvider>
-                                </div>
-
-                                <div
-                                  class="col-span-1 flex flex-col items-center justify-center"
-                                >
-                                  <TooltipProvider>
-                                    <Tooltip>
-                                      <TooltipTrigger>
-                                        <Card
-                                          class="h-16 w-24 flex flex-col items-center justify-center m-1"
-                                        >
-                                          <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke-width="1.5"
-                                            stroke="currentColor"
-                                            class="size-6"
-                                          >
-                                            <path
-                                              stroke-linecap="round"
-                                              stroke-linejoin="round"
-                                              d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5"
-                                            />
-                                          </svg>
-                                          <CardContent class="text-center p-0">
-                                            10
-                                          </CardContent>
-                                        </Card>
-                                      </TooltipTrigger>
-                                      <TooltipContent>
-                                        <p>Lessons Completed</p>
-                                      </TooltipContent>
-                                    </Tooltip>
-                                  </TooltipProvider>
-                                </div>
-                              </div>
-                            </CardContent>
-                          </Card>
-                        </Card>
-                      </div>
-                      <div class="grid items-start gap-6 lg:col-span-2">
-                        <div>
-                          <Card class="col-span-2 md:col-span-2">
+                        <div class="sm:col-span-1 md:col-span-1 order-1">
                             <Card class="h-auto md:h-72">
                               <CardHeader class="pb-3 h-16">
-                                <CardTitle>Driving Modules</CardTitle>
+                                <CardTitle>Personal Details</CardTitle>
                               </CardHeader>
 
                               <CardContent>
-                                <div class="grid grid-cols-2 gap-4">
-                                  <div class="col-1">
-                                    <p>Completed Modules:</p>
-                                    <ScrollArea class="h-36 overflow-y-auto">
-                                      <ul>
-                                        <li
-                                          v-for="progress in getCompletedProgressByStudent(
-                                            student.id
-                                          )"
-                                          :key="progress.modulesn"
-                                        >
-                                          {{ progress.module }}
-                                        </li>
-                                      </ul>
-                                    </ScrollArea>
+                                <div class="flex justify-center">
+                                  <img
+                                    class="rounded-full h-20 w-20 mb-4"
+                                    :src="
+                                      getProfilePhotoUrl(student.id.toString())
+                                    "
+                                    alt="Student Photo"
+                                  />
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-2">
+                                  <div
+                                    class="col-span-1 flex flex-col items-center justify-center"
+                                  >
+                                    <TooltipProvider>
+                                      <Tooltip>
+                                        <TooltipTrigger>
+                                          <Card
+                                            class="h-16 w-24 flex flex-col items-center justify-center m-1"
+                                          >
+                                            <svg
+                                              xmlns="http://www.w3.org/2000/svg"
+                                              fill="none"
+                                              viewBox="0 0 24 24"
+                                              stroke-width="1.5"
+                                              stroke="currentColor"
+                                              class="h-6 w-6 mx-auto"
+                                            >
+                                              <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"
+                                              />
+                                            </svg>
+                                            <CardContent
+                                              class="text-center p-0"
+                                            >
+                                              {{ student.contact }}
+                                            </CardContent>
+                                          </Card>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                          <p>Contact</p>
+                                        </TooltipContent>
+                                      </Tooltip>
+                                    </TooltipProvider>
                                   </div>
-                                  <div class="col-1">
-                                    <p>Uncompleted Modules:</p>
-                                    <ScrollArea class="h-36 overflow-y-auto">
-                                      <ul>
-                                        <li
-                                          v-for="progress in getUncompletedProgressByStudent(
-                                            student.id
-                                          )"
-                                          :key="progress.modulesn"
-                                        >
-                                          {{ progress.module }}
-                                        </li>
-                                      </ul>
-                                    </ScrollArea>
+
+                                  <div
+                                    class="col-span-1 flex flex-col items-center justify-center"
+                                  >
+                                    <TooltipProvider>
+                                      <Tooltip>
+                                        <TooltipTrigger>
+                                          <Card
+                                            class="h-16 w-24 flex flex-col items-center justify-center m-1"
+                                          >
+                                            <svg
+                                              xmlns="http://www.w3.org/2000/svg"
+                                              fill="none"
+                                              viewBox="0 0 24 24"
+                                              stroke-width="1.5"
+                                              stroke="currentColor"
+                                              class="size-6"
+                                            >
+                                              <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5"
+                                              />
+                                            </svg>
+                                            <CardContent
+                                              class="text-center p-0"
+                                            >
+                                              10
+                                            </CardContent>
+                                          </Card>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                          <p>Lessons Completed</p>
+                                        </TooltipContent>
+                                      </Tooltip>
+                                    </TooltipProvider>
                                   </div>
                                 </div>
                               </CardContent>
                             </Card>
-                          </Card>
+                        </div>
+                        <div class="col-span-2 lg:col-span-2 md:order-3 order-2">
+                              <Card class="h-auto md:h-72">
+                                <CardHeader class="pb-3 h-16">
+                                  <CardTitle>Driving Modules</CardTitle>
+                                </CardHeader>
+
+                                <CardContent>
+                                  <div class="grid grid-cols-2 gap-4">
+                                    <div class="col-1">
+                                      <p>Completed Modules:</p>
+                                      <ScrollArea class="h-36 overflow-y-auto">
+                                        <ul>
+                                          <li
+                                            v-for="progress in getCompletedProgressByStudent(
+                                              student.id
+                                            )"
+                                            :key="progress.modulesn"
+                                          >
+                                            {{ progress.module }}
+                                          </li>
+                                        </ul>
+                                      </ScrollArea>
+                                    </div>
+                                    <div class="col-1">
+                                      <p>Uncompleted Modules:</p>
+                                      <ScrollArea class="h-36 overflow-y-auto">
+                                        <ul>
+                                          <li
+                                            v-for="progress in getUncompletedProgressByStudent(
+                                              student.id
+                                            )"
+                                            :key="progress.modulesn"
+                                          >
+                                            {{ progress.module }}
+                                          </li>
+                                        </ul>
+                                      </ScrollArea>
+                                    </div>
+                                  </div>
+                                </CardContent>
+                              </Card>
+                        </div>
+                        <div class="lg:col-span-2 col-span-1 grid items-start gap-6 md:order-2 order-3">
+                            <Card class="h-auto md:h-72">
+                              <CardHeader class="pb-3 h-16">
+                                <CardTitle>Test Route Completion</CardTitle>
+                              </CardHeader>
+                              <CardContent>
+                                <div
+                                  class="grid grid-cols-4 gap-2 flex flex-col mx-auto"
+                                >
+                                  <div
+                                    v-for="testroute in getStudentTestRoutes(
+                                      student.id
+                                    )"
+                                    :key="testroute.testroutesn"
+                                  >
+                                    <!-- Completed Route -->
+                                    <Card
+                                      class="routecard"
+                                      v-if="testroute.done"
+                                    >
+                                      <CardContent
+                                        class="flex flex-col col-span-1 justify-right items-center h-full mt-2"
+                                      >
+                                        <svg
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          fill="none"
+                                          viewBox="0 0 24 24"
+                                          stroke-width="1.5"
+                                          stroke="currentColor"
+                                          class="h-12 w-12"
+                                        >
+                                          <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M4.5 12.75l6 6 9-13.5"
+                                          />
+                                        </svg>
+                                        <p class="text-xs">
+                                          {{ testroute.testroute }}
+                                        </p>
+                                      </CardContent>
+                                    </Card>
+
+                                    <!-- Incomplete Route -->
+                                    <Card class="routecard" v-else>
+                                      <CardContent
+                                        class="flex flex-col justify-center items-center h-full mt-2"
+                                      >
+                                        <svg
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          fill="none"
+                                          viewBox="0 0 24 24"
+                                          stroke-width="1.5"
+                                          stroke="currentColor"
+                                          class="h-12 w-12"
+                                        >
+                                          <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M6 18L18 6M6 6l12 12"
+                                          />
+                                        </svg>
+                                        <p class="text-xs">
+                                          {{ testroute.testroute }}
+                                        </p>
+                                      </CardContent>
+                                    </Card>
+                                  </div>
+                                </div>
+                              </CardContent>
+                            </Card>
                         </div>
                       </div>
-                      <div
-                        class="col-span-2 grid items-start gap-6 col-span-2 md:col-span-2"
-                      >
-                        <Card>
-                          <Card class="h-auto md:h-72">
-                            <CardHeader class="pb-3 h-16">
-                              <CardTitle>Test Route Completion</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                              <div class="grid grid-cols-4 gap-4">
-                                <div
-                                  v-for="testroute in getStudentTestRoutes(
-                                    student.id
-                                  )"
-                                  :key="testroute.testroutesn"
-                                >
-                                  <!-- Completed Route -->
-                                  <Card class="test" v-if="testroute.done">
-                                    <CardContent
-                                      class="flex flex-col justify-center items-center h-full mt-2"
-                                    >
-                                      <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke-width="1.5"
-                                        stroke="currentColor"
-                                        class="h-12 w-12"
-                                      >
-                                        <path
-                                          stroke-linecap="round"
-                                          stroke-linejoin="round"
-                                          d="M4.5 12.75l6 6 9-13.5"
-                                        />
-                                      </svg>
-                                      <p class="text-xs">
-                                        {{ testroute.testroute }}
-                                      </p>
-                                    </CardContent>
-                                  </Card>
-
-                                  <!-- Incomplete Route -->
-                                  <Card class="test" v-else>
-                                    <CardContent
-                                      class="flex flex-col justify-center items-center h-full mt-2"
-                                    >
-                                      <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke-width="1.5"
-                                        stroke="currentColor"
-                                        class="h-12 w-12"
-                                      >
-                                        <path
-                                          stroke-linecap="round"
-                                          stroke-linejoin="round"
-                                          d="M6 18L18 6M6 6l12 12"
-                                        />
-                                      </svg>
-                                      <p class="text-xs">
-                                        {{ testroute.testroute }}
-                                      </p>
-                                    </CardContent>
-                                  </Card>
-                                </div>
-                              </div>
-                            </CardContent>
-                          </Card>
-                        </Card>
-                      </div>
+                      <DrawerFooter>
+                        <DrawerClose as-child>
+                          <Button variant="outline" style="cursor: pointer">
+                            ok!
+                          </Button>
+                        </DrawerClose>
+                      </DrawerFooter>
                     </div>
-                    <DrawerFooter>
-                      <DrawerClose as-child>
-                        <Button variant="outline" style="cursor: pointer">
-                          ok!
-                        </Button>
-                      </DrawerClose>
-                    </DrawerFooter>
                   </DrawerContent>
                 </Drawer>
               </CardContent>
@@ -482,7 +482,7 @@ function getProfilePhotoUrl(studentId: string) {
 .view-progress:hover {
   background-color: rgb(213, 213, 213);
 }
-.test {
+.routecard {
   height: 6rem;
   width: 6rem;
 }
@@ -491,5 +491,4 @@ function getProfilePhotoUrl(studentId: string) {
   justify-content: center;
   align-items: center;
 }
-
 </style>
