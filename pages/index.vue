@@ -705,7 +705,7 @@ const handleSubmit = async () => {
         const { data, error } = await supabase
           .storage
           .from('new_profile_photos')
-          .upload(`public/${profilePic.value}`, profilePic, {
+          .upload(`public/${profilePic.value}.jpg`, profilePic, {
             cacheControl: '3600',
             upsert: false,
           })}
@@ -713,7 +713,7 @@ const handleSubmit = async () => {
         const { data, error } = await supabase
           .storage
           .from('instructor_photos')
-          .upload(`public/${profilePic.value}`, profilePic, {
+          .upload(`public/${profilePic.value}.jpg`, profilePic, {
             cacheControl: '3600',
             upsert: false,
           })
