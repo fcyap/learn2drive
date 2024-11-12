@@ -1,11 +1,10 @@
 <template>
+  <div class="space-y-0.5">
+    <h2 class="text-2xl font-bold tracking-tight">Home</h2>
+    <p class="text-muted-foreground">Manage everything here!</p>
+  </div>
   <div class="space-y-2 px-4 md:px-8 lg:px-16">
-    <h2 class="text-xl md:text-2xl font-bold tracking-tight">Home</h2>
-    <p class="text-sm md:text-base text-muted-foreground">
-      Manage everything here!
-    </p>
-
-    <!-- Tab Navigation -->
+  <!-- Tab Navigation -->
     <div class="md:hidden">
       <Tabs
         default-value="overview"
