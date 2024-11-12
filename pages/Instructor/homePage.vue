@@ -165,6 +165,11 @@ interface FetchResponse {
 }
 import { useLocalStorage } from "@vueuse/core";
 const instructorId = Number(useLocalStorage("userId", null).value);
+import { useRouter } from 'vue-router';
+if (instructorId === 0) {
+  const router = useRouter();
+  router.push("/");
+}
 
 const getPastEvents = async () => {
   try {
@@ -176,7 +181,7 @@ const getPastEvents = async () => {
     if (response.success && response.data) {
       events.value = response.data;
       eventCount.value = events.value.length;
-      console.log("Number of events retrieved in homepage:", eventCount.value);
+      // console.log("Number of events retrieved in homepage:", eventCount.value);
     } else {
       errorMessage.value = response.message || "Failed to retrieve events";
       eventCount.value = 0;
