@@ -7,8 +7,13 @@ definePageMeta({
 import { ref, onMounted } from 'vue'; // Ensure you import ref and onMounted
 import { Card } from '@/components/ui/card';
 const client = useSupabaseClient();
-import { useLocalStorage } from '@vueuse/core';
-const router = useRouter();
+import { useLocalStorage } from "@vueuse/core";
+import { useRouter } from 'vue-router';
+const instructorId = Number(useLocalStorage("userId", null).value);
+if (instructorId === null) {
+  const router = useRouter();
+  router.push("/");
+}
 import {Button} from '@/components/ui/button';
 
 // Initialize results and handle JSON parsing

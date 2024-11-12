@@ -3,7 +3,12 @@ definePageMeta({
   layout: "studentview",
 });
 
-import { useLocalStorage } from '@vueuse/core';
+import { useLocalStorage } from "@vueuse/core";
+const instructorId = Number(useLocalStorage("userId", null).value);
+if (instructorId === null) {
+  const router = useRouter();
+  router.push("/");
+}
 
 
 // Define the complete TestResult interface including the id
