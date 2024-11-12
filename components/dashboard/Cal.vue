@@ -144,6 +144,12 @@ const formatDate = (dateTime: string | undefined): string => {
   const date = new Date(dateTime);
   return date.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
 };
+
+function getProfilePhotoUrl(studentId: string) {
+  const supabaseUrl = "https://tzklhzyswqmorhokvgmw.supabase.co";
+  const bucketPath = "new_profile_photos";
+  return `${supabaseUrl}/storage/v1/object/public/${bucketPath}/${studentId}.jpg`;
+}
 </script>
 <template>
   <CardHeader>
@@ -182,7 +188,7 @@ const formatDate = (dateTime: string | undefined): string => {
                 <div v-for="event in events" :key="event.id" class="mb-4">
                   <div class="flex items-center">
                     <Avatar class="h-9 w-9">
-                      <AvatarImage src="" alt="Avatar" />
+                      <AvatarImage :src="getProfilePhotoUrl(event.extendedProperties?.private?.student_id)" alt="Avatar" />
                       <AvatarFallback>
                         {{
                           event.extendedProperties?.private?.student_id

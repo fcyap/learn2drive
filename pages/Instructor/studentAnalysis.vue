@@ -72,10 +72,10 @@ const { data: studentview } = await useAsyncData<Student[]>(
   }
 );
 
-import { useLocalStorage } from '@vueuse/core';
-const instructorId = Number(useLocalStorage('userId', null).value);
+import { useLocalStorage } from "@vueuse/core";
+const instructorId = Number(useLocalStorage("userId", null).value);
 
-console.log(instructorId)
+console.log(instructorId);
 
 const { data: lessons } = await useAsyncData<Lesson[]>("lessons", async () => {
   const { data } = await client.from("lessons").select();
@@ -87,9 +87,7 @@ const futureLessons = computed(() => {
   return (
     lessons.value?.filter((lesson) => {
       const lessonDateTime = new Date(`${lesson.date}T${lesson.time}`);
-      return (
-        lesson.instructor_id === instructorId && lessonDateTime > now
-      );
+      return lesson.instructor_id === instructorId && lessonDateTime > now;
     }) ?? []
   );
 });
@@ -151,10 +149,7 @@ function getNearestUpcomingLessonDate(studentId: number): Date | null {
   const upcomingLessons = lessons.value
     ?.filter((lesson) => {
       const lessonDateTime = new Date(`${lesson.date}T${lesson.time}`);
-      return (
-        lesson.student_id === studentId &&
-        lessonDateTime > now
-      );
+      return lesson.student_id === studentId && lessonDateTime > now;
     })
     .sort((a, b) => {
       const lessonDateTimeA = new Date(`${a.date}T${a.time}`).getTime();
@@ -170,7 +165,6 @@ function getProfilePhotoUrl(studentId: string) {
   const bucketPath = "new_profile_photos";
   return `${supabaseUrl}/storage/v1/object/public/${bucketPath}/${studentId}.jpg`;
 }
-
 </script>
 
 <template>
@@ -180,15 +174,22 @@ function getProfilePhotoUrl(studentId: string) {
   </div>
 
   <div>
-    <ScrollArea class="order rounded-md w-full lg:w-11/12 overflow-y-auto lg:overflow-x-auto whitespace-nowrap">
-      <div v-if="studentsWithLessons.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:flex lg:space-x-4 gap-4 p-4 mx-auto">
+    <ScrollArea
+      class="order rounded-md w-full lg:w-11/12 overflow-y-auto lg:overflow-x-auto whitespace-nowrap"
+    >
+      <div
+        v-if="studentsWithLessons.length > 0"
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:flex lg:space-x-4 gap-4 p-4 mx-auto"
+      >
         <div
           v-for="student in studentsWithLessons"
           :key="student.id"
           class="student-card w-full sm:w-full md:w-1/2 lg:w-1/4"
         >
           <div class="rounded-md">
-            <Card class="w-56 h-80 lg:w-60 flex flex-col items-center justify-center mx-auto">
+            <Card
+              class="w-56 h-80 lg:w-60 flex flex-col items-center justify-center mx-auto"
+            >
               <CardContent class="text-center flex flex-col items-center">
                 <img
                   class="rounded-full h-28 w-28 mb-4"
@@ -233,21 +234,17 @@ function getProfilePhotoUrl(studentId: string) {
                     </Button>
                   </DrawerTrigger>
                   <DrawerContent>
-                    <DrawerHeader>
-                      <div class="space-y-0.5">
-                        <h2 class="text-2xl font-bold tracking-tight">
-                          {{ student.name }}'s Progress
-                        </h2>
-                      </div>
-                    </DrawerHeader>
-                    <div
-                      class="items-start justify-center gap-6 rounded-lg grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-5"
-                    >
-                      <div
-                        class="col-span-2 md:col-span-1"
-                      >
-                        <Card>
-                          <Card class="h-auto md:h-72">
+                    <div class="overflow-auto h-[80vh] lg:h-fit">
+                      <DrawerHeader>
+                        <div class="space-y-0.5">
+                          <h2 class="text-2xl font-bold tracking-tight">
+                            {{ student.name }}'s Progress
+                          </h2>
+                        </div>
+                      </DrawerHeader>
+                      <div class="items-start justify-center gap-6 rounded-lg grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5">
+                        <div class="sm:col-span-2 md:col-span-1 order-1">
+                          <Card class="h-auto md:h-80">
                             <CardHeader class="pb-3 h-16">
                               <CardTitle>Personal Details</CardTitle>
                             </CardHeader>
@@ -263,7 +260,9 @@ function getProfilePhotoUrl(studentId: string) {
                                 />
                               </div>
 
-                              <div class="grid grid-cols-2 gap-2">
+                              <div
+                                class="grid grid-cols-2 gap-2 lg:grid-cols-1"
+                              >
                                 <div
                                   class="col-span-1 flex flex-col items-center justify-center"
                                 >
@@ -336,64 +335,58 @@ function getProfilePhotoUrl(studentId: string) {
                               </div>
                             </CardContent>
                           </Card>
-                        </Card>
-                      </div>
-                      <div class="grid items-start gap-6 lg:col-span-2">
-                        <div>
-                          <Card class="col-span-2 md:col-span-2">
-                            <Card class="h-auto md:h-72">
-                              <CardHeader class="pb-3 h-16">
-                                <CardTitle>Driving Modules</CardTitle>
-                              </CardHeader>
+                        </div>
+                        <div class="col-span-2 lg:col-span-2 md:order-3 order-2">
+                          <Card class="h-auto md:h-80">
+                            <CardHeader class="pb-3 h-16">
+                              <CardTitle>Driving Modules</CardTitle>
+                            </CardHeader>
 
-                              <CardContent>
-                                <div class="grid grid-cols-2 gap-4">
-                                  <div class="col-1">
-                                    <p>Completed Modules:</p>
-                                    <ScrollArea class="h-36 overflow-y-auto">
-                                      <ul>
-                                        <li
-                                          v-for="progress in getCompletedProgressByStudent(
-                                            student.id
-                                          )"
-                                          :key="progress.modulesn"
-                                        >
-                                          {{ progress.module }}
-                                        </li>
-                                      </ul>
-                                    </ScrollArea>
-                                  </div>
-                                  <div class="col-1">
-                                    <p>Uncompleted Modules:</p>
-                                    <ScrollArea class="h-36 overflow-y-auto">
-                                      <ul>
-                                        <li
-                                          v-for="progress in getUncompletedProgressByStudent(
-                                            student.id
-                                          )"
-                                          :key="progress.modulesn"
-                                        >
-                                          {{ progress.module }}
-                                        </li>
-                                      </ul>
-                                    </ScrollArea>
-                                  </div>
+                            <CardContent>
+                              <div class="grid grid-cols-2 gap-4">
+                                <div class="col-1">
+                                  <p>Completed Modules:</p>
+                                  <ScrollArea class="h-36 overflow-y-auto">
+                                    <ul>
+                                      <li
+                                        v-for="progress in getCompletedProgressByStudent(
+                                          student.id
+                                        )"
+                                        :key="progress.modulesn"
+                                      >
+                                        {{ progress.module }}
+                                      </li>
+                                    </ul>
+                                  </ScrollArea>
                                 </div>
-                              </CardContent>
-                            </Card>
+                                <div class="col-1">
+                                  <p>Uncompleted Modules:</p>
+                                  <ScrollArea class="h-36 overflow-y-auto">
+                                    <ul>
+                                      <li
+                                        v-for="progress in getUncompletedProgressByStudent(
+                                          student.id
+                                        )"
+                                        :key="progress.modulesn"
+                                      >
+                                        {{ progress.module }}
+                                      </li>
+                                    </ul>
+                                  </ScrollArea>
+                                </div>
+                              </div>
+                            </CardContent>
                           </Card>
                         </div>
-                      </div>
-                      <div
-                        class="col-span-2 grid items-start gap-6 col-span-2 md:col-span-2"
-                      >
-                        <Card>
-                          <Card class="h-auto md:h-72">
+                        <div class="lg:col-span-2 sm:col-span-2 md:col-span-1 grid items-start gap-6 md:order-2 order-3">
+                          <Card class="h-auto md:h-80">
                             <CardHeader class="pb-3 h-16">
                               <CardTitle>Test Route Completion</CardTitle>
                             </CardHeader>
                             <CardContent>
-                              <div class="grid grid-cols-4 gap-4">
+                              <div
+                                class="grid grid-cols-4 gap-2 place-items-center"
+                              >
                                 <div
                                   v-for="testroute in getStudentTestRoutes(
                                     student.id
@@ -401,9 +394,9 @@ function getProfilePhotoUrl(studentId: string) {
                                   :key="testroute.testroutesn"
                                 >
                                   <!-- Completed Route -->
-                                  <Card class="test" v-if="testroute.done">
+                                  <Card class="routecard" v-if="testroute.done">
                                     <CardContent
-                                      class="flex flex-col justify-center items-center h-full mt-2"
+                                      class="flex flex-col items-center h-full mt-2"
                                     >
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -426,9 +419,9 @@ function getProfilePhotoUrl(studentId: string) {
                                   </Card>
 
                                   <!-- Incomplete Route -->
-                                  <Card class="test" v-else>
+                                  <Card class="routecard" v-else>
                                     <CardContent
-                                      class="flex flex-col justify-center items-center h-full mt-2"
+                                      class="flex flex-col items-center h-full mt-2"
                                     >
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -453,16 +446,16 @@ function getProfilePhotoUrl(studentId: string) {
                               </div>
                             </CardContent>
                           </Card>
-                        </Card>
+                        </div>
                       </div>
+                      <DrawerFooter>
+                        <DrawerClose as-child>
+                          <Button variant="outline" style="cursor: pointer">
+                            ok!
+                          </Button>
+                        </DrawerClose>
+                      </DrawerFooter>
                     </div>
-                    <DrawerFooter>
-                      <DrawerClose as-child>
-                        <Button variant="outline" style="cursor: pointer">
-                          ok!
-                        </Button>
-                      </DrawerClose>
-                    </DrawerFooter>
                   </DrawerContent>
                 </Drawer>
               </CardContent>
@@ -482,7 +475,7 @@ function getProfilePhotoUrl(studentId: string) {
 .view-progress:hover {
   background-color: rgb(213, 213, 213);
 }
-.test {
+.routecard {
   height: 6rem;
   width: 6rem;
 }
@@ -491,5 +484,4 @@ function getProfilePhotoUrl(studentId: string) {
   justify-content: center;
   align-items: center;
 }
-
 </style>
