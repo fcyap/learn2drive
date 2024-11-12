@@ -18,10 +18,11 @@ const changePW = async () => {
     const { data, error } = await supabase
       .from('profiles_duplicate')
       .select('password')
-      .eq('id', id)
+      .eq('id', id.value)
       .single();
 
     if (error) {
+      console.log(id);
       console.error("Error fetching current password:", error);
       return;
     }
@@ -35,8 +36,8 @@ const changePW = async () => {
     else {
       const { data, error } = await supabase
         .from('profiles_duplicate')
-        .update({ password: newPassword })
-        .eq('id', id);
+        .update({ password: newPassword.value })
+        .eq('id', id.value);
 
       console.log("Password updated successfully");
     }
@@ -61,11 +62,11 @@ const changePW = async () => {
       <div>
         <form>
         <div class="col-span-1 gap-2">
-          <Label for="oldPassword">Password</Label>
+          <Label for="oldPassword">Current Password</Label>
           <Input id="oldPassword" type="text" v-model="oldPassword" placeholder="" />
         </div>
         <div class="col-span-1 gap-2">
-          <Label for="newPassword">Confirm Password</Label>
+          <Label for="newPassword">New Password</Label>
           <Input id="newPassword" type="text" v-model="newPassword" placeholder="" />
         </div>
         <div style="margin-top: 4%; text-align:center;">
