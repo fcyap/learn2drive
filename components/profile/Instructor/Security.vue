@@ -11,13 +11,14 @@ const supabase = useSupabaseClient();
 const id = useLocalStorage('userId', null); // 'userId' is the key, and `null` is the default value
 const oldPassword = ref('');
 const newPassword = ref('');
+const rates = ref('');
 
 
-const changePW = async () => {
+const changeInfo = async () => {
   if (id) {
     const { data, error } = await supabase
       .from('profiles_duplicate')
-      .select('password')
+      .select('password', 'rates')
       .eq('id', id.value)
       .single();
 
@@ -35,7 +36,9 @@ const changePW = async () => {
     else {
       const { data, error } = await supabase
         .from('profiles_duplicate')
-        .update({ password: newPassword.value })
+        .update({ password: newPassword.value,
+                  rates: rates.value
+         })
         .eq('id', id.value);
 
       console.log("Password updated successfully");
@@ -68,8 +71,12 @@ const changePW = async () => {
           <Label for="newPassword">New Password</Label>
           <Input id="newPassword" type="text" v-model="newPassword" placeholder="" />
         </div>
+        <div class="col-span-1 gap-2">
+          <Label for="rates">Rates</Label>
+          <Input id="rates" type="text" v-model="rates" :placeholder="rates" />
+        </div>
         <div style="margin-top: 4%; text-align: center">
-          <Button type="submit" id="submit" @click="changePW" class="btn btn-primary">Change Password</Button>
+          <Button type="submit" id="submit" @click="changeInfo" class="btn btn-primary">Change Password</Button>
         </div>
         </form>
       </div>

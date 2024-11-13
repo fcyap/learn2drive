@@ -404,6 +404,11 @@
                   <option value="instructor">Instructor</option>
                 </select>
 
+                <div v-if="userType === 'instructor'">
+                  <label for="rates">Your Rates:</label>
+                  <input type="text" id="rates" v-model="rates" />
+                </div>
+
                 <label
                   for="contactNo"
                   class="block text-sm font-medium text-gray-700"
@@ -501,6 +506,7 @@ let currentIndex = 0;
 const contactNo = ref("");
 const selectedFile = ref(null);
 const location = ref("");
+const rates = ref("");
 
 function updateCarousel() {
   const carousel = document.querySelector(".carousel");
@@ -727,6 +733,7 @@ const handleSubmit = async () => {
           user_type: userType.value,
           contact_no: contactNo.value,
           location: location.value,
+          rates: rates.value,
         })
         .select();
 
