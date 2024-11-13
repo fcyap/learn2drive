@@ -145,6 +145,7 @@ const updateProfile = async () => {
           <Label for="email" class="col-span-2">Email</Label>
           <Input id="email" type="email" v-model="email" :placeholder="email" />
         </div>
+        
         <div class="col-span-1 gap-2">
           <Label for="number" class="col-span-2">Phone Number</Label>
           <Input id="contact_no" type="number" :placeholder="contact_no" v-model="contact_no"/>
