@@ -151,32 +151,21 @@ const updateProfile = async () => {
         </div>
       </div>
 
-      <div v-if="user_type == 'student'">
       <div class="grid md:grid-cols-2 gap-6 grid-cols-1">
         <div class="col-span-1 gap-2">
           <Label for="location" class="col-span-2">Location</Label>
           <Input id="location" type="text" v-model="location" :placeholder="location" />
         </div>
-        <div class="col-span-1 gap-2 flex items-center">
-          <Button type="submit" id="submit" @click="updateProfile" class="btn btn-primary">Update Profile</Button>
-        </div>
-      </div>
-      </div>
-
-      <div v-if="user_type == 'instructor'">
-        <div class="grid md:grid-cols-2 gap-6 grid-cols-1">
-        <div class="col-span-1 gap-2">
-          <Label for="location" class="col-span-2">Location</Label>
-          <Input id="location" type="text" v-model="location" :placeholder="location" />
-        </div>
+        <div v-if="user_type == 'instructor'">
         <div class="col-span-1 gap-2">
           <Label for="rates" class="col-span-2">Rates (2 hours)</Label>
           <Input id="rates" type="number" v-model="rates" :placeholder="rates" />
         </div>
       </div>
+      </div>
+
       <div style="margin-top: 4%; text-align: center">
         <Button type="submit" id="submit" @click="updateProfile" class="btn btn-primary">Update Profile</Button>
-      </div>
       </div>
       
     </CardContent>
