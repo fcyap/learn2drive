@@ -59,7 +59,7 @@ interface StudentDrivingProgress {
 
 interface StudentTestRoutes {
   id: number;
-  testroutesn: number;
+  testroutesn: string;
   testroute: string;
   done: boolean;
 }
