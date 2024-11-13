@@ -160,7 +160,7 @@ const updateProfile = async () => {
           <Label for="location" class="col-span-2">Location</Label>
           <Input id="location" type="text" v-model="location" :placeholder="location" />
         </div>
-        <div class="col-span-1 gap-2">
+        <div class="col-span-1 gap-2 flex items-center">
           <Button type="submit" id="submit" @click="updateProfile" class="btn btn-primary">Update Profile</Button>
         </div>
       </div>
