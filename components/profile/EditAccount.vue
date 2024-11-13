@@ -5,7 +5,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useLocalStorage } from '@vueuse/core';
+import { useRouter } from 'vue-router';
 
+const currentId = Number(useLocalStorage("userId", null).value);
+if (currentId === null) {
+  const router = useRouter();
+  router.push("/");
+}
 
 const supabase = useSupabaseClient();
 // To get the current user ID
