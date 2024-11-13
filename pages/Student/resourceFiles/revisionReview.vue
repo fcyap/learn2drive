@@ -9,8 +9,8 @@ import { Card } from '@/components/ui/card';
 const client = useSupabaseClient();
 import { useLocalStorage } from "@vueuse/core";
 import { useRouter } from 'vue-router';
-const instructorId = Number(useLocalStorage("userId", null).value);
-if (instructorId === null) {
+const userId = useLocalStorage("userId", null)
+if (userId === null) {
   const router = useRouter();
   router.push("/");
 }
@@ -33,7 +33,6 @@ const loading = ref(true);
 
 
 let results: TestResults = { id: 0, uid: 0, results: [], currentTopic: 'BTT' };
-const userId = useLocalStorage('userId', null); // Ensure `userId` is set in local storage
 
 onMounted(async () => {
   if (!userId.value) {
@@ -87,8 +86,6 @@ const correctAnswers = ref<CorrectAnswer[]>([]);
 
 
 onMounted(async () => {
-  console.log('Current Topic:', currentTopic.value); // Log the currentTopic before making requests
-  
   const { data: questionsData, error: questionsError } = await client
     .from(`${currentTopic.value}_questions`)
     .select('*');
@@ -116,7 +113,6 @@ onMounted(async () => {
 });
 
 const countIncorrectByTopic = () => {
-  if (loading.value) return;
   incorrectByTopic.value = results.results.reduce((acc, result) => {
     const isCorrect = correctAnswers.value.some(
       (correctAnswer) => correctAnswer.qid === result.qid && correctAnswer.aid === result.aid
