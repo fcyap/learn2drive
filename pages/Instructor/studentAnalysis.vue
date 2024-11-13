@@ -144,7 +144,7 @@ function getStudentTestRoutes(studentId: number) {
   return (
     student_test_routes.value
       ?.filter((testroute) => testroute.id === studentId)
-      .sort((a, b) => a.testroutesn - b.testroutesn) || []
+      .sort((a, b) => a.testroutesn.localeCompare(b.testroutesn)) || []
   );
 }
 
