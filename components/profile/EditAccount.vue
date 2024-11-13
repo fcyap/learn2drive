@@ -151,7 +151,7 @@ const updateProfile = async () => {
         </div>
       </div>
 
-      <div v-if="user_type.value === 'student'">
+      <div v-if="user_type == 'student'">
       <div class="grid md:grid-cols-2 gap-6 grid-cols-1">
         <div class="col-span-1 gap-2">
           <Label for="location" class="col-span-2">Location</Label>
@@ -163,7 +163,7 @@ const updateProfile = async () => {
       </div>
       </div>
 
-      <div v-if="user_type.value === 'instructor'">
+      <div v-if="user_type == 'instructor'">
         <div class="grid md:grid-cols-2 gap-6 grid-cols-1">
         <div class="col-span-1 gap-2">
           <Label for="location" class="col-span-2">Location</Label>
