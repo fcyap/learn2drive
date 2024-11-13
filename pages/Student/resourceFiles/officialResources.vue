@@ -6,6 +6,7 @@
   import { ref } from 'vue';
   //Redirect user if not signed in
   import { useLocalStorage } from "@vueuse/core";
+  import { useRouter } from 'vue-router';
   const studentId = Number(useLocalStorage("userId", null).value);
   if (studentId === null) {
     const router = useRouter();
