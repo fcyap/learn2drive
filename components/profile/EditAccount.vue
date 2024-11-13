@@ -16,8 +16,7 @@ if (currentId === null) {
 const supabase = useSupabaseClient();
 // To get the current user ID
 const id = useLocalStorage('userId', null); // 'userId' is the key, and `null` is the default value
-const lastName = ref('');
-const firstName = ref('');
+const fullName = ref('');
 const email = ref('');
 const contact_no = ref('');
 const user_type = ref('');
@@ -39,8 +38,7 @@ const { data, error} = await supabase
   } else {
 
   email.value = data.email
-  lastName.value = data.name.split(' ').slice(-1).join('');
-  firstName.value = data.name.split(' ').slice(0, -1).join('')
+  fullName.value = data.name
   contact_no.value = data.contact_no
   user_type.value = data.user_type
   location.value = data.location
@@ -87,7 +85,6 @@ const deletePic = async() => {
 const updateProfile = async () => {
 
   if (id.value) {
-    const fullName = `${firstName.value} ${lastName.value}`;
     const { error } = await supabase
       .from('profiles_duplicate')
       .update({
@@ -133,14 +130,10 @@ const updateProfile = async () => {
         
       </div>
 
-       <div class="grid md:grid-cols-2 gap-6 grid-cols-1 ">
+       <div class="grid gap-6 grid-cols-1 ">
         <div class="col-span-1 gap-2">
-          <Label for="lname">Last Name</Label>
-            <Input id="lname" type="text" v-model="lastName" :placeholder="lastName" />
-        </div>
-        <div class="col-span-1 gap-2">
-          <Label for="fname">First Name</Label>
-          <Input id="fname" type="text" v-model="firstName" :placeholder="firstName" />
+          <Label for="fullName">Full Name</Label>
+            <Input id="fullName" type="text" v-model="fullName" :placeholder="fullName" />
         </div>
       </div>
 
@@ -160,7 +153,7 @@ const updateProfile = async () => {
           <Label for="location" class="col-span-2">Location</Label>
           <Input id="location" type="text" v-model="location" :placeholder="location" />
         </div>
-        <div class="col-span-1 gap-2">
+        <div class="col-span-1 gap-2 flex items-center">
           <Button type="submit" id="submit" @click="updateProfile" class="btn btn-primary">Update Profile</Button>
         </div>
       </div>
