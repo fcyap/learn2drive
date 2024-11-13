@@ -73,6 +73,9 @@
               {{ instructor["name"] }}
             </option>
           </select>
+          <p v-if="rate !== null" class="text-sm text-gray-500 mt-1">
+            Rate: ${{ rate }} per session
+          </p>
         </div>
 
         <div v-if="selectedInstructor" class="space-y-2">
@@ -147,7 +150,7 @@ import { useLocalStorage } from "@vueuse/core";
 
 // To get the current user ID
 const userId = useLocalStorage("userId", null).value;
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
 
 if (userId === null) {
   const router = useRouter();
@@ -165,6 +168,30 @@ const isLoading = ref(false);
 const error = ref("");
 const availableDates = ref([]);
 const availableSlots = ref([]);
+
+const rate: Ref<number | null> = ref(null);
+
+// Fetch the instructor rate
+const fetchRate = async (): Promise<void> => {
+  if (selectedInstructor.value) {
+    const { data: rateData, error: rateError } = await client
+      .from("profiles_duplicate")
+      .select("rates")
+      .eq("id", selectedInstructor.value.id)
+      .single();
+
+    if (rateError) {
+      console.error("Error fetching instructor rate:", rateError);
+      rate.value = null;
+    } else {
+      rate.value = rateData ? rateData.rates : null;
+    }
+  } else {
+    rate.value = null; // Reset if no instructor is selected
+  }
+};
+
+watch(selectedInstructor, fetchRate);
 
 // Filter instructors based on selected location
 const filteredInstructors = computed(() => {
@@ -271,7 +298,7 @@ async function confirmBooking() {
 
   try {
     // Prepare booking data
-    console.log(`the selected instructor: ${selectedInstructor.value.id}`)
+    console.log(`the selected instructor: ${selectedInstructor.value.id}`);
     const bookingData = {
       instructor_id: selectedInstructor.value.id,
       instructor_name: selectedInstructor.value.name,
@@ -339,6 +366,17 @@ async function confirmBooking() {
     // Handle any errors from the update operation
     if (updateError) throw updateError;
 
+    const { data: rateData, error: rateError } = await client
+      .from("profiles_duplicate")
+      .select("rates")
+      .eq("id", selectedInstructor.value.id)
+      .single();
+
+    if (rateError) throw rateError;
+
+    const instructorRate = rateData ? rateData.rates : 0;
+    console.log(instructorRate);
+
     const currentMonth = dayjs().month() + 1;
     const currentYear = dayjs().year();
 
@@ -354,7 +392,7 @@ async function confirmBooking() {
     // Update the earnings with the new amount
     const { error: updateEarningError } = await client
       .from("instructor_earnings")
-      .update({ amount: earningsData.amount + 60 })
+      .update({ amount: earningsData.amount + instructorRate })
       .eq("instructorid", selectedInstructor.value.id)
       .eq("month", currentMonth)
       .eq("year", currentYear);

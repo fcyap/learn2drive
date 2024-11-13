@@ -295,7 +295,7 @@ export default defineComponent({
               <DialogTrigger as-child>
                 <Button variant="outline">Review</Button>
               </DialogTrigger>
-              <DialogContent class="sm:max-w-[425px]">
+              <DialogContent class="w-[80%] max-w-[450px] h-[80vh] overflow-y-auto rounded-lg shadow-lg">
                 <h1 class="text-xl font-bold tracking-tight text-slate-700">Review Student Progress</h1>
                 
                 <div class="mt-4">
