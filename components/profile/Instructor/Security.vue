@@ -26,7 +26,8 @@ const changeInfo = async () => {
       console.error("Error fetching current password:", error);
       return;
     }
-
+    
+    rates.value = data.rates
     var currentPassword = data.password;
 
     if (currentPassword != oldPassword.value) {
@@ -72,7 +73,7 @@ const changeInfo = async () => {
           <Input id="newPassword" type="text" v-model="newPassword" placeholder="" />
         </div>
         <div class="col-span-1 gap-2">
-          <Label for="rates">Rates</Label>
+          <Label for="rates">Rates (2 hours)</Label>
           <Input id="rates" type="text" v-model="rates" :placeholder="rates" />
         </div>
         <div style="margin-top: 4%; text-align: center">

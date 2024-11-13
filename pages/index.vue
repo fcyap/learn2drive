@@ -405,7 +405,7 @@
                 </select>
 
                 <div v-if="userType === 'instructor'">
-                  <label for="rates">Your Rates:</label>
+                  <label for="rates">Your Rates (2 hours):</label>
                   <input type="text" id="rates" v-model="rates" />
                 </div>
 
