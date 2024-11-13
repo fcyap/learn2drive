@@ -90,7 +90,7 @@ const updateProfile = async () => {
     const { error } = await supabase
       .from('profiles_duplicate')
       .update({
-        name: fullName,
+        name: fullName.value,
         email: email.value,
         contact_no: contact_no.value,
         location: location.value,
