@@ -5,7 +5,7 @@ import { google } from 'googleapis';
 export default defineEventHandler(async (event) => {
   try {
     const body = await readBody(event); // Read dynamic input from the request body
-    const { startDateTime, instructorId, studentId,location } = body;
+    const { startDateTime, instructorId, studentId, location } = body;
 
     // Calculate end time (1 hour after start time)
     const startTime = new Date(startDateTime);
