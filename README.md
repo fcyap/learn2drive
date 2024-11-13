@@ -1,3 +1,27 @@
+##
+
+DUMMY ACCOUNTS 
+
+Student Accounts
+1.
+User: chesteryeo@gmail.com
+Password: chesteryeo
+
+2.
+User: jasonchan
+Password: jasonchan@gmail.com
+
+Instructor Accounts
+1.
+User: limwuxiao@gmail.com
+Password: limwuxiao
+
+2.
+User: Chengshiren@gmail.com
+Password: chengshiren
+
+
+
 # Nuxt 3 Minimal Starter
 
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
@@ -9,7 +33,6 @@ Make sure to install the dependencies:
 ```bash
 # npm
 npm install
-npm install dayjs
 
 # pnpm
 pnpm install
