@@ -271,6 +271,7 @@ async function confirmBooking() {
 
   try {
     // Prepare booking data
+    console.log(`the selected instructor: ${selectedInstructor.value.id}`)
     const bookingData = {
       instructor_id: selectedInstructor.value.id,
       instructor_name: selectedInstructor.value.name,
@@ -287,7 +288,7 @@ async function confirmBooking() {
 
     const eventData = {
       startDateTime: formattedDate,
-      instructorid: selectedInstructor.value.id,
+      instructorId: selectedInstructor.value.id,
       studentId: userId,
       location: selectedLocation.value,
     };
@@ -350,7 +351,6 @@ async function confirmBooking() {
       .single();
 
     if (fetchError) throw fetchError;
-    console.log(earningsData.amount)
     // Update the earnings with the new amount
     const { error: updateEarningError } = await client
       .from("instructor_earnings")

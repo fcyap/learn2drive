@@ -12,10 +12,11 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-//Redirect user if not signed in
-import { useLocalStorage } from "@vueuse/core";
-  const studentId = Number(useLocalStorage("userId", null).value);
-  if (studentId === null) {
+  //Redirect user if not signed in
+  import { useLocalStorage } from '@vueuse/core';
+  const userId = useLocalStorage('userId', null).value;
+  import { useRouter } from 'vue-router';
+  if (userId === null) {
     const router = useRouter();
     router.push("/");
   }

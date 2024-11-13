@@ -11,7 +11,7 @@ import { useLocalStorage } from "@vueuse/core";
 import { useRouter } from 'vue-router';
 
 const id = Number(useLocalStorage("userId", null).value);
-if (id === null) {
+if (id === 0) {
   const router = useRouter();
   router.push("/");
 }

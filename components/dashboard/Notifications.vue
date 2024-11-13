@@ -49,15 +49,14 @@ interface Student {
 
 interface StudentDrivingProgress {
   id: number;
-  sn: number;
+  modulesn: string;
   module: string;
   done: boolean;
-  modulesn: string;
 }
 
 interface StudentTestRouteProgress {
   id: number;
-  sn: number;
+  testroutesn: string;
   testroute: string;
   done: boolean;
 }
@@ -179,7 +178,7 @@ export default defineComponent({
           const { error } = await client
             .from("student_test_routes")
             .update({ done: true })
-            .eq("sn", routeId)
+            .eq("testroutesn", routeId)
             .eq("id", studentId);
           if (error) throw error;
         }
@@ -326,17 +325,17 @@ export default defineComponent({
                   <div v-else>
                     <div
                       v-for="route in getTestRoutesByStudent(Number(event.extendedProperties?.private?.student_id))"
-                      :key="route.sn"
+                      :key="route.testroutesn"
                       class="flex items-center mb-2"
                     >
                       <input
                         type="checkbox"
-                        :id="'route-' + route.sn"
-                        :value="route.sn"
+                        :id="route.testroutesn"
+                        :value="route.testroutesn"
                         v-model="checkedTestRoutes"
                         class="w-4 h-4 text-blue-500 bg-slate-100 rounded-md cursor-pointer transition-all duration-150"
                       />
-                      <label :for="'route-' + route.sn" class="ml-2 text-slate-700 text-sm">{{ route.testroute }}</label>
+                      <label :for="'route-' + route.testroutesn" class="ml-2 text-slate-700 text-sm">{{ route.testroute }}</label>
                     </div>
                   </div>
                 </div>
