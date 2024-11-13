@@ -8,8 +8,8 @@ User: chesteryeo@gmail.com
 Password: chesteryeo
 
 2.
-User: jasonchan
-Password: jasonchan@gmail.com
+User: jasonchan@gmail.com
+Password: jasonchan
 
 Instructor Accounts
 1.
