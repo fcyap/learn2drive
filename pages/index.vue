@@ -689,7 +689,6 @@ const handleSubmit = async () => {
   try {
     if (isLogin.value) {
       // Login Flow
-      console.log("Attempting to log in with:", { email: email.value });
       const { data, error: loginError } = await supabase
         .from("profiles_duplicate")
         .select("*")
@@ -704,7 +703,6 @@ const handleSubmit = async () => {
       if (!data) {
         throw new Error("User not found");
       }
-      console.log("Login successful, user data:", data);
 
       // Store userId in localStorage
       userId.value = data.id; // Store userId
@@ -716,11 +714,7 @@ const handleSubmit = async () => {
       }
     } else {
       // Sign Up Flow
-      console.log("Attempting to sign up with:", {
-        email: email.value,
-        name: name.value,
-        userType: userType.value,
-      });
+      
       const nextId = await getNextId(userType.value);
 
       const { data, error: signUpError } = await supabase
@@ -740,7 +734,6 @@ const handleSubmit = async () => {
         console.error("Sign up error:", signUpError);
         throw signUpError;
       }
-      console.log("Sign up successful, user data:", data);
 
       // Store userId in localStorage
       userId.value = nextId; // Store userId
@@ -748,7 +741,6 @@ const handleSubmit = async () => {
 
       // Upload profile picture
       const profilePic = selectedFile.value;
-      console.log(data[0].user_type);
       if (data[0].user_type === "student") {
         const fileName = `${nextId}.jpg`;
         const { data: uploadData, error } = await supabase.storage
