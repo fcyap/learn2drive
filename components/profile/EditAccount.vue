@@ -23,6 +23,7 @@ const user_type = ref('');
 const selectedFile = ref(null);
 const location = ref('');
 var profilePic = ref('');
+const rates = ref('');
 
 
 // get current information
@@ -42,6 +43,7 @@ const { data, error} = await supabase
   contact_no.value = data.contact_no
   user_type.value = data.user_type
   location.value = data.location
+  rates.value = data.rates
   }
 
   if (user_type.value == 'student') {
@@ -91,7 +93,8 @@ const updateProfile = async () => {
         name: fullName,
         email: email.value,
         contact_no: contact_no.value,
-        location: location.value
+        location: location.value,
+        rates: rates.value
       })
       .eq('id', id.value);
     
@@ -148,6 +151,7 @@ const updateProfile = async () => {
         </div>
       </div>
 
+      <div v-if="user_type.value === 'student'">
       <div class="grid md:grid-cols-2 gap-6 grid-cols-1">
         <div class="col-span-1 gap-2">
           <Label for="location" class="col-span-2">Location</Label>
@@ -156,6 +160,23 @@ const updateProfile = async () => {
         <div class="col-span-1 gap-2 flex items-center">
           <Button type="submit" id="submit" @click="updateProfile" class="btn btn-primary">Update Profile</Button>
         </div>
+      </div>
+      </div>
+
+      <div v-if="user_type.value === 'instructor'">
+        <div class="grid md:grid-cols-2 gap-6 grid-cols-1">
+        <div class="col-span-1 gap-2">
+          <Label for="location" class="col-span-2">Location</Label>
+          <Input id="location" type="text" v-model="location" :placeholder="location" />
+        </div>
+        <div class="col-span-1 gap-2">
+          <Label for="rates" class="col-span-2">Rates (2 hours)</Label>
+          <Input id="rates" type="number" v-model="rates" :placeholder="rates" />
+        </div>
+      </div>
+      <div style="margin-top: 4%; text-align: center">
+        <Button type="submit" id="submit" @click="updateProfile" class="btn btn-primary">Update Profile</Button>
+      </div>
       </div>
       
     </CardContent>
