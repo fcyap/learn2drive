@@ -9,7 +9,7 @@
   import { useLocalStorage } from "@vueuse/core";
   import { useRouter } from 'vue-router';
   const studentId = Number(useLocalStorage("userId", null).value);
-  if (studentId === null) {
+  if (studentId === 0) {
     const router = useRouter();
     router.push("/");
   }

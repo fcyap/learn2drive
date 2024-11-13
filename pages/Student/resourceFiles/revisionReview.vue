@@ -10,7 +10,7 @@
   import { useRouter } from 'vue-router';
   const router = useRouter();
   const userId = Number(useLocalStorage("userId", null).value);
-  if (userId === null) {
+  if (userId === 0) {
     const router = useRouter();
     router.push("/");
   }

@@ -14,9 +14,6 @@ import {
 
   //Redirect user if not signed in
   import { useLocalStorage } from '@vueuse/core';
-
-
-  // To get the current user ID
   const userId = useLocalStorage('userId', null).value;
   import { useRouter } from 'vue-router';
   if (userId === null) {
